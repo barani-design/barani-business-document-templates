@@ -1,0 +1,19 @@
+# Local/private artifacts
+*.pdf
+*.xlsx
+*.xls
+*.csv
+*.zip
+*.dump
+*.sql
+*.log
+*.bak
+*.tmp
+.DS_Store
+__pycache__/
+*.pyc
+
+# Live Odoo exports / restore dumps should not be committed unless sanitized.
+live_exports/
+private/
+secrets/

@@ -1,0 +1,106 @@
+<t t-name="barani_delivery.report_delivery_note_2026">
+  <t t-call="web.html_container">
+    <t t-foreach="docs" t-as="o">
+      <t t-set="lang" t-value="(o.partner_id.lang or user.lang)"/>
+      <t t-call="barani_delivery.external_layout_delivery_2026" t-lang="lang">
+        <t t-set="o" t-value="o.with_context(lang=lang)"/>
+        <style>
+          .barani_delivery_doc { font-size:10pt; line-height:1.25; }
+          .barani_addr_block .barani_addr_cell { min-width:0; box-sizing:border-box; word-wrap:break-word; overflow-wrap:break-word; }
+          .barani_addr_block .barani_customer_cell { padding-left:0; padding-right:0; }
+          .barani_addr_block .barani_customer_cell.barani_has_shipping { padding-right:18px; }
+          .barani_addr_block .barani_shipping_cell { padding-left:18px; padding-right:0; }
+          .barani_delivery_table { table-layout:fixed; width:100%; font-size:9.5pt; line-height:1.2; }
+          .barani_delivery_table th, .barani_delivery_table td { padding:2px 3px; vertical-align:top; overflow:hidden; }
+          .barani_delivery_table .text-nowrap { white-space:nowrap; }
+          .barani_qr_img { width:42px; height:42px; }
+        </style>
+
+        <t t-set="barani_customer" t-value="o.sale_id.partner_invoice_id if (o.sale_id and o.sale_id.partner_invoice_id) else (o.sale_id.partner_id if (o.sale_id and o.sale_id.partner_id) else o.partner_id)"/>
+        <t t-set="barani_shipping" t-value="o.partner_id"/>
+        <t t-set="barani_has_shipping" t-value="barani_shipping and barani_customer and barani_shipping != barani_customer"/>
+
+        <div class="row barani_delivery_doc barani_addr_block" style="margin-top:0; margin-bottom:0;">
+          <div t-att-class="'col-6 barani_addr_cell barani_customer_cell barani_has_shipping' if barani_has_shipping else 'col-6 barani_addr_cell barani_customer_cell'">
+            <strong>Customer</strong>
+            <div t-field="barani_customer" t-options='{"widget": "contact", "fields": ["address", "name"], "no_marker": true}'/>
+            <div t-if="barani_customer.phone or barani_customer.mobile" class="mt-1">Tel: <span t-esc="barani_customer.phone or barani_customer.mobile"/></div>
+            <div t-if="barani_customer.company_registry" class="mt-1">ID: <span t-field="barani_customer.company_registry"/></div>
+            <div t-if="barani_customer.vat" class="mt-1">VAT: <span t-field="barani_customer.vat"/></div>
+          </div>
+          <div class="col-6 barani_addr_cell barani_shipping_cell" t-if="barani_has_shipping">
+            <strong>Shipping Address</strong>
+            <div t-field="barani_shipping" t-options='{"widget": "contact", "fields": ["address", "name"], "no_marker": true}'/>
+            <div t-if="barani_shipping.phone or barani_shipping.mobile" class="mt-1">Tel: <span t-esc="barani_shipping.phone or barani_shipping.mobile"/></div>
+          </div>
+        </div>
+
+        <div class="page barani_delivery_doc">
+          <div id="informations" class="row mt-3" style="padding-top:4px; margin-bottom:8px;">
+            <div class="col-2 mb-2" t-if="o.scheduled_date"><strong>Scheduled Date</strong><p class="m-0" t-field="o.scheduled_date"/></div>
+            <div class="col-2 mb-2" t-if="o.date_done"><strong>Done Date</strong><p class="m-0" t-field="o.date_done"/></div>
+            <div class="col-2 mb-2" t-if="o.origin"><strong>Source Order</strong><p class="m-0" t-field="o.origin"/></div>
+            <div class="col-2 mb-2" t-if="o.picking_type_id"><strong>Operation</strong><p class="m-0" t-field="o.picking_type_id.name"/></div>
+            <div class="col-2 mb-2"><strong>Status</strong><p class="m-0"><span t-field="o.state"/></p></div>
+          </div>
+
+          <table class="table table-sm o_main_table barani_delivery_table" name="barani_delivery_line_table">
+            <colgroup>
+              <col style="width:7%"/>
+              <col style="width:37%"/>
+              <col style="width:9%"/>
+              <col style="width:6%"/>
+              <col style="width:13%"/>
+              <col style="width:9%"/>
+              <col style="width:9%"/>
+              <col style="width:10%"/>
+            </colgroup>
+            <thead>
+              <tr>
+                <th class="text-center"><span>QR</span></th>
+                <th class="text-start"><span>Description</span></th>
+                <th class="text-start"><span>HS Code</span></th>
+                <th class="text-center"><span>COO</span></th>
+                <th class="text-start"><span>Lot / Serial</span></th>
+                <th class="text-end"><span>Ordered</span></th>
+                <th class="text-end"><span>Delivered</span></th>
+                <th class="text-start"><span>Unit</span></th>
+              </tr>
+            </thead>
+            <tbody>
+              <t t-foreach="o.move_ids_without_package" t-as="move">
+                <tr t-if="move.product_id and move.state != 'cancel' and (move.product_uom_qty or move.quantity_done)">
+                  <td class="text-center">
+                    <img t-if="move.product_id.barcode" class="barani_qr_img" t-att-src="'/report/barcode/?barcode_type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('QR', move.product_id.barcode, 140, 140)"/>
+                  </td>
+                  <td>
+                    <strong t-if="move.product_id.default_code">[<span t-field="move.product_id.default_code"/>] </strong><span t-esc="move.description_picking or move.product_id.display_name"/>
+                    <div t-if="move.product_id.barcode" class="text-muted" style="font-size:8pt;">Barcode: <span t-field="move.product_id.barcode"/></div>
+                  </td>
+                  <td class="text-start"><span t-if="move.product_id.hs_code" t-field="move.product_id.hs_code"/></td>
+                  <td class="text-center"><span t-if="move.product_id.country_of_origin" t-field="move.product_id.country_of_origin.code"/></td>
+                  <td class="text-start"><span t-esc="', '.join(move.move_line_ids.filtered(lambda ml: ml.lot_id).mapped('lot_id.name'))"/></td>
+                  <td class="text-end"><span t-field="move.product_uom_qty"/></td>
+                  <td class="text-end"><span t-field="move.quantity_done"/></td>
+                  <td class="text-start"><span t-field="move.product_uom" groups="uom.group_uom"/></td>
+                </tr>
+              </t>
+            </tbody>
+          </table>
+
+          <p class="text-muted" style="font-size:8pt; margin-top:6px;">COO = Country of Origin. QR codes encode the product barcode for delivery-note scanning only.</p>
+
+          <div name="barani_delivery_receipt_band" style="display:table; width:100%; table-layout:fixed; background-color:#E79C9C; font-size:9pt; line-height:1.2; margin-top:12px;">
+            <div style="display:table-cell; width:33.33%; text-align:left; vertical-align:top; padding:6px;"><strong>Received by:</strong></div>
+            <div style="display:table-cell; width:33.33%; text-align:center; vertical-align:top; padding:6px;"><strong>Date:</strong></div>
+            <div style="display:table-cell; width:33.33%; text-align:right; vertical-align:top; padding:6px;"><strong>Signature:</strong></div>
+          </div>
+
+          <div class="mt-3" style="font-size:9pt;">
+            <strong>Prepared by / Issued by:</strong> <span t-field="o.create_uid.name"/>
+          </div>
+        </div>
+      </t>
+    </t>
+  </t>
+</t>

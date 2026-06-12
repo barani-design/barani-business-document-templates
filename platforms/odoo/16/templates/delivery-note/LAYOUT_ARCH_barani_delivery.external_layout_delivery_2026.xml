@@ -1,0 +1,48 @@
+<t t-name="barani_delivery.external_layout_delivery_2026">
+    <t t-if="not o" t-set="o" t-value="doc"/>
+    <t t-if="not company">
+        <t t-if="company_id"><t t-set="company" t-value="company_id"/></t>
+        <t t-elif="o and o.company_id"><t t-set="company" t-value="o.company_id.sudo()"/></t>
+        <t t-else="else"><t t-set="company" t-value="res_company"/></t>
+    </t>
+    <div t-attf-class="header o_company_#{company.id}_layout" t-att-style="report_header_style">
+        <div style="position:relative; height:41px;">
+            <div style="float:left; width:35%; height:41px; line-height:41px; position:relative; z-index:10;">
+                <img t-if="company.logo" t-att-src="image_data_uri(company.logo)" style="max-height:41px; vertical-align:middle;" alt="Logo"/>
+            </div>
+            <div t-if="o and o._name == 'stock.picking'" name="barani_delivery_doc_title_right" style="position:absolute; right:0; top:0; height:41px; line-height:41px; text-align:right; max-width:55%; z-index:15;">
+                <span style="font-size:13pt; font-weight:bold; white-space:nowrap; vertical-align:middle;">Delivery Note: <span t-field="o.name"/></span>
+            </div>
+            <div name="barani_top_title_divider" style="position:absolute; left:0; right:0; bottom:0; border-bottom:1px solid black; z-index:40;"/>
+            <div style="clear:both;"/>
+        </div>
+        <div class="row" style="margin-top:2px;">
+            <div class="col-6" name="company_address" style="font-size:10pt; line-height:1.25;">
+                <ul class="list-unstyled" style="margin-bottom:2px;">
+                    <li t-if="company.is_company_details_empty"><t t-esc="company.partner_id" t-options='{"widget": "contact", "fields": ["address", "name"], "no_marker": true}'/></li>
+                    <li t-else=""><t t-esc="company.company_details"/></li>
+                </ul>
+            </div>
+            <div class="col-6" name="company_registration" style="font-size:10pt; line-height:1.25; padding-left:18px;">
+                <ul class="list-unstyled" style="margin-bottom:2px;">
+                    <li t-if="company.company_registry">ID: <span t-esc="company.company_registry"/></li>
+                    <li t-if="company.vat">Tax ID: <span t-esc="company.vat[2:] if (company.vat[:2] == 'SK') else company.vat"/></li>
+                    <li t-if="company.vat">VAT: <span t-esc="company.vat"/></li>
+                </ul>
+            </div>
+        </div>
+        <div name="barani_seller_buyer_divider" style="border-bottom:1px solid black; width:100%; margin:1px 0 0 0;"/>
+    </div>
+
+    <div t-attf-class="article o_report_layout_standard o_company_#{company.id}_layout {{ 'o_report_layout_background' if company.layout_background in ['Geometric', 'Custom'] else '' }}" t-attf-style="background-image: url({{ 'data:image/png;base64,%s' % company.layout_background_image.decode('utf-8') if company.layout_background_image and company.layout_background == 'Custom' else '/base/static/img/bg_background_template.jpg' if company.layout_background == 'Geometric' else '' }});" t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id" t-att-data-oe-lang="o and o.env.context.get('lang')">
+        <t t-out="0"/>
+    </div>
+
+    <div t-attf-class="footer o_standard_footer o_company_#{company.id}_layout">
+        <div class="text-center" style="border-top:1px solid black; font-size:8pt; line-height:1.1; padding-top:2px;">
+            <ul class="list-inline" style="margin:0 0 1px 0; padding:0;"><div t-field="company.report_footer"/></ul>
+            <div t-if="report_type == 'pdf'" class="text-muted"><span class="page"/> of <span class="topage"/></div>
+            <div t-if="report_type == 'pdf' and display_name_in_footer" class="text-muted"><span t-field="o.name"/></div>
+        </div>
+    </div>
+</t>
