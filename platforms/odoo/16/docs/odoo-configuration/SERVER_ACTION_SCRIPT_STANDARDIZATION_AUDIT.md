@@ -83,3 +83,33 @@ Changes made:
 All Python files under `platforms/odoo/16/` compile successfully with Python syntax validation after this cleanup.
 
 This audit is repository hygiene only. It does not alter Odoo business logic, QWeb templates, taxes, fiscal positions, accounts, reports, or generated documents.
+
+## Follow-up audit: all Python scripts including installers
+
+A follow-up pass reviewed every Python file under `platforms/odoo/16/`, including the commercial Q/SO/PF installer.
+
+Additional change made:
+
+- `installers/commercial/barani_commercial_q_so_pf_report_installer_Q-SO-PF-2026v3_PF_NO_DUEDATE_plus_NOQ_ALLDOCS_DRYRUN_SAFE.py`
+  - added the standard `TEST 0 - manual SQL savepoint recovery + ORM cache invalidation` preflight;
+  - replaced stale pagination wording with the public repository paging standard reference;
+  - retained existing APPLY/CONFIRM gate, dry-run plan, apply savepoint, rollback-on-failure, cache invalidation, and read-back checks.
+
+All write-capable scripts now have:
+
+- boxed action header;
+- `APPLY = False` default;
+- `CONFIRM = ''` default;
+- dry-run path before writes;
+- explicit confirmation token before applying;
+- savepoint-based apply flow;
+- rollback on failure;
+- ORM cache invalidation;
+- no unsafe reflection helpers in executable safe_eval code.
+
+All read-only scripts now use:
+
+- `READ-ONLY:` action/output naming;
+- `PAGE = 1`;
+- `PAGE_SIZE = 80000`;
+- paged output footer.

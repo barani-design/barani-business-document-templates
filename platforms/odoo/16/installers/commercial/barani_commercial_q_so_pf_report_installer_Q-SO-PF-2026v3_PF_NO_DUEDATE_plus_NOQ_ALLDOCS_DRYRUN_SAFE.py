@@ -45,9 +45,9 @@
 #               ir.config_parameter, while business/report writes remain gated
 #               by APPLY and CONFIRM.
 #
-# PAGINATION  : Dry-run output is designed to fit one dialog. If future output
-#               grows beyond that, clone the standard PAGE/PAGE_SIZE pattern
-#               from the BARANI template.
+# PAGINATION  : Dry-run output is raised in one UserError. Keep output below the
+#               Odoo dialog limit; read-only/paged scripts use PAGE_SIZE = 80000
+#               per the public BARANI Server Action template.
 #
 # PURPOSE     : Create/update a standalone BARANI-owned Quotation / Sales Order
 #               and Pro-forma PDF family for sale.order, visually aligned with
@@ -430,6 +430,38 @@ lines = []
 lines.append(ACTION_NAME)
 lines.append('APPLY=%s CONFIRM=%s' % (APPLY, CONFIRM))
 lines.append('Scope: new standalone BARANI sale.order print options only; existing Odoo/DDS/Studio actions and templates untouched.')
+lines.append('')
+
+# TEST 0 - savepoint and cache invalidation. This is a dry safety probe only;
+# it does not write persistent data.
+manual_sp_ok = False
+cache_inv_method = ''
+lines.append('TEST 0 - manual SQL savepoint recovery + ORM cache invalidation')
+try:
+    env.cr.execute('SAVEPOINT t0_ok')
+    env.cr.execute('SELECT 1')
+    env.cr.execute('RELEASE SAVEPOINT t0_ok')
+    env.cr.execute('SAVEPOINT t0_fail')
+    try:
+        env.cr.execute('SELECT * FROM __barani_missing_table_for_rollback_probe__')
+        env.cr.execute('RELEASE SAVEPOINT t0_fail')
+    except Exception:
+        env.cr.execute('ROLLBACK TO SAVEPOINT t0_fail')
+        env.cr.execute('RELEASE SAVEPOINT t0_fail')
+        try:
+            env.invalidate_all()
+            cache_inv_method = 'env.invalidate_all'
+        except Exception:
+            env.cache.invalidate()
+            cache_inv_method = 'env.cache.invalidate'
+        env.cr.execute('SELECT 1')
+        manual_sp_ok = True
+        lines.append('PASS: SAVEPOINT recovery works; cache method=%s' % cache_inv_method)
+except Exception as e0:
+    lines.append('FATAL TEST 0: %s' % str(e0)[:500])
+if not manual_sp_ok:
+    lines.append('STOP: savepoint/cache mechanism unusable.')
+    raise UserError(NL.join(lines)[:90000])
 lines.append('')
 
 sale_model = Model.search([('model', '=', 'sale.order')], limit=1)
