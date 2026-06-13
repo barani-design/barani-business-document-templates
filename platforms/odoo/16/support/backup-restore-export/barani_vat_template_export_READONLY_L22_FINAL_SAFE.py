@@ -3,7 +3,7 @@
 # MODEL       : Any model; selected records ignored. account.move is convenient.
 # ACTION TO DO: Execute Python Code
 # PURPOSE     : Export the CURRENT stored QWeb XML for the isolated BARANI VAT
-#               body view and custom layout view after L21 final.
+#               body view and custom layout view after L22 final.
 #
 # READ-ONLY   : YES. Performs no create/write/unlink/set_param/commit/SQL.
 #               Output is raised via UserError for copy/paste backup.
@@ -16,7 +16,7 @@ PAGE_SIZE = 80000
 VAT_VIEW_KEY = 'barani_vat.report_invoice_document_vat'
 LAYOUT_VIEW_KEY = 'barani_vat.external_layout_standard_titled'
 IDS_PARAMETER_KEY = 'barani.vat_report.ids'
-ACTION_NAME = 'BARANI VAT REPORT — READ-ONLY TEMPLATE EXPORT L22 FINAL SAFE'
+ACTION_NAME = 'READ-ONLY: BARANI VAT REPORT — TEMPLATE EXPORT L22 FINAL SAFE'
 
 if PAGE < 1:
     raise UserError('PAGE must be >= 1')
@@ -74,8 +74,8 @@ vat_arch = vat_view.arch_db or ''
 layout_arch = layout_view.arch_db or ''
 
 lines = []
-lines.append('PAGE %s | READ-ONLY: BARANI VAT REPORT — TEMPLATE EXPORT L22 FINAL SAFE' % PAGE)
-lines.append('READ-ONLY:YES. No create/write/unlink/set_param/commit/SQL.')
+lines.append(ACTION_NAME)
+lines.append('READ-ONLY:YES — search/read only; no writes. PAGE=%s PAGE_SIZE=%s' % (PAGE, PAGE_SIZE))
 lines.append("WHICH=%r PAGE=%s PAGE_SIZE=%s" % (WHICH, PAGE, PAGE_SIZE))
 lines.append('')
 lines.append('RESOLVED ARTIFACTS')

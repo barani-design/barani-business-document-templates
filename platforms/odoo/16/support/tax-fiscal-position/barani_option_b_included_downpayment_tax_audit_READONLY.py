@@ -12,6 +12,8 @@
 #               eval/exec/open/dir/isinstance in executable code.
 # ============================================================================
 
+PAGE = 1
+PAGE_SIZE = 80000
 ACTION_NAME = 'READ-ONLY: BARANI Option-B included down-payment tax audit'
 
 Tax = env['account.tax'].sudo()
@@ -25,7 +27,7 @@ DP_PRODUCT_NAME = 'Down payment'
 
 lines = []
 lines.append(ACTION_NAME)
-lines.append('READ-ONLY:YES — no writes. Selected records ignored.')
+lines.append('READ-ONLY:YES — search/read only; no writes. PAGE=%s PAGE_SIZE=%s' % (PAGE, PAGE_SIZE))
 lines.append('')
 
 new_taxes = Tax.with_context(active_test=False).search([('name', '=', NEW_TAX_NAME), ('type_tax_use', '=', 'sale')])
@@ -204,4 +206,9 @@ lines.append('  Domestic gross 44.00 advance should produce: base approx 35.77, 
 lines.append('  If it produces base 44.00 + VAT 10.12 = total 54.12, then Odoo is still using a tax-excluded path.')
 lines.append('  OSS B2C gross advance should keep the gross amount fixed and split using destination-country VAT; this requires a price-included destination tax or an equivalent tested configuration.')
 lines.append('')
-raise UserError('\n'.join(lines)[:90000])
+text = '\n'.join(lines)
+start = (PAGE - 1) * PAGE_SIZE
+end = start + PAGE_SIZE
+page_text = text[start:end]
+more = 'YES' if end < len(text) else 'NO'
+raise UserError('PAGE %s | chars %s-%s of %s | MORE REMAINS: %s\n%s\n--- END PAGE %s | MORE REMAINS: %s ---' % (PAGE, start, min(end, len(text)), len(text), more, page_text, PAGE, more))

@@ -26,7 +26,7 @@
 # ============================================================================
 
 PAGE = 1
-PAGE_SIZE = 32000
+PAGE_SIZE = 80000
 
 ACTION_NAME = 'READ-ONLY: BARANI tax + fiscal-position full verification dump'
 SOURCE_ADV_TAX_NAME = 'SK 23% VAT Included — Down Payments'
@@ -518,4 +518,5 @@ end = start + PAGE_SIZE
 slice_text = full[start:end]
 more = 'YES' if end < total else 'NO'
 header = 'PAGE %s | chars %s-%s of %s | MORE REMAINS: %s\n' % (PAGE, start, min(end, total), total, more)
-raise UserError(header + slice_text)
+footer = '\n--- END PAGE %s | MORE REMAINS: %s ---' % (PAGE, more)
+raise UserError(header + slice_text + footer)
