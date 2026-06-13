@@ -11,7 +11,7 @@
 # ============================================================================
 
 PAGE = 1
-PAGE_SIZE = 32000
+PAGE_SIZE = 80000
 
 ACTION_NAME = 'READ-ONLY: BARANI OSS included down-payment tax mapping audit'
 SOURCE_ADVANCE_TAX_NAME = 'SK 23% VAT Included — Down Payments'
@@ -126,5 +126,6 @@ else:
 text = '\n'.join(lines)
 start = (PAGE - 1) * PAGE_SIZE
 end = start + PAGE_SIZE
+page_text = text[start:end]
 more = 'YES' if end < len(text) else 'NO'
-raise UserError('PAGE %s | chars %s-%s of %s | MORE REMAINS: %s\n%s' % (PAGE, start, min(end, len(text)), len(text), more, text[start:end]))
+raise UserError('PAGE %s | chars %s-%s of %s | MORE REMAINS: %s\n%s\n--- END PAGE %s | MORE REMAINS: %s ---' % (PAGE, start, min(end, len(text)), len(text), more, page_text, PAGE, more))

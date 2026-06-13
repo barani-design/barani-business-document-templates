@@ -15,7 +15,7 @@
 # ============================================================================
 
 PAGE = 1
-PAGE_SIZE = 32000
+PAGE_SIZE = 80000
 
 RECEIVING_IBAN_COMPACT = 'XX0000000000000000000000'
 RECEIVING_BIC = 'YOURBICXXX'
@@ -33,7 +33,7 @@ Fields = env['ir.model.fields'].sudo()
 
 lines = []
 lines.append('READ-ONLY: BARANI new-DB Option-B down-payment accounting readiness probe v2')
-lines.append('Selected records ignored. No writes. PAGE=%s PAGE_SIZE=%s' % (PAGE, PAGE_SIZE))
+lines.append('READ-ONLY:YES — search/read only; no writes. PAGE=%s PAGE_SIZE=%s' % (PAGE, PAGE_SIZE))
 lines.append('Target principle: customer-paid advances are gross; Odoo should split gross into base + VAT using fiscal-position-specific tax treatment.')
 lines.append('')
 
@@ -227,6 +227,6 @@ lines.append('  If gross customer-paid advances are required, prefer a dedicated
 text = '\n'.join(lines)
 start = (PAGE - 1) * PAGE_SIZE
 end = start + PAGE_SIZE
-chunk = text[start:end]
+page_text = text[start:end]
 more = 'YES' if end < len(text) else 'NO'
-raise UserError('PAGE %s | chars %s-%s of %s | MORE REMAINS: %s\n%s' % (PAGE, start, min(end, len(text)), len(text), more, chunk))
+raise UserError('PAGE %s | chars %s-%s of %s | MORE REMAINS: %s\n%s\n--- END PAGE %s | MORE REMAINS: %s ---' % (PAGE, start, min(end, len(text)), len(text), more, page_text, PAGE, more))

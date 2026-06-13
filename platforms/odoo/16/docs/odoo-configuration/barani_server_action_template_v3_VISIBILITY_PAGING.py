@@ -67,7 +67,7 @@ DRY_RUN = True
 # ---- output configuration ---------------------------------------------------
 OUTPUT_MODE = 'paged'          # 'paged' (zero-write, default) or 'param' (writes log)
 PAGE = 1                       # bump to 2,3,... when footer says MORE REMAINS: YES
-PAGE_SIZE = 15000              # chars per page; this build's popup holds ~15K
+PAGE_SIZE = 80000              # chars per page; public-repo standard page size
 OUTPUT_PARAMETER_KEY = 'barani.server_action_template.last_run'  # used by 'param' mode
 
 # ---- target configuration ---------------------------------------------------
