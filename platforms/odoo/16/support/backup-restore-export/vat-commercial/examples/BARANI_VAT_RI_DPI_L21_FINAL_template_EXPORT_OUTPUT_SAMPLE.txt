@@ -1,0 +1,433 @@
+PAGE 1 | chars 0-39135 of 39135 | MORE REMAINS: NO
+PAGE 1 | READ-ONLY: BARANI VAT REPORT — TEMPLATE EXPORT L21 FINAL SAFE
+READ-ONLY:YES. No create/write/unlink/set_param/commit/SQL.
+WHICH='both' PAGE=1 PAGE_SIZE=80000
+
+RESOLVED ARTIFACTS
+  stored ids barani.vat_report.ids = '2853,918,6,2854'
+  VAT view:    id=2853 key='barani_vat.report_invoice_document_vat' name='BARANI VAT report_invoice_document (commercial/VAT layout) v02' type=qweb inherit_id=False write_date=2026-06-09 20:02:53.400539
+  Layout view: id=2854 key='barani_vat.external_layout_standard_titled' name='BARANI VAT external_layout_standard_titled (logo + title header)' type=qweb inherit_id=False write_date=2026-06-09 20:02:53.400539
+  VAT report:  id=918 name='VAT Invoices RI/DPI - 2026+' model=account.move report_name=barani_vat.report_invoice_document_vat paperformat_id=6 print_report_name="('Credit Note' if object.move_type == 'out_refund' else 'Vendor Credit Note' if object.move_type == 'in_refund' else 'Vendor Bill' if object.move_type == 'in_invoice' else 'Draft Invoice' if object.state == 'draft' else 'Cancelled Invoice' if object.state == 'cancel' else 'Invoice') + ((' ' + object.name) if object.name and object.name != '/' else '')"
+  Paperformat: id=6 name='BARANI VAT A4 7mm' margins T/B/L/R=40.0/18.0/7.0/7.0 header_spacing=35 dpi=90
+
+L20 MARKER CHECK
+  production report label: PASS
+  down-payment reconciliation table: PASS
+  duplicate gross down-payment rows absent: PASS
+  Tel phone labels: PASS
+  address no-indent classes: PASS
+  company registration aligned: PASS
+
+
+============================================================
+BEGIN VAT_ARCH  (key=barani_vat.report_invoice_document_vat)
+============================================================
+length=30429 chars
+<t t-name="barani_vat.report_invoice_document_vat">
+  <t t-call="web.html_container">
+    <t t-foreach="docs" t-as="o">
+      <t t-set="lang" t-value="(o.invoice_user_id.sudo().lang if o.move_type in ('in_invoice','in_refund') else o.partner_id.lang) or user.lang"/>
+      <t t-call="barani_vat.external_layout_standard_titled" t-lang="lang">
+        <t t-set="o" t-value="o.with_context(lang=lang)"/>
+        <t t-set="forced_vat" t-value="o.fiscal_position_id.foreign_vat"/>
+        <!-- L16 TODO 2A: VAT Date currently uses o.invoice_date as a stopgap; replace with the confirmed Slovak tax-point/supply-date field when available. -->
+        <!-- L16 TODO 6: Customer VAT/status classification should be data-driven from fiscal position / partner VAT / country; do not infer legal status in QWeb alone. -->
+
+        <!-- Scoped layout for the dense 10-column VAT table. Targets only .barani_vat_table; no other report affected. table-layout:fixed + per-column widths prevent right-margin clipping; description wraps, numerics stay on one line. -->
+        <style>
+          /* Unified 10pt body and table. Keep explicit sizes for wkhtmltopdf. */
+          .barani_vat_doc { font-size: 10pt; line-height: 1.25; } .barani_addr_block { margin-top: -1px; margin-bottom: 0; } .barani_addr_block .barani_addr_cell { min-width: 0; box-sizing: border-box; word-wrap: break-word; overflow-wrap: break-word; } .barani_addr_block .barani_customer_cell { padding-left: 0; padding-right: 0; } .barani_addr_block .barani_customer_cell.barani_has_shipping { padding-right: 18px; } .barani_addr_block .barani_shipping_cell { padding-left: 18px; padding-right: 0; } .barani_info_block { padding-top: 4px; margin-bottom:8px; }
+          .barani_vat_table { table-layout: fixed; width: 100%; font-size: 10pt; line-height: 1.2; }
+          .barani_vat_table th, .barani_vat_table td { padding: 2px 3px; vertical-align: top; overflow: hidden; }
+          .barani_vat_table .text-nowrap { white-space: nowrap; }
+          /* L11: right-side breathing room on totals + footer band cells */
+          #total table.table-sm td.text-end { padding-right: 10px; }
+          .barani_footer_band { padding-right: 10px; }
+          .barani_down_payment_reconciliation_table { table-layout: fixed; width:100%; font-size:9pt; line-height:1.15; margin:6px 0 6px 0; }
+          .barani_down_payment_reconciliation_table th, .barani_down_payment_reconciliation_table td { padding:2px 4px; vertical-align:top; }
+        </style>
+
+        <!-- Fork A, DDS-free split. Positive 324 lines are down-payment invoice lines; negative 324 lines are settlement deductions. -->
+        <t t-set="barani_dp_lines" t-value="o.invoice_line_ids.filtered(lambda l: l.display_type not in ('line_section','line_note') and l.account_id and l.account_id.code and l.account_id.code[:3] == '324' and (l.price_subtotal or 0.0) &gt;= -0.005)"/>
+        <t t-set="barani_ded_lines" t-value="o.invoice_line_ids.filtered(lambda l: l.display_type not in ('line_section','line_note') and l.account_id and l.account_id.code and l.account_id.code[:3] == '324' and (l.price_subtotal or 0.0) &lt; -0.005)"/>
+        <t t-set="barani_goods_lines" t-value="o.invoice_line_ids.filtered(lambda l: l.display_type not in ('line_section','line_note') and not (l.account_id and l.account_id.code and l.account_id.code[:3] == '324'))"/>
+        <t t-set="barani_is_dp_only" t-value="barani_dp_lines and not barani_goods_lines and not barani_ded_lines"/>
+        <t t-set="barani_table_lines" t-value="barani_dp_lines if barani_is_dp_only else barani_goods_lines"/>
+        <t t-set="barani_total_base" t-value="sum(barani_table_lines.mapped('price_subtotal'))"/>
+        <t t-set="barani_total_gross" t-value="sum(barani_table_lines.mapped('price_total'))"/>
+        <t t-set="barani_total_vat" t-value="barani_total_gross - barani_total_base"/>
+        <t t-set="barani_advance_applied" t-value="-sum(barani_ded_lines.mapped('price_total'))"/>
+        <t t-set="barani_has_advance_deduction" t-value="bool(barani_ded_lines)"/>
+        <t t-set="barani_dp_pos_lines" t-value="o.invoice_line_ids.filtered(lambda l: l.display_type not in ('line_section','line_note') and l.account_id and l.account_id.code and l.account_id.code[:3] == '324' and (l.price_subtotal or 0.0) &gt; 0.005)"/>
+        <t t-set="barani_is_dp_invoice" t-value="bool(barani_dp_pos_lines) and not barani_goods_lines and not barani_has_advance_deduction"/>
+        <!-- Official-display totals: use Odoo document totals when there is no 324 deduction, to preserve tax-rounding exactly; use goods-only totals on 324 settlement invoices. -->
+        <t t-set="barani_line_vat_sum" t-value="barani_total_vat"/>
+        <t t-set="barani_official_goods_total" t-value="(o.amount_total + barani_advance_applied) if barani_has_advance_deduction else o.amount_total"/>
+        <t t-set="barani_official_goods_vat" t-value="barani_official_goods_total - barani_total_base"/>
+        <t t-set="barani_goods_gross" t-value="barani_official_goods_total"/>
+        <t t-set="barani_display_base" t-value="o.amount_untaxed"/>
+        <t t-set="barani_display_vat" t-value="o.amount_tax"/>
+        <t t-set="barani_display_total" t-value="o.amount_total"/>
+        <t t-set="display_discount" t-value="any(l.discount for l in barani_table_lines)"/>
+
+        <div class="row barani_vat_doc barani_addr_block">
+          <div t-att-class="&quot;col-6 barani_addr_cell barani_customer_cell barani_has_shipping&quot; if (o.partner_shipping_id and (o.partner_shipping_id != o.partner_id)) else &quot;col-6 barani_addr_cell barani_customer_cell&quot;">
+            <t t-if="o.move_type in ('out_invoice', 'out_refund')"><strong>Customer</strong></t>
+            <t t-if="o.move_type in ('in_invoice', 'in_refund')"><strong>Vendor</strong></t>
+            <div t-field="o.partner_id" t-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;], &quot;no_marker&quot;: true}"/>
+            <div t-if="o.partner_id.phone or o.partner_id.mobile" name="barani_customer_phone" class="mt-1"><span>Tel: </span><span t-esc="o.partner_id.phone or o.partner_id.mobile"/></div>
+            <div t-if="o.partner_id.company_registry" class="mt-1">ID: <span t-field="o.partner_id.company_registry"/></div>
+            <div t-if="o.partner_id.vat" class="mt-1">
+              <t t-if="o.company_id.account_fiscal_country_id.vat_label" t-esc="o.company_id.account_fiscal_country_id.vat_label"/>
+              <t t-else="">Tax ID</t>: <span t-field="o.partner_id.vat"/>
+            </div>
+          </div>
+          <div class="col-6 barani_addr_cell barani_shipping_cell" t-if="o.partner_shipping_id and (o.partner_shipping_id != o.partner_id)">
+            <strong>Shipping Address</strong>
+            <div t-field="o.partner_shipping_id" t-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;], &quot;no_marker&quot;: true}"/>
+            <div t-if="o.partner_shipping_id.phone or o.partner_shipping_id.mobile" name="barani_shipping_phone" class="mt-1"><span>Tel: </span><span t-esc="o.partner_shipping_id.phone or o.partner_shipping_id.mobile"/></div>
+          </div>
+        </div>
+
+        <div class="page barani_vat_doc">
+          <div id="informations" class="row mt-3 barani_info_block">
+            <div class="col-2 mb-2" t-if="o.invoice_date" name="invoice_date">
+              <t t-if="o.move_type == 'out_invoice'"><strong>Invoice Date</strong></t>
+              <t t-elif="o.move_type == 'out_refund'"><strong>Credit Note Date</strong></t>
+              <t t-else=""><strong>Date</strong></t>
+              <p class="m-0" t-field="o.invoice_date"/>
+            </div>
+            <div class="col-2 mb-2" t-if="o.invoice_date and o.move_type in ('out_invoice','out_refund')" name="vat_date">
+              <strong>VAT Date</strong><p class="m-0" t-field="o.invoice_date"/>
+            </div>
+            <div class="col-2 mb-2" t-if="o.invoice_date_due and o.move_type == 'out_invoice' and o.state == 'posted'" name="due_date">
+              <strong>Due Date</strong><p class="m-0" t-field="o.invoice_date_due"/>
+            </div>
+            <div class="col-2 mb-2" t-if="o.invoice_origin" name="origin">
+              <strong>Source</strong><p class="m-0" t-field="o.invoice_origin"/>
+            </div>
+            <div class="col-3 mb-2" name="barani_credit_origin_reference_wide" t-if="o.move_type in ('out_refund','in_refund') and (o.reversed_entry_id or o.ref)">
+              <strong>Original Invoice / Reference</strong><p class="m-0"><span t-esc="(o.reversed_entry_id.name if o.reversed_entry_id else '') or (o.ref or '')"/></p>
+            </div>
+            <div class="col-2 mb-2" t-if="o.ref and o.move_type not in ('out_refund','in_refund')" name="reference">
+              <strong>Reference</strong><p class="m-0" t-field="o.ref"/>
+            </div>
+            <div class="col-2 mb-2" t-if="((barani_is_dp_invoice and o.invoice_origin) or ((not barani_is_dp_invoice) and o.payment_reference)) and o.move_type in ('out_invoice','in_refund')" name="payment_reference">
+              <strong>Payment Reference</strong><p class="m-0"><span t-esc="o.invoice_origin if barani_is_dp_invoice else (o.payment_reference or '')"/></p>
+            </div>
+            <div class="col-2 mb-2" t-if="o.move_type == 'out_invoice'" name="payment_method">
+              <strong>Payment Method</strong><p class="m-0">Wire transfer</p>
+            </div>
+          </div>
+
+          <table class="table table-sm o_main_table barani_vat_table" name="invoice_line_table">
+            <colgroup>
+              <col style="width:32%"/>
+              <col style="width:8%"/>
+              <col name="barani_coo_col_final" style="width:5%"/>
+              <col style="width:6.5%"/>
+              <col name="barani_unit_col_wide" style="width:7%"/>
+              <col style="width:8%"/>
+              <col t-if="display_discount" style="width:5.5%"/>
+              <col name="barani_vat_rate_col_final" style="width:5.5%"/>
+              <col style="width:7.5%"/>
+              <col style="width:10%"/>
+            </colgroup>
+            <thead>
+              <tr>
+                <th name="th_description" class="text-start"><span>Description</span></th>
+                <th name="th_hscode" class="text-start"><span>HS Code</span></th>
+                <th name="th_coo" class="text-center"><span>COO</span></th>
+                <th name="th_quantity" class="text-end"><span>Qty</span></th>
+                <th name="th_uom" class="text-start"><span>Unit</span></th>
+                <th name="th_priceunit" class="text-end"><span>Unit Price</span></th>
+                <th name="th_discount" t-if="display_discount" class="text-end"><span>Disc.</span></th>
+                <th name="th_vatrate" class="text-end"><span>VAT Rate</span></th>
+                <th name="th_vatamount" class="text-end"><span>VAT</span></th>
+                <th name="th_vatbase" class="text-end"><span>VAT Base</span></th>
+              </tr>
+            </thead>
+            <tbody class="invoice_tbody">
+              <t t-foreach="o.invoice_line_ids" t-as="line">
+                <t t-set="barani_line_is_real" t-value="line.display_type not in ('line_section','line_note')"/>
+                <t t-set="barani_line_is_324" t-value="barani_line_is_real and line.account_id and line.account_id.code and line.account_id.code[:3] == '324'"/>
+                <t t-set="barani_line_in_table" t-value="barani_line_is_real and ((barani_is_dp_only and barani_line_is_324 and (line.price_subtotal or 0.0) &gt;= -0.005) or ((not barani_is_dp_only) and not barani_line_is_324))"/>
+
+                <tr t-if="barani_line_in_table">
+                  <td name="td_name"><span t-field="line.name" t-options="{&quot;widget&quot;: &quot;text&quot;}"/></td>
+                  <td name="td_hscode" class="text-start"><span t-if="line.product_id.hs_code" t-field="line.product_id.hs_code"/></td>
+                  <td name="td_coo" class="text-center"><span t-if="line.product_id.country_of_origin" t-field="line.product_id.country_of_origin.code"/></td>
+                  <td name="td_qty" class="text-end"><span t-field="line.quantity"/></td>
+                  <td name="td_unit" class="text-start"><span t-field="line.product_uom_id" groups="uom.group_uom"/></td>
+                  <td name="td_priceunit" class="text-end"><span class="text-nowrap" name="barani_unit_price_currency"><span t-field="line.price_unit" t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 2}"/> <span t-esc="o.currency_id.symbol"/></span></td>
+                  <td name="td_discount" t-if="display_discount" class="text-end"><span class="text-nowrap" name="barani_discount_percent_cell"><span t-field="line.discount" t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 1}"/> %</span></td>
+                  <td name="td_vatrate" class="text-end"><span class="text-nowrap" t-esc="', '.join(line.tax_ids.mapped('description'))"/></td>
+                  <td name="td_vatamount" class="text-end"><span class="text-nowrap" t-esc="line.price_total - line.price_subtotal" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: o.currency_id}"/></td>
+                  <td name="td_vatbase" class="text-end o_price_total"><span class="text-nowrap" t-field="line.price_subtotal"/></td>
+                </tr>
+
+                <tr t-if="line.display_type == 'line_section' and line.name != 'Down Payments'" class="bg-200 fw-bold o_line_section">
+                  <td t-att-colspan="'10' if display_discount else '9'"><span t-field="line.name" t-options="{&quot;widget&quot;: &quot;text&quot;}"/></td>
+                </tr>
+                <tr t-if="line.display_type == 'line_note'" class="fst-italic o_line_note">
+                  <td t-att-colspan="'10' if display_discount else '9'"><span t-field="line.name" t-options="{&quot;widget&quot;: &quot;text&quot;}"/></td>
+                </tr>
+              </t>
+
+              <tr class="border-black o_total fw-bold">
+                <td class="text-end" t-att-colspan="'7' if display_discount else '6'"><span>Totals</span></td>
+                <td class="text-end"><span>VAT</span></td>
+                <td class="text-end"><span t-esc="barani_official_goods_vat" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: o.currency_id}"/></td>
+                <td class="text-end"><span t-esc="barani_total_base" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: o.currency_id}"/></td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div name="barani_down_payment_reconciliation_table" t-if="barani_has_advance_deduction and o.move_type == 'out_invoice'" style="margin:6px 0 6px 0;">
+            <table class="table table-sm barani_down_payment_reconciliation_table">
+              <colgroup>
+                <col style="width:49%"/>
+                <col style="width:17%"/>
+                <col style="width:17%"/>
+                <col style="width:17%"/>
+              </colgroup>
+              <thead>
+                <tr>
+                  <th class="text-start">Down payment reconciliation</th>
+                  <th class="text-end">Base excl. VAT</th>
+                  <th class="text-end">VAT</th>
+                  <th class="text-end">Total incl. VAT</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Goods/services before down payments</td>
+                  <td class="text-end"><span t-esc="barani_total_base" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: o.currency_id}"/></td>
+                  <td class="text-end"><span t-esc="barani_official_goods_vat" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: o.currency_id}"/></td>
+                  <td class="text-end"><span t-esc="barani_goods_gross" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: o.currency_id}"/></td>
+                </tr>
+                <t t-foreach="barani_ded_lines" t-as="bvt_rec_dl">
+                  <t t-set="bvt_rec_src" t-value="bvt_rec_dl.sale_line_ids.invoice_lines.move_id.filtered(lambda m: m.id != o.id and m.move_type == 'out_invoice' and m.state == 'posted')"/>
+                  <t t-set="bvt_rec_is_dp" t-value="any(s.is_downpayment for s in bvt_rec_dl.sale_line_ids)"/>
+                  <t t-set="bvt_rec_label" t-value="('Down Payment Invoice ' + bvt_rec_src[0].name) if (bvt_rec_is_dp and bvt_rec_src and bvt_rec_src[0].name and bvt_rec_src[0].name != '/') else 'Down payment deduction'"/>
+                  <tr>
+                    <td>Less: <t t-esc="bvt_rec_label"/></td>
+                    <td class="text-end"><span t-esc="bvt_rec_dl.price_subtotal or 0.0" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: o.currency_id}"/></td>
+                    <td class="text-end"><span t-esc="(bvt_rec_dl.price_total or 0.0) - (bvt_rec_dl.price_subtotal or 0.0)" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: o.currency_id}"/></td>
+                    <td class="text-end"><span t-esc="bvt_rec_dl.price_total or 0.0" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: o.currency_id}"/></td>
+                  </tr>
+                </t>
+                <tr class="border-black fw-bold">
+                  <td><strong>Invoice total after down payments</strong></td>
+                  <td class="text-end"><strong><span t-esc="o.amount_untaxed" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: o.currency_id}"/></strong></td>
+                  <td class="text-end"><strong><span t-esc="o.amount_tax" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: o.currency_id}"/></strong></td>
+                  <td class="text-end"><strong><span t-esc="o.amount_total" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: o.currency_id}"/></strong></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div name="barani_notes_totals_table" style="display:table; width:100%; table-layout:fixed; margin-top:3px;">
+            <div name="barani_notes_cell" style="display:table-cell; width:57%; vertical-align:top; font-size:10pt; line-height:1.25; padding:0 12px 0 0;">
+              <p t-if="(barani_line_vat_sum - barani_official_goods_vat) &gt; 0.005 or (barani_official_goods_vat - barani_line_vat_sum) &gt; 0.005" class="text-muted" style="font-size:10pt; margin:0 0 6px 0;">VAT is rounded globally; the VAT total follows Odoo's official tax rounding. Sum of displayed line VAT amounts: <span t-esc="barani_line_vat_sum" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: o.currency_id}"/>.</p>
+              <t t-set="barani_incoterm_code" t-value="o.invoice_incoterm_id.code or '' if o.invoice_incoterm_id else ''"/>
+              <t t-set="barani_incoterm_name" t-value="o.invoice_incoterm_id.name or '' if o.invoice_incoterm_id else ''"/>
+              <t t-set="barani_incoterm_display" t-value="barani_incoterm_code + ((' (' + barani_incoterm_name + ')') if (barani_incoterm_name and barani_incoterm_name != barani_incoterm_code) else '')"/>
+              <div name="barani_incoterms_line" style="margin:0 0 4px 0; font-size:10pt; line-height:1.25;">
+                <strong>INCOTERMS:</strong> <span name="barani_incoterms_code_name" t-esc="barani_incoterm_display if o.invoice_incoterm_id else 'Not specified'"/>
+              </div>
+              <div t-if="o.fiscal_position_id" name="barani_fiscal_position_note" style="margin:0 0 4px 0; font-size:10pt; line-height:1.25;">
+                <strong>Fiscal position:</strong> <span t-field="o.fiscal_position_id.name"/>
+              </div>
+              <div t-if="not is_html_empty(o.fiscal_position_id.note)" name="barani_fiscal_position_note_text" style="margin:0 0 4px 0; font-size:10pt; line-height:1.25;">
+                <span t-field="o.fiscal_position_id.note"/>
+              </div>
+              <div t-if="o.intrastat_transport_mode_id" name="barani_intrastat_transport_code" style="margin:0 0 4px 0; font-size:10pt; line-height:1.25;">
+                <strong>INTRASTAT transport code:</strong> <span t-esc="o.intrastat_transport_mode_id.display_name"/>
+              </div>
+            </div>
+            <div id="total" name="barani_totals_cell" style="display:table-cell; width:43%; vertical-align:top;">
+                <table class="table table-sm">
+                                    <t t-if="barani_has_advance_deduction and o.move_type in ('out_invoice','out_refund')">
+                  <tr>
+                    <td>Subtotal after down payments (excl. VAT)</td>
+                    <td class="text-end"><span t-esc="o.amount_untaxed" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: o.currency_id}"/></td>
+                  </tr>
+                  <tr>
+                    <td>VAT after down payments</td>
+                    <td class="text-end"><span t-esc="o.amount_tax" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: o.currency_id}"/></td>
+                  </tr>
+                  <tr class="border-black fw-bold" name="barani_invoice_total_after_down_payments">
+                    <td><strong>Invoice total after down payments</strong></td>
+                    <td class="text-end"><strong><span t-esc="o.amount_total" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: o.currency_id}"/></strong></td>
+                  </tr>
+                  <tr class="border-black fw-bold">
+                    <td><strong><t t-esc="'Amount credited' if o.move_type == 'out_refund' else 'Balance Due'"/></strong></td>
+                    <td class="text-end"><strong><span t-esc="o.amount_total if o.move_type == 'out_refund' else o.amount_residual" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: o.currency_id}"/></strong></td>
+                  </tr>
+                  <tr>
+                    <td>Currency</td>
+                    <td class="text-end"><span t-esc="o.currency_id.name or 'EUR'"/></td>
+                  </tr>
+                  </t>
+                  <t t-if="not barani_has_advance_deduction">
+                  <tr>
+                    <td><t t-esc="'Subtotal (excl. VAT)' if barani_is_dp_invoice else 'Total excl. VAT'"/></td>
+                    <td class="text-end"><span t-esc="o.amount_untaxed" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: o.currency_id}"/></td>
+                  </tr>
+                  <tr>
+                    <td>Total VAT</td>
+                    <td class="text-end"><span t-esc="o.amount_tax" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: o.currency_id}"/></td>
+                  </tr>
+                  <tr class="border-black">
+                    <td><strong>Total incl. VAT</strong></td>
+                    <td class="text-end"><strong><span t-esc="o.amount_total" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: o.currency_id}"/></strong></td>
+                  </tr>
+                    <t t-if="(not barani_is_dp_invoice) and o.move_type == 'out_invoice' and o.state == 'posted'">
+                  <tr class="border-black fw-bold">
+                    <td><strong>Balance Due</strong></td>
+                    <td class="text-end"><strong><span t-field="o.amount_residual"/></strong></td>
+                  </tr>
+                    </t>
+                    <t t-if="o.move_type == 'out_refund' and o.state == 'posted'">
+                  <tr class="border-black fw-bold">
+                    <td><strong>Amount credited</strong></td>
+                    <td class="text-end"><strong><span t-esc="o.amount_total" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: o.currency_id}"/></strong></td>
+                  </tr>
+                    </t>
+                  <tr>
+                    <td>Currency</td>
+                    <td class="text-end"><span t-esc="o.currency_id.name or 'EUR'"/></td>
+                  </tr>
+                  </t>
+                </table>
+            </div>
+          </div>
+
+          <div t-if="not is_html_empty(o.narration)" name="comment"><span t-field="o.narration"/></div>
+
+          <p class="text-muted" style="font-size:8pt; margin-top:6px;">COO = Country of Origin</p>
+
+          <t t-set="barani_pdf_payment_ref" t-value="'' if o.move_type == 'out_refund' else (o.invoice_origin if barani_is_dp_invoice else (o.payment_reference or ''))"/>
+          <t t-set="barani_bank_iban_compact" t-value="(o.partner_bank_id.acc_number or '').replace(' ', '') if o.partner_bank_id else ''"/>
+          <t t-set="barani_bank_bic_compact" t-value="(o.partner_bank_id.bank_id.bic or '').replace(' ', '') if (o.partner_bank_id and o.partner_bank_id.bank_id) else ''"/>
+          <t t-set="barani_invoice_bank_ok" t-value="o.partner_bank_id and barani_bank_iban_compact == '__RECEIVING_IBAN_COMPACT__' and barani_bank_bic_compact == '__RECEIVING_BIC__'"/>
+          <t t-set="barani_company_receiving_banks" t-value="o.company_id.partner_id.bank_ids.filtered(lambda b: (b.acc_number or '').replace(' ', '') == '__RECEIVING_IBAN_COMPACT__' and b.bank_id and (b.bank_id.bic or '').replace(' ', '') == '__RECEIVING_BIC__')"/>
+          <t t-set="barani_effective_bank" t-value="o.partner_bank_id if barani_invoice_bank_ok else (barani_company_receiving_banks[0] if barani_company_receiving_banks else False)"/>
+          <t t-set="barani_receiving_bank_ok" t-value="bool(barani_effective_bank)"/>
+          <t t-set="barani_bank_record" t-value="barani_effective_bank.bank_id if (barani_effective_bank and barani_effective_bank.bank_id) else False"/>
+          <t t-set="barani_bank_has_address" t-value="barani_bank_record and (barani_bank_record.street or barani_bank_record.city or barani_bank_record.country)"/>
+          <div name="barani_bank_transfer_band" t-if="o.move_type != 'out_refund' and (barani_effective_bank or barani_pdf_payment_ref or o.invoice_date_due)" style="display:table; width:100%; table-layout:fixed; background-color:#E79C9C; font-size:9pt; line-height:1.2;">
+            <div name="barani_bank_details_cell" class="barani_footer_band" style="display:table-cell; width:75%; text-align:left; vertical-align:top; background-color:#E79C9C; padding:3px 6px;" t-if="barani_effective_bank">
+              <div><strong>Bank transfer:</strong></div>
+              <div><span>IBAN: </span><span t-field="barani_effective_bank.acc_number"/><span> | SWIFT/BIC: </span><span t-field="barani_effective_bank.bank_id.bic"/></div>
+              <div t-if="barani_bank_record and (barani_bank_record.name or barani_bank_has_address)">
+                <t t-if="barani_bank_record.name"><span>Bank: </span><span t-field="barani_bank_record.name"/></t>
+                <t t-if="barani_bank_record.name and barani_bank_has_address"><span> | </span></t>
+                <t t-if="barani_bank_has_address">
+                  <t t-set="barani_bank_city_line" t-value="(barani_bank_record.zip or '') + (' ' if (barani_bank_record.zip and barani_bank_record.city) else '') + (barani_bank_record.city or '')"/>
+                  <t t-set="barani_bank_address_text" t-value="(barani_bank_record.street or '') + ((', ' + barani_bank_city_line) if (barani_bank_city_line and barani_bank_record.street) else (barani_bank_city_line if barani_bank_city_line and not barani_bank_record.street else '')) + ((', ' + barani_bank_record.country.name) if (barani_bank_record.country and ((barani_bank_record.street or '') or barani_bank_city_line)) else (barani_bank_record.country.name if barani_bank_record.country else ''))"/>
+                  <span>Bank address: </span><span name="barani_bank_address_clean" t-esc="barani_bank_address_text"/>
+                </t>
+              </div>
+            </div>
+            <div name="barani_payment_ref_cell" class="barani_footer_band" t-if="barani_pdf_payment_ref" t-att-style="'display:table-cell; width:12.5%; text-align:right; vertical-align:top; background-color:#E79C9C; padding:3px 6px;' if (barani_effective_bank and o.invoice_date_due) else 'display:table-cell; width:25%; text-align:right; vertical-align:top; background-color:#E79C9C; padding:3px 6px;' if barani_effective_bank else 'display:table-cell; width:50%; text-align:right; vertical-align:top; background-color:#E79C9C; padding:3px 6px;' if o.invoice_date_due else 'display:table-cell; width:100%; text-align:right; vertical-align:top; background-color:#E79C9C; padding:3px 6px;'"><span><strong>Payment Ref.:</strong><br/></span><span t-esc="barani_pdf_payment_ref"/></div>
+            <div name="barani_due_date_cell" class="barani_footer_band" t-if="o.invoice_date_due" t-att-style="'display:table-cell; width:12.5%; text-align:right; vertical-align:top; background-color:#E79C9C; padding:3px 6px;' if (barani_effective_bank and barani_pdf_payment_ref) else 'display:table-cell; width:25%; text-align:right; vertical-align:top; background-color:#E79C9C; padding:3px 6px;' if barani_effective_bank else 'display:table-cell; width:50%; text-align:right; vertical-align:top; background-color:#E79C9C; padding:3px 6px;' if barani_pdf_payment_ref else 'display:table-cell; width:100%; text-align:right; vertical-align:top; background-color:#E79C9C; padding:3px 6px;'"><span><strong>Due Date:</strong><br/></span><span t-field="o.invoice_date_due"/></div>
+          </div>
+
+          <t t-set="barani_issued_by" t-value="o.invoice_user_id.name if o.invoice_user_id else (o.create_uid.name if o.create_uid else '')"/>
+          <div class="row mt-4" name="barani_issued_by_slot"><div class="col-12 text-end" style="padding-right:33%; font-size:10pt;"><span><strong>Prepared by / Issued by:</strong> </span><span t-esc="barani_issued_by"/></div></div>
+
+          <!-- L15.2: payment QR intentionally omitted; bank transfer details use confirmed invoice recipient bank only. -->
+        </div>
+      </t>
+    </t>
+  </t>
+</t>
+============================================================
+END VAT_ARCH
+============================================================
+
+============================================================
+BEGIN LAYOUT_ARCH  (key=barani_vat.external_layout_standard_titled)
+============================================================
+length=6505 chars
+<t t-name="barani_vat.external_layout_standard_titled">
+        <t t-if="not o" t-set="o" t-value="doc"/>
+        <t t-if="not company">
+            <t t-if="company_id">
+                <t t-set="company" t-value="company_id"/>
+            </t>
+            <t t-elif="o and 'company_id' in o and o.company_id.sudo()">
+                <t t-set="company" t-value="o.company_id.sudo()"/>
+            </t>
+            <t t-else="else">
+                <t t-set="company" t-value="res_company"/>
+            </t>
+        </t>
+        <div t-attf-class="header o_company_#{company.id}_layout" t-att-style="report_header_style">
+            <div style="position:relative; height:41px;">
+                <t t-if="o and o._name == 'account.move'">
+                    <t t-set="bvt_dp" t-value="o.invoice_line_ids.filtered(lambda l: l.display_type not in ('line_section','line_note') and l.account_id and l.account_id.code and l.account_id.code[:3] == '324' and (l.price_subtotal or 0.0) &gt;= -0.005)"/>
+                    <t t-set="bvt_ded" t-value="o.invoice_line_ids.filtered(lambda l: l.display_type not in ('line_section','line_note') and l.account_id and l.account_id.code and l.account_id.code[:3] == '324' and (l.price_subtotal or 0.0) &lt; -0.005)"/>
+                    <t t-set="bvt_goods" t-value="o.invoice_line_ids.filtered(lambda l: l.display_type not in ('line_section','line_note') and not (l.account_id and l.account_id.code and l.account_id.code[:3] == '324'))"/>
+                    <t t-set="bvt_dp_only" t-value="bvt_dp and not bvt_goods and not bvt_ded"/>
+                    <t t-set="bvt_type_label" t-value="('Down Payment Invoice' if (o.move_type == 'out_invoice' and o.state == 'posted' and bvt_dp_only) else 'Invoice' if (o.move_type == 'out_invoice' and o.state == 'posted' and not bvt_dp_only) else 'Draft Down Payment Invoice' if (o.move_type == 'out_invoice' and o.state == 'draft' and bvt_dp_only) else 'Draft Invoice' if (o.move_type == 'out_invoice' and o.state == 'draft' and not bvt_dp_only) else 'Cancelled Down Payment Invoice' if (o.move_type == 'out_invoice' and o.state == 'cancel' and bvt_dp_only) else 'Cancelled Invoice' if (o.move_type == 'out_invoice' and o.state == 'cancel' and not bvt_dp_only) else 'Credit Note' if o.move_type == 'out_refund' else 'Vendor Credit Note' if o.move_type == 'in_refund' else 'Vendor Bill' if o.move_type == 'in_invoice' else 'Document')"/>
+                </t>
+                <div style="float:left; width:35%; height:41px; line-height:41px; position:relative; z-index:10;">
+                    <img t-if="company.logo" t-att-src="image_data_uri(company.logo)" style="max-height: 41px; vertical-align:middle;" alt="Logo"/>
+                </div>
+                <div t-if="o and o._name == 'account.move' and o.name != '/'" style="position:absolute; right:0; top:0; height:41px; line-height:41px; text-align:right; max-width:45%; z-index:15;">
+                    <span style="font-size:13pt; font-weight:bold; white-space:nowrap; vertical-align:middle;"><t t-esc="bvt_type_label"/>: <span t-field="o.name"/></span>
+                </div>
+                <div name="barani_top_title_divider" style="position:absolute; left:0; right:0; bottom:0; border-bottom:1px solid black; z-index:40;"/>
+                <div style="clear:both;"/>
+            </div>
+            <div class="row" style="margin-top:2px;">
+                <div class="col-6" name="company_address" style="font-size:10pt; line-height:1.25;">
+                    <ul class="list-unstyled" style="margin-bottom:2px;">
+                        <li t-if="company.is_company_details_empty"><t t-esc="company.partner_id" t-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;], &quot;no_marker&quot;: true}"/></li>
+                        <li t-else=""><t t-esc="company.company_details"/></li>
+                        <li t-if="forced_vat">
+                            <t t-esc="company.country_id.vat_label or 'Tax ID'"/>:
+                            <span t-esc="forced_vat"/>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-6" name="company_registration" style="font-size:10pt; line-height:1.25; padding-left:18px; box-sizing:border-box;">
+                    <ul class="list-unstyled" style="margin-bottom:2px;">
+                        <li t-if="company.company_registry">ID: <span t-esc="company.company_registry"/></li>
+                        <li t-if="company.vat">Tax ID: <span t-esc="company.vat[2:] if (company.vat[:2] == 'SK') else company.vat"/></li>
+                        <li t-if="company.vat">VAT: <span t-esc="company.vat"/></li>
+                        <li t-if="company.vat">EORI: <span t-esc="company.vat"/></li>
+                    </ul>
+                </div>
+            </div>
+            <div name="barani_seller_buyer_divider" style="border-bottom:1px solid black; width:100%; margin:1px 0 0 0;"/>
+        </div>
+
+        <div t-attf-class="article o_report_layout_standard o_company_#{company.id}_layout {{  'o_report_layout_background' if company.layout_background in ['Geometric', 'Custom']  else  '' }}" t-attf-style="background-image: url({{ 'data:image/png;base64,%s' % company.layout_background_image.decode('utf-8') if company.layout_background_image and company.layout_background == 'Custom' else '/base/static/img/bg_background_template.jpg' if company.layout_background == 'Geometric' else ''}});" t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id" t-att-data-oe-lang="o and o.env.context.get('lang')">
+            <!-- BARANI VAT: address block is rendered in the report body; suppress the stock address spacer. -->
+            <t t-out="0"/>
+        </div>
+
+        <div t-attf-class="footer o_standard_footer o_company_#{company.id}_layout">
+            <div class="text-center" style="border-top: 1px solid black; font-size:8pt; line-height:1.1; padding-top:2px;">
+                <ul class="list-inline" style="margin:0 0 1px 0; padding:0;">
+                    <div t-field="company.report_footer"/>
+                </ul>
+
+                <div t-if="report_type == 'pdf'" class="text-muted">
+                    <span class="page"/> of <span class="topage"/>
+                </div>
+                <div t-if="report_type == 'pdf' and display_name_in_footer" class="text-muted">
+                    <span t-field="o.name"/>
+                </div>
+            </div>
+        </div>
+    </t>
+============================================================
+END LAYOUT_ARCH
+============================================================
+
+--- END PAGE 1 | MORE REMAINS: NO ---
