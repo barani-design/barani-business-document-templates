@@ -1,4 +1,4 @@
-<t t-name="barani_delivery.external_layout_delivery_2026">
+<t t-name="barani_delivery.external_layout_picking_operations_2026">
     <t t-if="not o" t-set="o" t-value="doc"/>
     <t t-if="not company">
         <t t-if="company_id"><t t-set="company" t-value="company_id"/></t>
@@ -10,8 +10,8 @@
             <div style="float:left; width:35%; height:41px; line-height:41px; position:relative; z-index:10;">
                 <img t-if="company.logo" t-att-src="image_data_uri(company.logo)" style="max-height:41px; vertical-align:middle;" alt="Logo"/>
             </div>
-            <div t-if="o and o._name == 'stock.picking'" name="barani_delivery_doc_title_right" style="position:absolute; right:0; top:0; height:41px; line-height:41px; text-align:right; max-width:55%; z-index:15;">
-                <span style="font-size:13pt; font-weight:bold; white-space:nowrap; vertical-align:middle;">Delivery Note: <span t-field="o.name"/></span>
+            <div t-if="o and o._name == 'stock.picking'" name="barani_pick_ops_doc_title_right" style="position:absolute; right:0; top:0; height:41px; line-height:41px; text-align:right; max-width:55%; z-index:15;">
+                <span style="font-size:13pt; font-weight:bold; white-space:nowrap; vertical-align:middle;">Picking Operations: <span t-field="o.name"/></span>
             </div>
             <div name="barani_top_title_divider" style="position:absolute; left:0; right:0; bottom:0; border-bottom:1px solid black; z-index:40;"/>
             <div style="clear:both;"/>
@@ -31,7 +31,7 @@
                 </ul>
             </div>
         </div>
-        <div name="barani_seller_buyer_divider" style="border-bottom:1px solid black; width:100%; margin:1px 0 0 0;"/>
+        <div name="barani_pick_ops_divider" style="border-bottom:1px solid black; width:100%; margin:1px 0 0 0;"/>
     </div>
 
     <div t-attf-class="article o_report_layout_standard o_company_#{company.id}_layout {{ 'o_report_layout_background' if company.layout_background in ['Geometric', 'Custom'] else '' }}" t-attf-style="background-image: url({{ 'data:image/png;base64,%s' % company.layout_background_image.decode('utf-8') if company.layout_background_image and company.layout_background == 'Custom' else '/base/static/img/bg_background_template.jpg' if company.layout_background == 'Geometric' else '' }});" t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id" t-att-data-oe-lang="o and o.env.context.get('lang')">

@@ -1,0 +1,10 @@
+{
+  "package": "BARANI DN/PickOps 2026+ reconciled final safe v4",
+  "date": "2026-06-17",
+  "source_reconciled_with": "barani_business_documents_dn_pickops_repo_update.zip",
+  "notes": [
+    "Templates match the attached package modulo trailing newline normalization.",
+    "Safe v3 installers retained and version-bumped to v4; attached v1 installers were not used because they lacked savepoint/readback safety.",
+    "No customer PDFs, live exports, credentials, or restore-point payloads are included."
+  ]
+}

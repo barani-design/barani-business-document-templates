@@ -1,0 +1,197 @@
+<t t-name="barani_delivery.report_picking_operations_2026">
+  <t t-call="web.html_container">
+    <t t-foreach="docs" t-as="o">
+      <t t-set="lang" t-value="(o.partner_id.lang or user.lang)"/>
+      <t t-call="barani_delivery.external_layout_picking_operations_2026" t-lang="lang">
+        <t t-set="o" t-value="o.with_context(lang=lang)"/>
+        <t t-set="barani_pickops_v43_marker" t-value="'notes_contact_prepared_by_no_grouping_v43|pickops_remove_duplicate_doc_number_v44_addrlabels_31'"/>
+        <style>
+          .barani_pick_ops_doc { font-size:10pt; line-height:1.22; }
+          .barani_pick_ops_meta { margin:6px 0 8px 0; }
+          .barani_pick_ops_table { table-layout:fixed; width:100%; font-size:9pt; line-height:1.12; }
+          .barani_pick_ops_table th { padding:2px 3px; vertical-align:top; color:#ed1c24; border-bottom:1px solid #444; }
+          .barani_pick_ops_table td { padding:2px 3px; vertical-align:top; border-bottom:1px solid #ddd; overflow:hidden; }
+          .barani_pick_ops_product { overflow-wrap:anywhere; word-wrap:break-word; }
+          .barani_pick_ops_small { font-size:7.5pt; line-height:1.05; color:#666; }
+          .barani_pick_ops_barcode { max-width:100%; height:32px; }
+          .barani_pick_ops_serial_barcode { max-width:100%; height:32px; }
+          .barani_pick_ops_doc_barcode { max-width:230px; height:45px; }
+          .barani_pick_ops_warn { margin-top:4px; font-size:8.5pt; line-height:1.15; color:#8a5a00; }
+          .barani_pick_ops_note_row td { font-size:8.5pt; line-height:1.15; font-style:italic; background-color:#fafafa; color:#333; }
+          .barani_pick_ops_general_notes { font-size:8.5pt; line-height:1.15; margin:4px 0 3px 0; }
+          .barani_pick_ops_general_notes p { margin:0 0 2px 0; }
+          .barani_pick_ops_general_notes div { margin:0 0 2px 0; }
+          .barani_pick_ops_prepared { font-size:8.5pt; line-height:1.15; margin:4px 0 2px 0; }
+          .barani_pick_ops_addr_title { color:#ed1c24; font-weight:bold; }
+        </style>
+
+        <div class="page barani_pick_ops_doc">
+          <div class="row" style="margin-bottom:6px;">
+            <div class="col-7">
+              <strong class="barani_pick_ops_addr_title">Delivery Address:</strong>
+              <div t-field="o.partner_id" t-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;], &quot;no_marker&quot;: true}"/>
+              <div t-if="o.partner_id.phone or o.partner_id.mobile"><span>Tel: </span><span t-esc="o.partner_id.phone or o.partner_id.mobile"/></div>
+              <div t-if="o.partner_id.email"><span>Email: </span><span t-esc="o.partner_id.email"/></div>
+              <t t-set="barani_pickops_id_partner" t-value="o.partner_id if o.partner_id.company_registry else o.partner_id.commercial_partner_id"/>
+              <t t-set="barani_pickops_vat_partner" t-value="o.partner_id if o.partner_id.vat else o.partner_id.commercial_partner_id"/>
+              <div t-if="barani_pickops_id_partner and barani_pickops_id_partner.company_registry"><span>ID: </span><span t-esc="barani_pickops_id_partner.company_registry"/></div>
+              <div t-if="barani_pickops_vat_partner and barani_pickops_vat_partner.vat"><span>VAT: </span><span t-esc="barani_pickops_vat_partner.vat"/></div>
+            </div>
+            <div class="col-5 text-end">
+              <img t-if="o.name" class="barani_pick_ops_doc_barcode" t-att-src="'/report/barcode/?barcode_type=%s&amp;value=%s&amp;width=%s&amp;height=%s&amp;humanreadable=1' % ('Code128', o.name, 520, 80)"/>
+            </div>
+          </div>
+
+          <div class="row barani_pick_ops_meta">
+            <div class="col-3"><strong>Order:</strong><br/><span t-esc="o.origin or (o.sale_id.name if o.sale_id else '')"/></div>
+            <div class="col-3"><strong>Status:</strong><br/><span t-field="o.state"/></div>
+            <div class="col-3"><strong>Scheduled Date:</strong><br/><span t-field="o.scheduled_date"/></div>
+            <div class="col-3"><strong>Source Location:</strong><br/><span t-field="o.location_id.display_name"/></div>
+          </div>
+
+          <table class="table table-sm barani_pick_ops_table" name="barani_picking_operations_2026_table">
+            <colgroup>
+              <col name="barani_pick_ops_product_col_v43" style="width:34%"/>
+              <col style="width:8%"/>
+              <col name="barani_pick_ops_from_col_v43" style="width:15%"/>
+              <col name="barani_pick_ops_lot_barcode_col_v43" style="width:23%"/>
+              <col name="barani_pick_ops_product_barcode_col_v43" style="width:20%"/>
+            </colgroup>
+            <thead>
+              <tr>
+                <th class="text-start">Product</th>
+                <th class="text-end">Qty</th>
+                <th class="text-start">From</th>
+                <th class="text-center">Lot / Serial Barcode</th>
+                <th class="text-center">Product Barcode</th>
+              </tr>
+            </thead>
+            <tbody>
+              <t t-if="o.sale_id">
+                <t t-foreach="o.sale_id.order_line" t-as="barani_sol">
+                  <tr t-if="barani_sol.display_type == 'line_note' and barani_sol.name" class="barani_pick_ops_note_row">
+                    <td colspan="5"><span t-field="barani_sol.name" t-options="{&quot;widget&quot;: &quot;text&quot;}"/></td>
+                  </tr>
+                  <t t-if="not barani_sol.display_type">
+                    <t t-foreach="o.move_ids_without_package" t-as="move">
+                      <t t-if="move.sale_line_id and move.sale_line_id.id == barani_sol.id and move.state != 'cancel' and move.product_id">
+                        <t t-if="move.move_line_ids">
+                          <t t-foreach="move.move_line_ids" t-as="ml">
+                            <t t-set="barani_line_qty" t-value="(ml.qty_done or 0.0) if ((ml.qty_done or 0.0) &gt; 0.0) else (ml.reserved_uom_qty or 0.0)"/>
+                            <t t-set="barani_line_lot" t-value="ml.lot_id.name if ml.lot_id else ''"/>
+                            <tr>
+                              <td class="barani_pick_ops_product">
+                                <span t-field="ml.product_id.display_name"/>
+                                <div t-if="ml.product_id.default_code" class="barani_pick_ops_small">Internal Ref: <span t-field="ml.product_id.default_code"/></div>
+                              </td>
+                              <td class="text-end"><span t-esc="barani_line_qty" t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 2}"/> <span t-field="ml.product_uom_id"/></td>
+                              <td><span t-field="ml.location_id.display_name"/></td>
+                              <td class="text-center">
+                                <t t-if="barani_line_lot">
+                                  <img class="barani_pick_ops_serial_barcode" t-att-src="'/report/barcode/?barcode_type=%s&amp;value=%s&amp;width=%s&amp;height=%s&amp;humanreadable=1' % ('Code128', barani_line_lot, 300, 70)"/>
+                                  <div class="barani_pick_ops_small"><span t-esc="barani_line_lot"/></div>
+                                </t>
+                                <t t-elif="ml.product_id.tracking != 'none'"><span class="barani_pick_ops_small">Not assigned</span></t>
+                              </td>
+                              <td class="text-center">
+                                <img t-if="ml_index == 0 and ml.product_id.barcode" class="barani_pick_ops_barcode" t-att-src="'/report/barcode/?barcode_type=%s&amp;value=%s&amp;width=%s&amp;height=%s&amp;humanreadable=1' % ('Code128', ml.product_id.barcode, 300, 70)"/>
+                                <div t-if="ml_index == 0 and ml.product_id.barcode" class="barani_pick_ops_small"><span t-field="ml.product_id.barcode"/></div>
+                              </td>
+                            </tr>
+                          </t>
+                        </t>
+                        <t t-if="not move.move_line_ids">
+                          <tr>
+                            <td class="barani_pick_ops_product">
+                              <span t-field="move.product_id.display_name"/>
+                              <div t-if="move.product_id.default_code" class="barani_pick_ops_small">Internal Ref: <span t-field="move.product_id.default_code"/></div>
+                            </td>
+                            <td class="text-end"><span t-field="move.product_uom_qty"/> <span t-field="move.product_uom"/></td>
+                            <td><span t-field="move.location_id.display_name"/></td>
+                            <td class="text-center"><t t-if="move.product_id.tracking != 'none'"><span class="barani_pick_ops_small">Not assigned</span></t></td>
+                            <td class="text-center">
+                              <img t-if="move.product_id.barcode" class="barani_pick_ops_barcode" t-att-src="'/report/barcode/?barcode_type=%s&amp;value=%s&amp;width=%s&amp;height=%s&amp;humanreadable=1' % ('Code128', move.product_id.barcode, 300, 70)"/>
+                              <div t-if="move.product_id.barcode" class="barani_pick_ops_small"><span t-field="move.product_id.barcode"/></div>
+                            </td>
+                          </tr>
+                        </t>
+                      </t>
+                    </t>
+                  </t>
+                </t>
+              </t>
+
+              <t t-foreach="o.move_ids_without_package" t-as="move">
+                <t t-if="((not o.sale_id) or (not move.sale_line_id) or (move.sale_line_id.order_id and o.sale_id and move.sale_line_id.order_id.id != o.sale_id.id)) and move.state != 'cancel' and move.product_id">
+                  <t t-if="move.move_line_ids">
+                    <t t-foreach="move.move_line_ids" t-as="ml">
+                      <t t-set="barani_line_qty" t-value="(ml.qty_done or 0.0) if ((ml.qty_done or 0.0) &gt; 0.0) else (ml.reserved_uom_qty or 0.0)"/>
+                      <t t-set="barani_line_lot" t-value="ml.lot_id.name if ml.lot_id else ''"/>
+                      <tr>
+                        <td class="barani_pick_ops_product">
+                          <span t-field="ml.product_id.display_name"/>
+                          <div t-if="ml.product_id.default_code" class="barani_pick_ops_small">Internal Ref: <span t-field="ml.product_id.default_code"/></div>
+                        </td>
+                        <td class="text-end"><span t-esc="barani_line_qty" t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 2}"/> <span t-field="ml.product_uom_id"/></td>
+                        <td><span t-field="ml.location_id.display_name"/></td>
+                        <td class="text-center">
+                          <t t-if="barani_line_lot">
+                            <img class="barani_pick_ops_serial_barcode" t-att-src="'/report/barcode/?barcode_type=%s&amp;value=%s&amp;width=%s&amp;height=%s&amp;humanreadable=1' % ('Code128', barani_line_lot, 300, 70)"/>
+                            <div class="barani_pick_ops_small"><span t-esc="barani_line_lot"/></div>
+                          </t>
+                          <t t-elif="ml.product_id.tracking != 'none'"><span class="barani_pick_ops_small">Not assigned</span></t>
+                        </td>
+                        <td class="text-center">
+                          <img t-if="ml_index == 0 and ml.product_id.barcode" class="barani_pick_ops_barcode" t-att-src="'/report/barcode/?barcode_type=%s&amp;value=%s&amp;width=%s&amp;height=%s&amp;humanreadable=1' % ('Code128', ml.product_id.barcode, 300, 70)"/>
+                          <div t-if="ml_index == 0 and ml.product_id.barcode" class="barani_pick_ops_small"><span t-field="ml.product_id.barcode"/></div>
+                        </td>
+                      </tr>
+                    </t>
+                  </t>
+                  <t t-if="not move.move_line_ids">
+                    <tr>
+                      <td class="barani_pick_ops_product">
+                        <span t-field="move.product_id.display_name"/>
+                        <div t-if="move.product_id.default_code" class="barani_pick_ops_small">Internal Ref: <span t-field="move.product_id.default_code"/></div>
+                      </td>
+                      <td class="text-end"><span t-field="move.product_uom_qty"/> <span t-field="move.product_uom"/></td>
+                      <td><span t-field="move.location_id.display_name"/></td>
+                      <td class="text-center"><t t-if="move.product_id.tracking != 'none'"><span class="barani_pick_ops_small">Not assigned</span></t></td>
+                      <td class="text-center">
+                        <img t-if="move.product_id.barcode" class="barani_pick_ops_barcode" t-att-src="'/report/barcode/?barcode_type=%s&amp;value=%s&amp;width=%s&amp;height=%s&amp;humanreadable=1' % ('Code128', move.product_id.barcode, 300, 70)"/>
+                        <div t-if="move.product_id.barcode" class="barani_pick_ops_small"><span t-field="move.product_id.barcode"/></div>
+                      </td>
+                    </tr>
+                  </t>
+                </t>
+              </t>
+            </tbody>
+          </table>
+
+          <t t-set="barani_pickops_missing_tracked" t-value="False"/>
+          <t t-foreach="o.move_ids_without_package" t-as="barani_warn_move">
+            <t t-if="barani_warn_move.product_id and barani_warn_move.product_id.tracking != 'none' and not barani_warn_move.move_line_ids">
+              <t t-set="barani_pickops_missing_tracked" t-value="True"/>
+            </t>
+          </t>
+          <div class="barani_pick_ops_warn" t-if="barani_pickops_missing_tracked">
+            ⚠ Some tracked products have no assigned lot/serial lines. Click <strong>Check Availability</strong> before printing the final picking list.
+          </div>
+          <div class="barani_pick_ops_warn" t-if="o.state not in ('assigned', 'done')">
+            ⚠ This transfer is not Ready/Done. Reservations or serial numbers may be incomplete.
+          </div>
+
+          <div name="barani_pickops_general_notes" t-if="o.sale_id and not is_html_empty(o.sale_id.note)" class="barani_pick_ops_general_notes">
+            <strong>Notes:</strong>
+            <div style="margin-top:2px;" t-field="o.sale_id.note"/>
+          </div>
+
+          <t t-set="barani_issued_by_user" t-value="o.create_uid if (o.create_uid and o.create_uid.name != 'OdooBot') else (o.sale_id.create_uid if (o.sale_id and o.sale_id.create_uid and o.sale_id.create_uid.name != 'OdooBot') else (o.sale_id.user_id if (o.sale_id and o.sale_id.user_id and o.sale_id.user_id.name != 'OdooBot') else o.create_uid))"/>
+          <div name="barani_pickops_prepared_by" class="barani_pick_ops_prepared" t-if="barani_issued_by_user">
+            <strong>Prepared by / Issued by:</strong> <span t-esc="barani_issued_by_user.name"/>
+          </div>
+        </div>
+      </t>
+    </t>
+  </t>
+</t>
