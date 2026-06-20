@@ -1,0 +1,200 @@
+<t t-name="barani_commercial.report_saleorder_document">
+  <t t-set="doc" t-value="doc.with_context(lang=(doc.partner_id.lang or user.lang))"/>
+  <t t-set="o" t-value="doc"/>
+  <t t-set="barani_doc_title" t-value="'Pro-Forma Invoice' if barani_is_proforma else ('Quotation' if doc.state in ('draft', 'sent', 'cancel') else 'Sales Order')"/>
+  <t t-set="barani_name_raw" t-value="o.name or ''"/>
+  <t t-set="barani_doc_number" t-value="(('PF/' + barani_name_raw[2:]) if barani_is_proforma else (('Q/' + barani_name_raw[2:]) if doc.state in ('draft', 'sent', 'cancel') else ('SO/' + barani_name_raw[2:]))) if barani_name_raw[:2] == 'Q/' else barani_name_raw"/>
+  <t t-set="barani_vs" t-value="barani_name_raw.replace('Q/', '').replace('/', '') if barani_name_raw[:2] == 'Q/' else (barani_name_raw[1:] if barani_name_raw[:1] == 'Q' else barani_name_raw)"/>
+  <t t-set="forced_vat" t-value="o.fiscal_position_id.foreign_vat"/>
+  <t t-call="barani_commercial.external_layout_standard_titled" t-lang="doc.partner_id.lang or user.lang">
+    <style>
+      .barani_commercial_doc { font-size: 10pt; line-height: 1.25; } .barani_addr_block { margin-top: -1px; margin-bottom: 0; } .barani_info_block { padding-top: 4px; margin-bottom:8px; }
+      .barani_commercial_table { table-layout: fixed; width: 100%; font-size: 10pt; line-height: 1.2; }
+      .barani_commercial_table th, .barani_commercial_table td { padding: 2px 3px; vertical-align: top; overflow: hidden; }
+      .barani_commercial_table .text-nowrap { white-space: nowrap; }
+      #total table.table-sm td.text-end { padding-right: 10px; }
+      .barani_footer_band { padding-right: 10px; }
+      .barani_addr_block .barani_addr_cell { min-width: 0; box-sizing: border-box; word-wrap: break-word; overflow-wrap: break-word; }
+      .barani_addr_block .barani_customer_cell { padding-left: 0; padding-right: 0; } .barani_addr_block .barani_customer_cell.barani_has_shipping { padding-right: 18px; }
+      .barani_addr_block .barani_shipping_cell { padding-left: 18px; padding-right: 0; } .barani_addr_heading { font-weight:bold; }
+    </style>
+
+    <div class="row barani_commercial_doc barani_addr_block">
+      <div t-att-class="&quot;col-6 barani_addr_cell barani_customer_cell barani_has_shipping&quot; if (o.partner_shipping_id and (o.partner_shipping_id != o.partner_id)) else &quot;col-6 barani_addr_cell barani_customer_cell&quot;">
+        <strong name="barani_customer_heading" class="barani_addr_heading" t-att-style="'color: %s;' % (o.company_id.secondary_color or '#ed1c24')">Customer:</strong>
+        <div t-field="o.partner_id" t-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;], &quot;no_marker&quot;: true}"/>
+        <t t-set="barani_customer_partner" t-value="o.partner_id.commercial_partner_id or o.partner_id"/>
+        <t t-set="barani_customer_phone" t-value="o.partner_id.phone or o.partner_id.mobile or barani_customer_partner.phone or barani_customer_partner.mobile"/>
+        <t t-set="barani_customer_email" t-value="o.partner_id.email or barani_customer_partner.email"/>
+        <div t-if="barani_customer_phone" name="barani_customer_tel_line" class="mt-1">Tel: <span t-esc="barani_customer_phone"/></div>
+        <div t-if="barani_customer_email" name="barani_customer_email_line">Email: <span t-esc="barani_customer_email"/></div>
+        <div t-if="barani_customer_partner.company_registry or o.partner_id.company_registry" name="barani_customer_id_line" class="mt-1">ID: <span t-esc="barani_customer_partner.company_registry or o.partner_id.company_registry"/></div>
+        <div t-if="barani_customer_partner.vat or o.partner_id.vat" name="barani_customer_vat_line" class="mt-1">VAT: <span t-esc="barani_customer_partner.vat or o.partner_id.vat"/></div>
+      </div>
+      <div class="col-6 barani_addr_cell barani_shipping_cell" t-if="o.partner_shipping_id and (o.partner_shipping_id != o.partner_id)">
+        <strong name="barani_shipping_heading" class="barani_addr_heading" t-att-style="'color: %s;' % (o.company_id.secondary_color or '#ed1c24')">Shipping Address:</strong>
+        <div t-field="o.partner_shipping_id" t-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;], &quot;no_marker&quot;: true}"/>
+        <t t-set="barani_shipping_partner" t-value="o.partner_shipping_id"/>
+        <t t-set="barani_shipping_parent" t-value="barani_shipping_partner.commercial_partner_id or barani_shipping_partner"/>
+        <t t-set="barani_shipping_phone" t-value="barani_shipping_partner.phone or barani_shipping_partner.mobile or barani_shipping_parent.phone or barani_shipping_parent.mobile"/>
+        <t t-set="barani_shipping_email" t-value="barani_shipping_partner.email or barani_shipping_parent.email"/>
+        <div t-if="barani_shipping_phone" name="barani_shipping_tel_line" class="mt-1">Tel: <span t-esc="barani_shipping_phone"/></div>
+        <div t-if="barani_shipping_email" name="barani_shipping_email_line">Email: <span t-esc="barani_shipping_email"/></div>
+        <div t-if="barani_shipping_parent.company_registry or barani_shipping_partner.company_registry" name="barani_shipping_id_line" class="mt-1">ID: <span t-esc="barani_shipping_parent.company_registry or barani_shipping_partner.company_registry"/></div>
+        <div t-if="barani_shipping_parent.vat or barani_shipping_partner.vat" name="barani_shipping_vat_line" class="mt-1">VAT: <span t-esc="barani_shipping_parent.vat or barani_shipping_partner.vat"/></div>
+      </div>
+    </div>
+
+    <div class="page barani_commercial_doc">
+      <div id="informations" class="row mt-3 barani_info_block">
+        <div class="col-2 mb-2" name="doc_date">
+          <strong><t t-esc="'Pro-forma Date' if barani_is_proforma else ('Quotation Date' if o.state in ('draft', 'sent', 'cancel') else 'Order Date')"/></strong>
+          <p class="m-0"><span t-field="o.date_order" t-options="{&quot;widget&quot;: &quot;date&quot;}"/></p>
+        </div>
+        <div class="col-2 mb-2" t-if="o.validity_date and not barani_is_proforma" name="validity_date">
+          <strong>Valid Until</strong><p class="m-0" t-field="o.validity_date"/>
+        </div>
+        <div class="col-2 mb-2" t-if="o.client_order_ref" name="customer_ref">
+          <strong>Customer Ref.</strong><p class="m-0" t-field="o.client_order_ref"/>
+        </div>
+        <div class="col-4 mb-2" t-if="o.payment_term_id" name="payment_terms" style="padding-right:12px;">
+          <strong>Payment Terms</strong><p class="m-0" t-field="o.payment_term_id.name"/>
+        </div>
+        <div class="col-2 mb-2" name="payment_method">
+          <strong>Payment Method</strong><p class="m-0">Wire transfer</p>
+        </div>
+      </div>
+
+      <t t-set="display_discount" t-value="any(l.discount for l in o.order_line)"/>
+      <table class="table table-sm o_main_table barani_commercial_table" name="sale_line_table">
+        <colgroup>
+          <col style="width:32%"/>
+          <col style="width:8%"/>
+          <col name="barani_coo_col_final" style="width:5%"/>
+          <col style="width:6.5%"/>
+          <col name="barani_unit_col_wide" style="width:7%"/>
+          <col style="width:8%"/>
+          <col t-if="display_discount" style="width:5.5%"/>
+          <col name="barani_commercial_vat_rate_col_final" style="width:5.5%"/>
+          <col style="width:7.5%"/>
+          <col style="width:10%"/>
+        </colgroup>
+        <thead>
+          <tr>
+            <th name="th_description" class="text-start"><span>Description</span></th>
+            <th name="th_hscode" class="text-start"><span>HS Code</span></th>
+            <th name="th_coo" class="text-center"><span>COO</span></th>
+            <th name="th_quantity" class="text-end"><span>Qty</span></th>
+            <th name="th_uom" class="text-start"><span>Unit</span></th>
+            <th name="th_priceunit" class="text-end"><span>Unit Price</span></th>
+            <th name="th_discount" t-if="display_discount" class="text-end"><span>Disc.</span></th>
+            <th name="th_vatrate" class="text-end"><span>VAT Rate</span></th>
+            <th name="th_vatamount" class="text-end"><span>VAT</span></th>
+            <th name="th_vatbase" class="text-end"><span>VAT Base</span></th>
+          </tr>
+        </thead>
+        <tbody class="sale_tbody">
+          <t t-foreach="o.order_line" t-as="line">
+            <tr t-if="line.display_type not in ('line_section','line_note')">
+              <td name="td_name"><span t-field="line.name" t-options="{&quot;widget&quot;: &quot;text&quot;}"/></td>
+              <td name="td_hscode" class="text-start"><span t-if="line.product_id.hs_code" t-field="line.product_id.hs_code"/></td>
+              <td name="td_coo" class="text-center"><span t-if="line.product_id.country_of_origin" t-field="line.product_id.country_of_origin.code"/></td>
+              <td name="td_qty" class="text-end"><span t-field="line.product_uom_qty"/></td>
+              <td name="td_unit" class="text-start"><span t-field="line.product_uom" groups="uom.group_uom"/></td>
+              <td name="td_priceunit" class="text-end"><span class="text-nowrap" name="barani_unit_price_currency"><span t-esc="line.price_unit" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: o.currency_id}"/></span></td>
+              <td name="td_discount" t-if="display_discount" class="text-end"><span class="text-nowrap" name="barani_discount_percent_cell"><span t-field="line.discount" t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 1}"/> %</span></td>
+              <td name="td_vatrate" class="text-end"><t t-set="barani_tax_labels" t-value="line.tax_id.filtered('description').mapped('description') or line.tax_id.mapped('name')"/><span class="text-nowrap" t-esc="', '.join(barani_tax_labels)"/></td>
+              <td name="td_vatamount" class="text-end"><span class="text-nowrap" t-esc="line.price_total - line.price_subtotal" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: o.currency_id}"/></td>
+              <td name="td_vatbase" class="text-end o_price_total"><span class="text-nowrap" t-field="line.price_subtotal"/></td>
+            </tr>
+            <tr t-if="line.display_type == 'line_section'" class="bg-200 fw-bold o_line_section">
+              <td t-att-colspan="'10' if display_discount else '9'"><span t-field="line.name" t-options="{&quot;widget&quot;: &quot;text&quot;}"/></td>
+            </tr>
+            <tr t-if="line.display_type == 'line_note'" class="fst-italic o_line_note">
+              <td t-att-colspan="'10' if display_discount else '9'"><span t-field="line.name" t-options="{&quot;widget&quot;: &quot;text&quot;}"/></td>
+            </tr>
+          </t>
+
+          <tr class="border-black o_total fw-bold">
+            <td class="text-end" t-att-colspan="'7' if display_discount else '6'"><span>Totals</span></td>
+            <td class="text-end"><span>VAT</span></td>
+            <td class="text-end"><span t-esc="o.amount_tax" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: o.currency_id}"/></td>
+            <td class="text-end"><span t-esc="o.amount_untaxed" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: o.currency_id}"/></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div name="barani_notes_totals_table" style="display:table; width:100%; table-layout:fixed; margin-top:3px;">
+        <div name="barani_notes_cell" style="display:table-cell; width:57%; vertical-align:top; font-size:10pt; line-height:1.25; padding:0 12px 0 0;">
+          <t t-set="barani_line_real" t-value="o.order_line.filtered(lambda l: l.display_type not in ('line_section','line_note'))"/>
+          <t t-set="barani_line_vat_sum" t-value="sum(barani_line_real.mapped('price_total')) - sum(barani_line_real.mapped('price_subtotal'))"/>
+          <p t-if="not o.currency_id.is_zero(barani_line_vat_sum - o.amount_tax)" class="text-muted" style="font-size:10pt; margin:0 0 6px 0;">VAT is rounded globally; the VAT total follows Odoo's official tax rounding. Sum of displayed line VAT amounts: <span t-esc="barani_line_vat_sum" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: o.currency_id}"/>.</p>
+          <t t-set="barani_incoterm_code" t-value="o.incoterm.code or '' if o.incoterm else ''"/>
+          <t t-set="barani_incoterm_name" t-value="o.incoterm.name or '' if o.incoterm else ''"/>
+          <t t-set="barani_incoterm_display" t-value="barani_incoterm_code + ((' (' + barani_incoterm_name + ')') if (barani_incoterm_name and barani_incoterm_name != barani_incoterm_code) else '')"/>
+          <div name="barani_incoterms_line" style="margin:0 0 4px 0; font-size:10pt; line-height:1.25;">
+            <strong>INCOTERMS:</strong> <span name="barani_incoterms_code_name" t-esc="barani_incoterm_display if o.incoterm else 'Not specified'"/>
+          </div>
+          <div t-if="o.fiscal_position_id" name="barani_fiscal_position_note" style="margin:0 0 4px 0; font-size:10pt; line-height:1.25;">
+            <strong>Fiscal position:</strong> <span t-field="o.fiscal_position_id.name"/>
+          </div>
+          <div t-if="not is_html_empty(o.fiscal_position_id.note)" name="barani_fiscal_position_note_text" style="margin:0 0 4px 0; font-size:10pt; line-height:1.25;">
+            <span t-field="o.fiscal_position_id.note"/>
+          </div>
+        </div>
+        <div id="total" name="barani_totals_cell" style="display:table-cell; width:43%; vertical-align:top;">
+          <table class="table table-sm">
+            <tr>
+              <td>Total excl. VAT</td>
+              <td class="text-end"><span t-esc="o.amount_untaxed" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: o.currency_id}"/></td>
+            </tr>
+            <tr>
+              <td>Total VAT</td>
+              <td class="text-end"><span t-esc="o.amount_tax" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: o.currency_id}"/></td>
+            </tr>
+            <tr class="border-black">
+              <td><strong>Total incl. VAT</strong></td>
+              <td class="text-end"><strong><span t-esc="o.amount_total" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: o.currency_id}"/></strong></td>
+            </tr>
+            <tr>
+              <td>Currency</td>
+              <td class="text-end"><span t-esc="o.currency_id.name or 'EUR'"/></td>
+            </tr>
+          </table>
+        </div>
+      </div>
+
+      <div t-if="not is_html_empty(o.note)" name="comment" style="margin-top:12px; font-size:10pt; line-height:1.25;">
+        <strong>Notes</strong>
+        <div name="barani_order_note_text" style="margin-top:2px;" t-field="o.note"/>
+      </div>
+
+      <p class="text-muted" style="font-size:8pt; margin-top:6px;">COO = Country of Origin</p>
+
+      <t t-set="barani_pdf_payment_ref" t-value="barani_vs"/>
+      <t t-set="barani_payment_bank" t-value="o.company_id.partner_id.bank_ids.filtered(lambda b: (b.acc_number or '').replace(' ', '') == '__RECEIVING_IBAN_COMPACT__' and ((b.bank_id.bic or '').replace(' ', '') == '__RECEIVING_BIC__'))[:1]"/>
+      <t t-set="barani_receiving_bank_ok" t-value="bool(barani_payment_bank)"/>
+      <t t-set="barani_bank_record" t-value="barani_payment_bank.bank_id if (barani_receiving_bank_ok and barani_payment_bank.bank_id) else False"/>
+      <t t-set="barani_bank_has_address" t-value="barani_bank_record and (barani_bank_record.street or barani_bank_record.city or barani_bank_record.country)"/>
+      <div name="barani_bank_transfer_band" t-if="barani_show_payment_band and (barani_receiving_bank_ok or barani_pdf_payment_ref)" style="display:table; width:100%; table-layout:fixed; background-color:#E79C9C; font-size:9pt; line-height:1.2;">
+        <div name="barani_bank_details_cell" class="barani_footer_band" style="display:table-cell; width:75%; text-align:left; vertical-align:top; background-color:#E79C9C; padding:3px 6px;" t-if="barani_receiving_bank_ok">
+          <div><strong>Bank transfer:</strong></div>
+          <div><span>IBAN: </span><span t-field="barani_payment_bank.acc_number"/><span> | SWIFT/BIC: </span><span t-field="barani_payment_bank.bank_id.bic"/></div>
+          <div t-if="barani_bank_record and (barani_bank_record.name or barani_bank_has_address)">
+            <t t-if="barani_bank_record.name"><span>Bank: </span><span t-field="barani_bank_record.name"/></t>
+            <t t-if="barani_bank_record.name and barani_bank_has_address"><span> | </span></t>
+            <t t-if="barani_bank_has_address">
+              <t t-set="barani_bank_city_line" t-value="(barani_bank_record.zip or '') + (' ' if (barani_bank_record.zip and barani_bank_record.city) else '') + (barani_bank_record.city or '')"/>
+              <t t-set="barani_bank_address_text" t-value="(barani_bank_record.street or '') + ((', ' + barani_bank_city_line) if (barani_bank_city_line and barani_bank_record.street) else (barani_bank_city_line if barani_bank_city_line and not barani_bank_record.street else '')) + ((', ' + barani_bank_record.country.name) if (barani_bank_record.country and ((barani_bank_record.street or '') or barani_bank_city_line)) else (barani_bank_record.country.name if barani_bank_record.country else ''))"/>
+              <span>Bank address: </span><span name="barani_bank_address_clean" t-esc="barani_bank_address_text"/>
+            </t>
+          </div>
+        </div>
+        <div name="barani_payment_ref_cell" class="barani_footer_band" t-if="barani_pdf_payment_ref" t-att-style="'display:table-cell; width:25%; text-align:right; vertical-align:top; background-color:#E79C9C; padding:3px 6px;' if barani_receiving_bank_ok else 'display:table-cell; width:100%; text-align:right; vertical-align:top; background-color:#E79C9C; padding:3px 6px;'"><span><strong>Payment Ref.:</strong><br/></span><span t-esc="barani_pdf_payment_ref"/></div>
+      </div>
+
+      <t t-set="barani_issued_by" t-value="o.user_id.name if o.user_id else (o.create_uid.name if o.create_uid else '')"/>
+      <div class="row mt-4" name="barani_issued_by_slot"><div class="col-12 text-end" style="padding-right:33%; font-size:10pt;"><span><strong>Prepared by / Issued by:</strong> </span><span t-esc="barani_issued_by"/></div></div>
+    </div>
+  </t>
+</t>
