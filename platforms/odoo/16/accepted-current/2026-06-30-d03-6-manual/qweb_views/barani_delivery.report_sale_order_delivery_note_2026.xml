@@ -1,0 +1,18 @@
+<t t-name="barani_delivery.report_sale_order_delivery_note_2026">
+  <t t-set="barani_source_orders" t-value="docs"/>
+  <t t-set="docs" t-value="barani_source_orders.mapped('picking_ids').filtered(lambda p: p.picking_type_id and p.picking_type_id.code == 'outgoing' and p.state != 'cancel')"/>
+  <t t-if="docs">
+    <t t-call="barani_delivery.report_delivery_note_2026"/>
+  </t>
+  <t t-if="not docs">
+    <t t-call="web.html_container">
+      <t t-foreach="barani_source_orders" t-as="o">
+        <div class="page" style="font-size:10pt; padding:20px;">
+          <h3>Delivery Note (DN) — 2026+</h3>
+          <p>No outgoing delivery order is linked to <span t-field="o.name"/>.</p>
+          <p>Open the Sales Order delivery smart button after delivery creation, then print the Delivery Note from the delivery order.</p>
+        </div>
+      </t>
+    </t>
+  </t>
+</t>

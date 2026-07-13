@@ -1,0 +1,156 @@
+[
+  {
+    "key": "barani_vat.report_invoice_document_vat",
+    "name": "BARANI VAT report_invoice_document (commercial/VAT layout) v02",
+    "type": "qweb",
+    "active": "1",
+    "inherit_key": "",
+    "mode": "primary",
+    "priority": "16",
+    "sanitized_arch_db_sha256": "e966a42efe3ac7946608e232e39538c1de249c31e6b8206156cc250d9dff4521",
+    "sanitized_arch_db_len": 41294
+  },
+  {
+    "key": "barani_vat.external_layout_standard_titled",
+    "name": "BARANI VAT external_layout_standard_titled (logo + title header)",
+    "type": "qweb",
+    "active": "1",
+    "inherit_key": "",
+    "mode": "primary",
+    "priority": "16",
+    "sanitized_arch_db_sha256": "2840206999e577ec415ea3927353f9f0bb318044a9e520918c4f94feafbad8d1",
+    "sanitized_arch_db_len": 6505
+  },
+  {
+    "key": "barani_commercial.report_saleorder_proforma",
+    "name": "BARANI Commercial Pro-forma wrapper",
+    "type": "qweb",
+    "active": "1",
+    "inherit_key": "",
+    "mode": "primary",
+    "priority": "16",
+    "sanitized_arch_db_sha256": "66a666f2e1b2cc2f1071b99827325aaab69519ebfeb90ebee714c8604ebd18e6",
+    "sanitized_arch_db_len": 340
+  },
+  {
+    "key": "barani_commercial.report_saleorder",
+    "name": "BARANI Commercial Quotation / Sales Order wrapper",
+    "type": "qweb",
+    "active": "1",
+    "inherit_key": "",
+    "mode": "primary",
+    "priority": "16",
+    "sanitized_arch_db_sha256": "dc23cb51795157fcb224840ff9ced43bed21c1937d3b3ec150f1326f8bc1ad01",
+    "sanitized_arch_db_len": 333
+  },
+  {
+    "key": "barani_commercial.external_layout_standard_titled",
+    "name": "BARANI Commercial external_layout_standard_titled",
+    "type": "qweb",
+    "active": "1",
+    "inherit_key": "",
+    "mode": "primary",
+    "priority": "16",
+    "sanitized_arch_db_sha256": "85982ef33192812f122e7d03bf5301f1dc625045d9aa6f361b5b237fdae8dfd5",
+    "sanitized_arch_db_len": 3685
+  },
+  {
+    "key": "barani_commercial.report_saleorder_document",
+    "name": "BARANI Commercial sale.order document body",
+    "type": "qweb",
+    "active": "1",
+    "inherit_key": "",
+    "mode": "primary",
+    "priority": "16",
+    "sanitized_arch_db_sha256": "65bf83b17922e487944ec90e6cbefb80e9854792293da2bf877d579fb65f4720",
+    "sanitized_arch_db_len": 21002
+  },
+  {
+    "key": "barani_delivery.report_delivery_note_2026",
+    "name": "BARANI Delivery Note 2026 report body DN L2.1 customs/package + address labels",
+    "type": "qweb",
+    "active": "1",
+    "inherit_key": "",
+    "mode": "primary",
+    "priority": "16",
+    "sanitized_arch_db_sha256": "ef6940d5a93ed04ca23a5a9548fcd2ee7b2570f99946774a34f9814f87c9f278",
+    "sanitized_arch_db_len": 23424
+  },
+  {
+    "key": "barani_delivery.external_layout_delivery_2026",
+    "name": "BARANI Delivery external layout 2026 (logo + right title)",
+    "type": "qweb",
+    "active": "1",
+    "inherit_key": "",
+    "mode": "primary",
+    "priority": "16",
+    "sanitized_arch_db_sha256": "e7bc4b65da497f3e3428f747b6c9b41f7cbefb47e3cda1378bb5895f12c2da5e",
+    "sanitized_arch_db_len": 4010
+  },
+  {
+    "key": "barani_delivery.report_picking_operations_2026",
+    "name": "BARANI Picking Operations 2026 report body v4.4 internal pick list + address labels",
+    "type": "qweb",
+    "active": "1",
+    "inherit_key": "",
+    "mode": "primary",
+    "priority": "16",
+    "sanitized_arch_db_sha256": "cd55112ff95c9634267b80bb1466e1f894b32386371d4da5fe14c032377d2553",
+    "sanitized_arch_db_len": 14746
+  },
+  {
+    "key": "barani_delivery.external_layout_picking_operations_2026",
+    "name": "BARANI Picking Operations external layout 2026",
+    "type": "qweb",
+    "active": "1",
+    "inherit_key": "",
+    "mode": "primary",
+    "priority": "16",
+    "sanitized_arch_db_sha256": "0db2abc84b4b9ea832e430564f9528c16957ca81f214415953bc597a0a181ac4",
+    "sanitized_arch_db_len": 4021
+  },
+  {
+    "key": "barani_delivery.report_sale_order_delivery_note_2026",
+    "name": "BARANI Sale Order bridge to Delivery Note 2026",
+    "type": "qweb",
+    "active": "1",
+    "inherit_key": "",
+    "mode": "primary",
+    "priority": "16",
+    "sanitized_arch_db_sha256": "9171e1cbc68d062f553b3daa8ef7c52597262a79c771c521b3020e6beeef7e43",
+    "sanitized_arch_db_len": 867
+  },
+  {
+    "key": "barani_test.report_invoice_document_clean",
+    "name": "BARANI TEST report_invoice_document (clean)",
+    "type": "qweb",
+    "active": "1",
+    "inherit_key": "",
+    "mode": "primary",
+    "priority": "16",
+    "sanitized_arch_db_sha256": "d3c89e2bc6284da9a328f28762ab53c38bb965db13da86508129dd267fb10e20",
+    "sanitized_arch_db_len": 10928
+  },
+  {
+    "key": "barani_fix.invoice_title_content_predicate_copy",
+    "name": "BARANI FIX invoice title content predicate (copy)",
+    "type": "qweb",
+    "active": "1",
+    "inherit_key": "account.report_invoice_document_copy_1",
+    "mode": "extension",
+    "priority": "200",
+    "sanitized_arch_db_sha256": "149c0c27052a85760909926b8e9c815e5d35cbc0488b161277fb85e58608b46b",
+    "sanitized_arch_db_len": 1856
+  },
+  {
+    "key": "barani_fix.invoice_title_content_predicate_std",
+    "name": "BARANI FIX invoice title content predicate (standard)",
+    "type": "qweb",
+    "active": "0",
+    "inherit_key": "account.report_invoice_document",
+    "mode": "extension",
+    "priority": "200",
+    "sanitized_arch_db_sha256": "149c0c27052a85760909926b8e9c815e5d35cbc0488b161277fb85e58608b46b",
+    "sanitized_arch_db_len": 1856
+  }
+]

@@ -1,0 +1,58 @@
+[
+  {
+    "name": "BARANI Delivery A4 7mm",
+    "format": "A4",
+    "orientation": "Portrait",
+    "page_height": "0",
+    "page_width": "0",
+    "margin_top": "40.0",
+    "margin_bottom": "18.0",
+    "margin_left": "7.0",
+    "margin_right": "7.0",
+    "dpi": "90",
+    "header_spacing": "35",
+    "header_line": "0"
+  },
+  {
+    "name": "BARANI Commercial A4 7mm",
+    "format": "A4",
+    "orientation": "Portrait",
+    "page_height": "0",
+    "page_width": "0",
+    "margin_top": "40.0",
+    "margin_bottom": "18.0",
+    "margin_left": "7.0",
+    "margin_right": "7.0",
+    "dpi": "90",
+    "header_spacing": "35",
+    "header_line": "0"
+  },
+  {
+    "name": "BARANI VAT A4 7mm",
+    "format": "A4",
+    "orientation": "Portrait",
+    "page_height": "0",
+    "page_width": "0",
+    "margin_top": "40.0",
+    "margin_bottom": "18.0",
+    "margin_left": "7.0",
+    "margin_right": "7.0",
+    "dpi": "90",
+    "header_spacing": "35",
+    "header_line": "0"
+  },
+  {
+    "name": "BARANI Picking Operations A4 7mm",
+    "format": "A4",
+    "orientation": "Portrait",
+    "page_height": "0",
+    "page_width": "0",
+    "margin_top": "40.0",
+    "margin_bottom": "18.0",
+    "margin_left": "7.0",
+    "margin_right": "7.0",
+    "dpi": "90",
+    "header_spacing": "35",
+    "header_line": "0"
+  }
+]

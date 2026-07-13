@@ -1,0 +1,158 @@
+<t t-name="barani_test.report_invoice_document_clean">
+  <t t-call="web.html_container">
+    <t t-foreach="docs" t-as="o">
+      <t t-set="lang" t-value="(o.invoice_user_id.sudo().lang if o.move_type in ('in_invoice','in_refund') else o.partner_id.lang) or user.lang"/>
+      <t t-call="web.external_layout" t-lang="lang">
+        <t t-set="o" t-value="o.with_context(lang=lang)"/>
+        <t t-set="forced_vat" t-value="o.fiscal_position_id.foreign_vat"/>
+
+        <div class="row">
+          <div class="col-6">
+            <t t-if="o.move_type in ('out_invoice', 'out_refund')"><strong>Customer</strong></t>
+            <t t-if="o.move_type in ('in_invoice', 'in_refund')"><strong>Vendor</strong></t>
+            <div t-field="o.partner_id" t-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;], &quot;no_marker&quot;: true}"/>
+            <div t-if="o.partner_id.company_registry" class="mt-1">ID: <span t-field="o.partner_id.company_registry"/></div>
+            <div t-if="o.partner_id.vat" class="mt-1">
+              <t t-if="o.company_id.account_fiscal_country_id.vat_label" t-esc="o.company_id.account_fiscal_country_id.vat_label"/>
+              <t t-else="">Tax ID</t>: <span t-field="o.partner_id.vat"/>
+            </div>
+          </div>
+          <div class="col-6" t-if="o.partner_shipping_id and (o.partner_shipping_id != o.partner_id)">
+            <strong>Shipping Address</strong>
+            <div t-field="o.partner_shipping_id" t-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;], &quot;no_marker&quot;: true}"/>
+          </div>
+        </div>
+
+        <div class="page">
+          <div id="informations" class="row mt-3">
+            <div class="col-3 mb-2" t-if="o.invoice_date" name="invoice_date">
+              <t t-if="o.move_type == 'out_invoice'"><strong>Invoice Date</strong></t>
+              <t t-elif="o.move_type == 'out_refund'"><strong>Credit Note Date</strong></t>
+              <t t-else=""><strong>Date</strong></t>
+              <p class="m-0" t-field="o.invoice_date"/>
+            </div>
+            <div class="col-3 mb-2" t-if="o.invoice_date_due and o.move_type in ('out_invoice','out_refund') and o.state == 'posted'" name="due_date">
+              <strong>Due Date</strong><p class="m-0" t-field="o.invoice_date_due"/>
+            </div>
+            <div class="col-3 mb-2" t-if="o.invoice_origin" name="origin">
+              <strong>Source</strong><p class="m-0" t-field="o.invoice_origin"/>
+            </div>
+            <div class="col-3 mb-2" t-if="o.ref" name="reference">
+              <strong>Reference</strong><p class="m-0" t-field="o.ref"/>
+            </div>
+            <div class="col-3 mb-2" t-if="o.payment_reference and o.move_type in ('out_invoice','in_refund')" name="payment_reference">
+              <strong>Payment Reference</strong><p class="m-0" t-field="o.payment_reference"/>
+            </div>
+          </div>
+
+          <t t-set="display_discount" t-value="any(l.discount for l in o.invoice_line_ids)"/>
+
+          <table class="table table-sm o_main_table" name="invoice_line_table">
+            <thead>
+              <tr>
+                <th colspan="99" class="text-start">
+                  <h2>
+                    <t t-set="barani_dp_lines" t-value="o.invoice_line_ids.filtered(lambda l: l.display_type not in ('line_section','line_note') and l.account_id and l.account_id.code and l.account_id.code[:3] == '324' and (l.price_subtotal or 0.0) &gt;= -0.005)"/>
+                    <t t-set="barani_ded_lines" t-value="o.invoice_line_ids.filtered(lambda l: l.display_type not in ('line_section','line_note') and l.account_id and l.account_id.code and l.account_id.code[:3] == '324' and (l.price_subtotal or 0.0) &lt; -0.005)"/>
+                    <t t-set="barani_goods_lines" t-value="o.invoice_line_ids.filtered(lambda l: l.display_type not in ('line_section','line_note') and not (l.account_id and l.account_id.code and l.account_id.code[:3] == '324'))"/>
+                    <t t-set="barani_is_dp_only" t-value="barani_dp_lines and not barani_goods_lines and not barani_ded_lines"/>
+
+                    <span t-if="o.move_type == 'out_invoice' and o.state == 'posted' and barani_is_dp_only">Down Payment Invoice </span>
+                    <span t-if="o.move_type == 'out_invoice' and o.state == 'posted' and not barani_is_dp_only">Invoice </span>
+                    <span t-if="o.move_type == 'out_invoice' and o.state == 'draft' and barani_is_dp_only">Draft Down Payment Invoice </span>
+                    <span t-if="o.move_type == 'out_invoice' and o.state == 'draft' and not barani_is_dp_only">Draft Invoice </span>
+                    <span t-if="o.move_type == 'out_invoice' and o.state == 'cancel' and barani_is_dp_only">Cancelled Down Payment Invoice </span>
+                    <span t-if="o.move_type == 'out_invoice' and o.state == 'cancel' and not barani_is_dp_only">Cancelled Invoice </span>
+                    <span t-if="o.move_type == 'out_refund'">Credit Note </span>
+                    <span t-if="o.move_type == 'in_refund'">Vendor Credit Note </span>
+                    <span t-if="o.move_type == 'in_invoice'">Vendor Bill </span>
+                    <span t-if="o.name != '/'" t-field="o.name"/>
+                  </h2>
+                </th>
+              </tr>
+              <tr>
+                <th name="th_description" class="text-start"><span>Description</span></th>
+                <th name="th_quantity" class="text-end"><span>Quantity</span></th>
+                <th name="th_priceunit" class="text-end"><span>Unit Price</span></th>
+                <th name="th_discount" t-if="display_discount" class="text-end"><span>Disc.%</span></th>
+                <th name="th_taxes" class="text-start"><span>Taxes</span></th>
+                <th name="th_subtotal" class="text-end">
+                  <span groups="account.group_show_line_subtotals_tax_excluded">Amount</span>
+                  <span groups="account.group_show_line_subtotals_tax_included">Total Price</span>
+                </th>
+              </tr>
+            </thead>
+            <tbody class="invoice_tbody">
+              <t t-set="current_subtotal" t-value="0"/>
+              <t t-set="lines" t-value="o.invoice_line_ids.sorted(key=lambda l: (-l.sequence, l.date, l.move_name, -l.id), reverse=True)"/>
+              <t t-foreach="lines" t-as="line">
+                <t t-if="line.display_type not in ('line_section','line_note')">
+                  <t t-set="current_subtotal" t-value="current_subtotal + line.price_subtotal" groups="account.group_show_line_subtotals_tax_excluded"/>
+                  <t t-set="current_subtotal" t-value="current_subtotal + line.price_total" groups="account.group_show_line_subtotals_tax_included"/>
+                </t>
+                <tr t-att-class="'bg-200 fw-bold o_line_section' if line.display_type == 'line_section' else 'fst-italic o_line_note' if line.display_type == 'line_note' else ''">
+                  <t t-if="line.display_type not in ('line_section','line_note')" name="account_invoice_line_accountable">
+                    <td name="account_invoice_line_name"><span t-field="line.name" t-options="{&quot;widget&quot;: &quot;text&quot;}"/></td>
+                    <td class="text-end"><span t-field="line.quantity"/><span t-field="line.product_uom_id" groups="uom.group_uom"/></td>
+                    <td class="text-end"><span class="text-nowrap" t-field="line.price_unit"/></td>
+                    <td t-if="display_discount" class="text-end"><span class="text-nowrap" t-field="line.discount"/></td>
+                    <td class="text-start">
+                      <span t-esc="', '.join(line.tax_ids.mapped('description'))" id="line_tax_ids"/>
+                    </td>
+                    <td class="text-end o_price_total">
+                      <span class="text-nowrap" t-field="line.price_subtotal" groups="account.group_show_line_subtotals_tax_excluded"/>
+                      <span class="text-nowrap" t-field="line.price_total" groups="account.group_show_line_subtotals_tax_included"/>
+                    </td>
+                  </t>
+                  <t t-if="line.display_type == 'line_section'">
+                    <td colspan="99"><span t-field="line.name" t-options="{&quot;widget&quot;: &quot;text&quot;}"/></td>
+                    <t t-set="current_section" t-value="line"/>
+                    <t t-set="current_subtotal" t-value="0"/>
+                  </t>
+                  <t t-if="line.display_type == 'line_note'">
+                    <td colspan="99"><span t-field="line.name" t-options="{&quot;widget&quot;: &quot;text&quot;}"/></td>
+                  </t>
+                </tr>
+              </t>
+            </tbody>
+          </table>
+
+          <div class="clearfix">
+            <div id="total" class="row">
+              <div class="col-6 ms-auto">
+                <table class="table table-sm">
+                  <t t-set="tax_totals" t-value="o.tax_totals"/>
+                  <t t-call="account.document_tax_totals"/>
+                  <t t-if="o.move_type in ('out_invoice','out_refund') and o.state == 'posted'">
+                    <tr class="border-black fw-bold"><td>Amount Due</td><td class="text-end"><span t-field="o.amount_residual"/></td></tr>
+                  </t>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <div class="row" t-if="o.partner_bank_id">
+            <div class="col-6" style="background-color:#E79C9C;">
+              <span><strong>IBAN/BIC:</strong><br/></span>
+              <span t-field="o.partner_bank_id.acc_number"/><span> / </span><span t-field="o.partner_bank_id.bank_id.bic"/>
+            </div>
+            <div class="col-3" style="background-color:#E79C9C;" t-if="o.payment_reference">
+              <span><strong>Payment Ref.:</strong><br/></span><span t-field="o.payment_reference"/>
+            </div>
+            <div class="col-3" style="background-color:#E79C9C;" t-if="o.invoice_date_due">
+              <span><strong>Due Date:</strong><br/></span><span t-field="o.invoice_date_due"/>
+            </div>
+          </div>
+
+          <div t-if="not is_html_empty(o.narration)" name="comment"><span t-field="o.narration"/></div>
+          <p t-if="not is_html_empty(o.fiscal_position_id.note)" name="note"><span t-field="o.fiscal_position_id.note"/></p>
+          <div class="row mt-4" name="signature_slot"><div class="col-12 text-end"><span><strong>Signature:</strong></span></div></div>
+          <div id="qrcode" t-if="o.display_qr_code and o.amount_residual &gt; 0">
+            <t t-set="qr_code_url" t-value="o._generate_qr_code(silent_errors=True)"/>
+            <p t-if="qr_code_url"><img class="border border-dark rounded" t-att-src="qr_code_url"/></p>
+          </div>
+        </div>
+      </t>
+    </t>
+  </t>
+</t>
