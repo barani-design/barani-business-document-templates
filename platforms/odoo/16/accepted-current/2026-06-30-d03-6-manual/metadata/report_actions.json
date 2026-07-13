@@ -1,0 +1,72 @@
+[
+  {
+    "name": "Delivery Note (DN) — 2026+",
+    "model": "sale.order",
+    "report_name": "barani_delivery.report_sale_order_delivery_note_2026",
+    "report_type": "qweb-pdf",
+    "paperformat_name": "BARANI Delivery A4 7mm",
+    "print_report_name": "'DN from ' + (object.name or '')",
+    "binding_model_name": "sale.order",
+    "binding_type": "report",
+    "binding_view_types": "list,form",
+    "multi": "0",
+    "attachment_use": "0",
+    "attachment": ""
+  },
+  {
+    "name": "Invoices TEST — Barani clean",
+    "model": "account.move",
+    "report_name": "barani_test.report_invoice_document_clean",
+    "report_type": "qweb-pdf",
+    "paperformat_name": "",
+    "print_report_name": "('Credit Note' if object.move_type == 'out_refund' else 'Vendor Credit Note' if object.move_type == 'in_refund' else 'Vendor Bill' if object.move_type == 'in_invoice' else 'Draft Invoice' if object.state == 'draft' else 'Cancelled Invoice' if object.state == 'cancel' else 'Invoice') + ((' ' + object.name) if object.name and object.name != '/' else '')",
+    "binding_model_name": "",
+    "binding_type": "report",
+    "binding_view_types": "list,form",
+    "multi": "0",
+    "attachment_use": "0",
+    "attachment": ""
+  },
+  {
+    "name": "PRO-FORMA — 2026+",
+    "model": "sale.order",
+    "report_name": "barani_commercial.report_saleorder_proforma",
+    "report_type": "qweb-pdf",
+    "paperformat_name": "BARANI Commercial A4 7mm",
+    "print_report_name": "'Pro-Forma - PF' + ((object.name or '')[1:] if (object.name or '')[:1] == 'Q' else (object.name or ''))",
+    "binding_model_name": "sale.order",
+    "binding_type": "report",
+    "binding_view_types": "list,form",
+    "multi": "0",
+    "attachment_use": "0",
+    "attachment": ""
+  },
+  {
+    "name": "Quotation / Order — 2026+",
+    "model": "sale.order",
+    "report_name": "barani_commercial.report_saleorder",
+    "report_type": "qweb-pdf",
+    "paperformat_name": "BARANI Commercial A4 7mm",
+    "print_report_name": "('Quotation - Q' if object.state in ('draft','sent','cancel') else 'Sales Order - SO') + ((object.name or '')[1:] if (object.name or '')[:1] == 'Q' else (object.name or ''))",
+    "binding_model_name": "sale.order",
+    "binding_type": "report",
+    "binding_view_types": "list,form",
+    "multi": "0",
+    "attachment_use": "0",
+    "attachment": ""
+  },
+  {
+    "name": "VAT Invoices RI/DPI - 2026+",
+    "model": "account.move",
+    "report_name": "barani_vat.report_invoice_document_vat",
+    "report_type": "qweb-pdf",
+    "paperformat_name": "BARANI VAT A4 7mm",
+    "print_report_name": "('Credit Note' if object.move_type == 'out_refund' else 'Vendor Credit Note' if object.move_type == 'in_refund' else 'Vendor Bill' if object.move_type == 'in_invoice' else 'Draft Invoice' if object.state == 'draft' else 'Cancelled Invoice' if object.state == 'cancel' else 'Invoice') + ((' ' + object.name) if object.name and object.name != '/' else '')",
+    "binding_model_name": "account.move",
+    "binding_type": "report",
+    "binding_view_types": "list,form",
+    "multi": "0",
+    "attachment_use": "0",
+    "attachment": ""
+  }
+]
