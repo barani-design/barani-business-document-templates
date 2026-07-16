@@ -1,0 +1,29 @@
+BARANI accepted-current QWeb export
+Export date label: 2026-07-16
+Scope: Source / Payment Method accepted-current live QWeb
+S03 v5: problems=0 warnings=0
+
+token=commercial
+view_id=2856
+key=barani_commercial.report_saleorder_document
+name=BARANI Commercial sale.order document body
+write_date=2026-07-16 15:58:35.276403
+filename=BARANI_Q_SO_PF_ACCEPTED_CURRENT_QWEB_2026-07-16.xml
+chars=25108
+attachment_id=12557
+attachment_file_size=25112
+attachment_checksum_sha1=f232aefa8a0de53d95444b9b17f81d93fc5ebd86
+
+token=vat
+view_id=2853
+key=barani_vat.report_invoice_document_vat
+name=BARANI VAT report_invoice_document (commercial/VAT layout) v02
+write_date=2026-07-16 16:03:58.002619
+filename=BARANI_RI_DPI_CN_ACCEPTED_CURRENT_QWEB_2026-07-16.xml
+chars=41872
+attachment_id=12558
+attachment_file_size=41879
+attachment_checksum_sha1=ac8c9602a0b50cfdae7d7d0396ad5a9892825f08
+
+No customer documents, business records, credentials,
+restore payloads, or DDS business fields are included.
