@@ -196,7 +196,7 @@
           <t t-set="barani_incoterm_name" t-value="o.incoterm.name or '' if o.incoterm else ''"/>
           <t t-set="barani_incoterm_display" t-value="barani_incoterm_code + ((' (' + barani_incoterm_name + ')') if (barani_incoterm_name and barani_incoterm_name != barani_incoterm_code) else '')"/>
           <div name="barani_incoterms_line" style="margin:0 0 4px 0; font-size:10pt; line-height:1.25;">
-            <t t-set="barani_incoterm_location_display" t-value="o.incoterm_location or ('YOUR_EXW_DEFAULT_LOCATION' if barani_incoterm_code == 'EXW' else '')"/><strong>INCOTERMS:</strong> <span name="barani_incoterms_code_name" t-esc="(barani_incoterm_display + ((' — ' + barani_incoterm_location_display) if barani_incoterm_location_display else '')) if o.incoterm else 'Not specified'"/>
+            <t t-set="barani_incoterm_location_display" t-value="o.incoterm_location or ('Brectanova 2353/1, 83101 Bratislava, SVK' if barani_incoterm_code == 'EXW' else '')"/><strong>INCOTERMS:</strong> <span name="barani_incoterms_code_name" t-esc="(barani_incoterm_display + ((' — ' + barani_incoterm_location_display) if barani_incoterm_location_display else '')) if o.incoterm else 'Not specified'"/>
           </div>
           <div t-if="o.fiscal_position_id" name="barani_fiscal_position_note" style="margin:0 0 4px 0; font-size:10pt; line-height:1.25;">
             <strong>Fiscal position:</strong> <span t-field="o.fiscal_position_id.name"/>
@@ -235,7 +235,7 @@
       <p class="text-muted" style="font-size:8pt; margin-top:6px;">COO = Country of Origin</p>
 
       <t t-set="barani_pdf_payment_ref" t-value="barani_vs"/>
-      <t t-set="barani_payment_bank" t-value="o.company_id.partner_id.bank_ids.filtered(lambda b: (b.acc_number or '').replace(' ', '') == 'XX0000000000000000000000' and ((b.bank_id.bic or '').replace(' ', '') == 'YOURBICXXX'))[:1]"/>
+      <t t-set="barani_payment_bank" t-value="o.company_id.partner_id.bank_ids.filtered(lambda b: (b.acc_number or '').replace(' ', '') == 'SK1483300000002401465895' and ((b.bank_id.bic or '').replace(' ', '') == 'FIOZSKBAXXX'))[:1]"/>
       <t t-set="barani_receiving_bank_ok" t-value="bool(barani_payment_bank)"/>
       <t t-set="barani_bank_record" t-value="barani_payment_bank.bank_id if (barani_receiving_bank_ok and barani_payment_bank.bank_id) else False"/>
       <t t-set="barani_bank_has_address" t-value="barani_bank_record and (barani_bank_record.street or barani_bank_record.city or barani_bank_record.country)"/>

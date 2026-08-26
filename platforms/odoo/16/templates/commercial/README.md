@@ -1,19 +1,15 @@
-# Commercial template fragments — post-L3 public baseline
+# Commercial template fragments — 2026-08-26 portable baseline
 
-These four QWeb fragments represent the audited post-L3 commercial report state.
+These four QWeb fragments represent the production-accepted commercial report state from the 26 August 2026 closeout.
 
-The live tenant source contained a receiving IBAN and BIC. This public copy
-replaces them with:
+The accepted tenant source contained a receiving IBAN/BIC and default EXW location. This portable copy replaces them with:
 
 ```text
-__RECEIVING_IBAN_COMPACT__
-__RECEIVING_BIC__
+XX0000000000000000000000
+YOURBICXXX
+YOUR_EXW_DEFAULT_LOCATION
 ```
 
-Configure or replace those placeholders before deployment. Do not commit
-exports from a live database without reviewing them for bank details, customer
-data, internal identifiers, and production configuration.
+Configure or parameterize those placeholders before deployment. Do not commit exports from a live database without reviewing them for bank details, customer data, internal identifiers, and production configuration.
 
-The current baseline intentionally precedes the next approved policy changes
-for strict invoice/shipping address sourcing, EXW location, fixed ten-column
-geometry, English-only rendering, and unified displayed/downloaded numbers.
+The locked source and its hashes are in `../../accepted-current/2026-08-26-production-template-closeout/`. Existing installers may predate this source and must be reconciled before clean-database use.

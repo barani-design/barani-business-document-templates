@@ -5,7 +5,7 @@ This public repository is intended to contain reusable document-template logic a
 Do not commit:
 
 - customer PDFs or screenshots with live data;
-- real IBAN/BIC values;
+- personal or unreviewed IBAN/BIC values;
 - real customer names, phone numbers, emails, or addresses;
 - live Odoo XML exports or restore-point dumps;
 - POHODA exports/imports;
@@ -17,3 +17,5 @@ Use placeholders such as:
 - `YOURBICXXX` for BIC;
 - `Example Company Ltd.` for company identity;
 - `INV-EXAMPLE`, `DPI-EXAMPLE`, and `SO-EXAMPLE` for document numbers.
+
+Maintained reusable templates must use placeholders. A locked accepted-current snapshot may retain reviewed BARANI receiving-bank identifiers or dispatch instructions only when they are already public business-document content and the snapshot has an explicit publication notice. Such an exception never permits bank-login credentials, statements, customer data, or private production evidence.

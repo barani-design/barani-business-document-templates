@@ -1,11 +1,11 @@
-# BARANI accepted-current public repo package
+# BARANI accepted-current public repository milestones
 
-Copy these files into the root of `barani-business-document-templates` only after reviewing the package checksum and staged diff.
-
-Suggested commit message:
+The latest locked milestone is:
 
 ```text
-Add D03.6 manual accepted-current business document snapshot
+platforms/odoo/16/accepted-current/2026-08-26-production-template-closeout/
 ```
 
-Do not commit raw E02 output, PDFs, customer examples, Odoo logs, POHODA files, database dumps, or private restore parameters.
+It preserves the accepted Odoo 16 QWeb target, report-action contract, paper formats, validation summary, and offline integrity checks for future ports.
+
+Before adding a milestone, review its checksum and staged diff. Do not commit raw exports, PDFs, customer examples, Odoo logs, POHODA files, database dumps, backup evidence, or private restore parameters. Follow each milestone's publication notice.

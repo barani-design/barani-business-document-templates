@@ -1,0 +1,135 @@
+{
+  "schema": 1,
+  "accepted_date": "2026-08-26",
+  "odoo_version": "16",
+  "language": "en_US",
+  "hashing": {
+    "plain_md5": "MD5 of the exact arch_db en_US string",
+    "plain_sha256": "SHA-256 of the exact arch_db en_US UTF-8 bytes",
+    "storage_md5": "MD5 of PostgreSQL jsonb text for the single en_US value",
+    "publication_note": "The XML files have one terminal LF for repository hygiene; omit that LF when checking the target hashes."
+  },
+  "views": [
+    {
+      "key": "barani_vat.report_invoice_document_vat",
+      "name": "BARANI VAT report_invoice_document (commercial/VAT layout) v02",
+      "role": "invoice and credit-note body, including always-visible shipping address",
+      "file": "qweb/vat/report_invoice_document_vat.xml",
+      "state": "TARGET",
+      "chars": 41782,
+      "plain_md5": "8bdf7a35ba0e1a076e56b8a0e27360a4",
+      "plain_sha256": "61403f8fc4940806a496537d7bd7cf87fa6110937e723e1385d29d66d4a3c6ae",
+      "storage_md5": "37d3e990e4c7e2933b74ca96e8ed11bc"
+    },
+    {
+      "key": "barani_vat.external_layout_standard_titled",
+      "name": "BARANI VAT external_layout_standard_titled (logo + title header)",
+      "role": "invoice and credit-note company registration",
+      "file": "qweb/vat/external_layout_standard_titled.xml",
+      "state": "TARGET",
+      "chars": 6505,
+      "plain_md5": "932061dc734845bede99bd435625b617",
+      "plain_sha256": "d75f76d5e3e175afe245bcb82107912ddb122ebb571f1cd88e6b20903bce970e",
+      "storage_md5": "91ba3b2ddbf4074e98c33d4ea4e6e5d4"
+    },
+    {
+      "key": "barani_commercial.external_layout_standard_titled",
+      "name": "BARANI Commercial external_layout_standard_titled",
+      "role": "quotation, order and pro-forma company registration",
+      "file": "qweb/commercial/external_layout_standard_titled.xml",
+      "state": "TARGET",
+      "chars": 3685,
+      "plain_md5": "4d9067e53f4d659500690e22c51b01f5",
+      "plain_sha256": "25305f9dfe531a6f12ddac248127c4330948aff1e33c2f4ca7da133544b34203",
+      "storage_md5": "cc80518a611b64cae225f5a678ab0a99"
+    },
+    {
+      "key": "barani_commercial.report_saleorder_document",
+      "name": "BARANI Commercial sale.order document body",
+      "role": "quotation, order and pro-forma body with 10 mm shipping gutter",
+      "file": "qweb/commercial/report_saleorder_document.xml",
+      "state": "TARGET",
+      "chars": 25108,
+      "plain_md5": "46bd7f9f9e031fe6dbf0aeb992783139",
+      "plain_sha256": "9dcc2c22884a26374d84c245dd587372ca76751b9d67ba35ab5ebd6780f9d333",
+      "storage_md5": "4018f8f8f2ee86d4389cbb48fde92716"
+    },
+    {
+      "key": "barani_commercial.report_saleorder",
+      "name": "BARANI Commercial Quotation / Sales Order wrapper",
+      "role": "commercial report wrapper",
+      "file": "qweb/commercial/report_saleorder.xml",
+      "state": "UNCHANGED_GUARD",
+      "chars": 333,
+      "plain_md5": "aef853efbd4c8b8dbf9d303086c55251",
+      "plain_sha256": "2c239b9ab32cfd6c51d693547b11d454e80be6024e6447d2ac89bdc2973e5cd2",
+      "storage_md5": "5d01343e0296ec394a8f33f174ea5bff"
+    },
+    {
+      "key": "barani_commercial.report_saleorder_proforma",
+      "name": "BARANI Commercial Pro-forma wrapper",
+      "role": "pro-forma report wrapper",
+      "file": "qweb/commercial/report_saleorder_proforma.xml",
+      "state": "UNCHANGED_GUARD",
+      "chars": 340,
+      "plain_md5": "12201e1cf6eef9b956e6b4b68eb822f4",
+      "plain_sha256": "de78a58f75cdc417fe1e76bb3212fa45b32f2a3fc396907e83298c09f6de8e46",
+      "storage_md5": "d0f28d3d71844a1c15ba190933999367"
+    },
+    {
+      "key": "barani_delivery.external_layout_delivery_2026",
+      "name": "BARANI Delivery external layout 2026 (logo + right title)",
+      "role": "Delivery Note company registration",
+      "file": "qweb/delivery-note/external_layout_delivery_2026.xml",
+      "state": "TARGET",
+      "chars": 4010,
+      "plain_md5": "41e4434efc2bfd108f50631efc09e3af",
+      "plain_sha256": "64f6468165554906a373c6a5901908a865b561a9562e6de46ac299cd4fb6081a",
+      "storage_md5": "df7bc2a2d898b0e937c03f0913c9eea2"
+    },
+    {
+      "key": "barani_delivery.report_delivery_note_2026",
+      "name": "BARANI Delivery Note 2026 report body DN L2.2 customs/package + always-visible shipping + envelope-window references",
+      "role": "Delivery Note L2.2 body",
+      "file": "qweb/delivery-note/report_delivery_note_2026.xml",
+      "state": "TARGET",
+      "chars": 24818,
+      "plain_md5": "ea90bcbcc42b9d536aefc6368591ae92",
+      "plain_sha256": "88c2113f5938b6f585cf7bf444f1b38c2f3262da5d4d7aa90fe642c73e318a57",
+      "storage_md5": "30c011e03282d54ee0d0f9f1d71228fb"
+    },
+    {
+      "key": "barani_delivery.report_sale_order_delivery_note_2026",
+      "name": "BARANI Sale Order bridge to Delivery Note 2026",
+      "role": "Delivery Note sale-order bridge",
+      "file": "qweb/delivery-note/report_sale_order_delivery_note_2026.xml",
+      "state": "UNCHANGED_GUARD",
+      "chars": 867,
+      "plain_md5": "42d06f9a362e8a9f3c60a69cf741e3d0",
+      "plain_sha256": "5170e47c2466faf1eaf6ecc71e116185fc5e1b3463617b14caafbf939afb3d7e",
+      "storage_md5": "af56d09fcb49ea41521dc8149cc83c0b"
+    },
+    {
+      "key": "barani_delivery.external_layout_picking_operations_2026",
+      "name": "BARANI Picking Operations external layout 2026",
+      "role": "Picking Operations company registration",
+      "file": "qweb/pick-list/external_layout_picking_operations_2026.xml",
+      "state": "TARGET",
+      "chars": 4021,
+      "plain_md5": "f8872f81530338d01d8119e93c6f1dc1",
+      "plain_sha256": "13137a56bcb47d206b5d77a1a4622fe67db82446e7f6dd1a67acbe58ab1d2c2d",
+      "storage_md5": "ce3d094ad71a02f638e33ad66e401e47"
+    },
+    {
+      "key": "barani_delivery.report_picking_operations_2026",
+      "name": "BARANI Picking Operations 2026 report body v4.4 internal pick list + address labels",
+      "role": "Picking Operations body",
+      "file": "qweb/pick-list/report_picking_operations_2026.xml",
+      "state": "UNCHANGED_GUARD",
+      "chars": 14746,
+      "plain_md5": "836a4d36a7c9fc23a322f1245aa5980d",
+      "plain_sha256": "f2dbff12f8a53666b474c6a9f037479b988686d24686287a18ec983779d84474",
+      "storage_md5": "2a6c6dde3a5bf9e395d4158cbafa5508"
+    }
+  ]
+}

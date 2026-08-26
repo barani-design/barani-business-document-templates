@@ -1,0 +1,45 @@
+name: Validate template snapshots
+
+"on":
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Validate accepted-current target
+        run: python3 platforms/odoo/16/accepted-current/2026-08-26-production-template-closeout/validate_snapshot.py
+      - name: Check manifests
+        run: |
+          sha256sum -c MANIFEST_SHA256.txt
+          sha256sum -c platforms/MANIFEST_SHA256.txt
+          sha256sum -c platforms/odoo/16/docs/DELIVERY_PICKOPS_2026_FINAL_MANIFEST_SHA256.txt
+          (cd platforms/odoo/16/accepted-current/2026-07-14-report-routing-preview && sha256sum -c MANIFEST_SHA256.txt)
+          (cd platforms/odoo/16/accepted-current/2026-07-16-source-payment-method && sha256sum -c MANIFEST_SHA256.txt)
+          (cd platforms/odoo/16/accepted-current/2026-08-26-production-template-closeout && sha256sum -c MANIFEST_SHA256.txt)
+      - name: Parse repository sources
+        run: |
+          python3 - <<'PY'
+          import ast
+          import json
+          from pathlib import Path
+          import xml.etree.ElementTree as ET
+
+          root = Path("platforms")
+          for path in root.rglob("*.xml"):
+              ET.parse(path)
+          for path in root.rglob("*.json"):
+              json.loads(path.read_text(encoding="utf-8"))
+          for path in root.rglob("*.py"):
+              ast.parse(path.read_text(encoding="utf-8"), filename=str(path))
+          print("PASS — XML, JSON, and Python source parsing")
+          PY

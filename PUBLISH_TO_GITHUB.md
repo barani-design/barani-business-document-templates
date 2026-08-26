@@ -1,26 +1,16 @@
-# Publish to GitHub
+# Publish changes to GitHub
 
-Suggested public repository name:
+Canonical public repository:
 
 ```text
 barani-design/barani-business-document-templates
 ```
 
-Alternative shorter name:
+Use a branch and pull request from the current `main` branch. Before publishing:
 
-```text
-barani-design/business-document-templates
-```
-
-Commands after creating the empty public repository in GitHub:
-
-```bash
-git init
-git branch -M main
-git add .
-git commit -m "Initial public business document template kit"
-git remote add origin git@github.com:barani-design/barani-business-document-templates.git
-git push -u origin main
-```
-
-Before publishing, choose a real license and run a secret/customer-data scan.
+- run the milestone validator and all checksum manifests;
+- parse all QWeb XML and JSON metadata;
+- inspect the complete diff for customer data, credentials, database identity, backups, restore evidence, and logs;
+- confirm any accepted-current business payment identifiers are covered by an explicit publication notice;
+- keep tenant-bound production actions out of the public repository;
+- open and review a pull request before merging.
