@@ -4,7 +4,7 @@
 6403f2a572b0a22b62e2b11a967ac4b9a7c0851ec7b814b42474abdbe5cf913a  ./CHANGELOG.md
 86111da028e0355aef23a9872f255e85fe5cd4387666075dd5bc382576ac40b2  ./CONTRIBUTING.md
 536ff51064a573c58d35e3b248ccda4c861f0e5ad7d15ebcd32d87bac0f596be  ./LICENSE
-0fe2c50658c905c228531376dc189db482b8c50a955e2f6d2b33a015c8a25389  ./PUBLISH_TO_GITHUB.md
+fde3597a3ad9ecbea765a3ef9e2189993918c4b2e2b97e895f88eb331457bff2  ./PUBLISH_TO_GITHUB.md
 c6b06d54a06c08d30e3a509a095e4ce8109bcdcb062e0b248a5eede9aa7ed4e1  ./README.md
 dbff710d6a2904fc069454e058c95238df0c94928a7275319fcc4af8f56705c8  ./README_ACCEPTED_CURRENT_PACKAGE.md
 50370a7a2ecca6fab0489db874adb692294db64ba3bf50f58dbfe0347d46d1a7  ./SECURITY.md
@@ -23,9 +23,9 @@ e35f3ea53bddacc12b33c9aa21516f370175a462ed8d0ec9a32c5ad62be162fb  ./docs/publica
 fe0910f87c520006b3490a0481e1a5d15ddd2c9e321c4a83021f4647f1551705  ./docs/publication/SANITIZATION_NOTES.md
 a730d4a6d07ad12a6040830d6383180f77a5675ac5f91796e2aaec168c994f0f  ./docs/publication/delivery_note_AUDIT_AND_UPDATE_NOTES.md
 8ca4ef66b04009b25fe3647f0333493b156d1cdbe012815edf16b8bfd8c232e0  ./docs/publication/delivery_note_README.md
-e51305e15e0e68342d81bd1d4bb829b4e24ad5ee782262bbe4c460407b418156  ./docs/publication/public_repo_checklist.md
+90fdd09b348f16d7498071a97aae3047d9bd3601f4ea2d907bc4e171a5d803e6  ./docs/publication/public_repo_checklist.md
 962fb31890d4386b353cb2907990ea55b5ac406f8383cb45907e97179d5b97dc  ./examples/config_placeholders.md
-e3404979559dd1d5b0c226ea66973324d9f3d0163f36456c266412d36d1654b2  ./platforms/MANIFEST_SHA256.txt
+a35de9ab91ea3d72ab8dccde9a096a09bb0a316da1d5a5cc045b5c09dc5464d0  ./platforms/MANIFEST_SHA256.txt
 fe75ac21ee3eac6e725989ed9121c95b579ecfd1b4edee51e4ccf5320bc71cb4  ./platforms/README.md
 2227276c092e312429ecf189bc97da03998e50bb3193a351b3c113b8f6e14a0c  ./platforms/odoo/16/README.md
 d6c95c1e3c47e23e7198e8db6bf74e66b5174e28b1d9786e5855c8e9ea2a3752  ./platforms/odoo/16/accepted-current/2026-06-30-d03-6-manual/README.md
@@ -82,8 +82,8 @@ bfcf72196fef9a3de5c184cf812ca5b6b1ecea6620c1f246760173581b479698  ./platforms/od
 48defec84648fd4ea5acf7bd8367741d693890ed2564c3a67b7e48cc5287849c  ./platforms/odoo/16/accepted-current/2026-07-16-source-payment-method/server_actions/S99_RESTORE_BARANI_SOURCE_PAYMENT_METHOD_FROM_S00_SAFE.py
 d1ab0d595c9a6f6c50b898511eb6fd6bbdcac3e071c289063f7434ff8c7df778  ./platforms/odoo/16/accepted-current/2026-07-16-source-payment-method/support/X01_1_EXPORT_BARANI_ACCEPTED_CURRENT_QWEB_ATTACHMENTS_SAFE.py
 a218aeeef2150cb22d86bad8989c29c6bd963642105c5d90a2fe9f719baaa719  ./platforms/odoo/16/accepted-current/2026-08-26-production-template-closeout/CONTENT_PUBLICATION_NOTICE.md
-a4113b0e08ab6a80a0c8d2236f8675fcac6d16d50977e1031af3987770bd56a1  ./platforms/odoo/16/accepted-current/2026-08-26-production-template-closeout/MANIFEST_SHA256.txt
-6f2ef3570dd7bd4d39ebb142c7c99c20aad5584a821ff06ef4f6088d010f7162  ./platforms/odoo/16/accepted-current/2026-08-26-production-template-closeout/PROVENANCE.md
+c5d708bc45e0db0b4c9986a2d63798accca80f9f3a43ad6b9be6ec1f1e6ea474  ./platforms/odoo/16/accepted-current/2026-08-26-production-template-closeout/MANIFEST_SHA256.txt
+ef51af9c985bc07efd263336587ca4c0cefb67feb541623917bc5aa219c5f67d  ./platforms/odoo/16/accepted-current/2026-08-26-production-template-closeout/PROVENANCE.md
 3f446c5dfd665c21334d9a6fc9a64d3e91aee9f5967fcbac10c5619490003a87  ./platforms/odoo/16/accepted-current/2026-08-26-production-template-closeout/README_ACCEPTED_CURRENT.md
 e89010b5e1ba49685f6484c7bfd00387edef99f31ed367b7807589346d076c8d  ./platforms/odoo/16/accepted-current/2026-08-26-production-template-closeout/VALIDATION_SUMMARY.md
 3d73d336d09444345f416f0da1586aa4b59b2734700a0b6fab054cae73e95ea8  ./platforms/odoo/16/accepted-current/2026-08-26-production-template-closeout/metadata/paperformats.json

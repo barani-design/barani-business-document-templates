@@ -17,4 +17,8 @@ The seven authorized QWeb transformations were:
 6. Delivery Note body: L2.1 to L2.2 marker, 10 mm shipping gutter, always-shipping policy, and fixed Scheduled Date / Operation / Source Order / Incoterms information table.
 7. Picking Operations external layout: company-registration gutter from 18 px to 10 mm.
 
-The four wrapper/body guards were unchanged. Every reconstructed character length, plain MD5, plain SHA-256, and Odoo JSONB storage MD5 matches the production final verifier. The report-action contract was transcribed by logical role; tenant numeric IDs were deliberately omitted.
+The four wrapper/body guards were unchanged. Every reconstructed character length, plain MD5,
+and Odoo JSONB storage MD5 matches the production final verifier. The recorded plain SHA-256
+values independently authenticate these exact reconstructed bytes; the live verifier did not
+print plain SHA-256 values. The report-action contract was transcribed by logical role; tenant
+numeric IDs were deliberately omitted.
