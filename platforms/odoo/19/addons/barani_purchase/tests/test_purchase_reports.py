@@ -69,9 +69,12 @@ class TestBaraniPurchaseReports(AccountTestInvoicingCommon):
         return html.fromstring(body)
 
     def _pdf(self, orders, label, minimum_pages):
-        body, kind = self.env['ir.actions.report'].with_context(
-            force_report_rendering=True, report_pdf_no_attachment=True,
-        )._render_qweb_pdf(ACTION, orders.ids)
+        # Let wkhtmltopdf's asset requests use the test cursor and release the
+        # test HTTP lock while the real renderer runs (Odoo 19 test helper).
+        with self.allow_pdf_render():
+            body, kind = self.env['ir.actions.report'].with_context(
+                force_report_rendering=True, report_pdf_no_attachment=True,
+            )._render_qweb_pdf(ACTION, orders.ids)
         self.assertEqual(kind, 'pdf')
         self.assertTrue(body.startswith(b'%PDF-'))
         pdf = PdfFileReader(io.BytesIO(body))
@@ -120,7 +123,10 @@ class TestBaraniPurchaseReports(AccountTestInvoicingCommon):
         order = self._order()
         line = order.order_line
         for included in (False, True):
-            tax = self.tax_23.copy({'price_include_override': 'tax_included' if included else 'tax_excluded'})
+            tax = self.tax_23.copy({
+                'name': 'PO QA VAT 23% included' if included else 'PO QA VAT 23% excluded',
+                'price_include_override': 'tax_included' if included else 'tax_excluded',
+            })
             line.write({'product_qty': 3, 'price_unit': 12.30, 'discount': 10,
                         'tax_ids': [Command.set(tax.ids)]})
             order.company_id.tax_calculation_rounding_method = 'round_globally'
