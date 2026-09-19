@@ -53,7 +53,7 @@
         </tbody>
       </table>
     </xpath>
-    <xpath expr="//div[@class='barani_po_closing']" position="replace">
+    <xpath expr="//div[hasclass('barani_po_closing')]" position="replace">
       <div class="barani_po_closing">
         <div t-if="o.payment_term_id"><strong>Payment Terms: </strong><span t-field="o.payment_term_id.name"/></div>
         <div t-if="o.incoterm_id"><strong>INCOTERMS: </strong><span t-field="o.incoterm_id.code"/> - <span t-field="o.incoterm_id.name"/><t t-if="o.incoterm_location"> - <span t-field="o.incoterm_location"/></t></div>

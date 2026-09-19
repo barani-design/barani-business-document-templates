@@ -1,7 +1,7 @@
 {
     'name': 'BARANI Purchase Order Documents',
     'summary': 'Purchase orders and unpriced RFQs in the BARANI document style',
-    'version': '19.0.1.0.1',
+    'version': '19.0.1.0.2',
     'category': 'Inventory/Purchase',
     'license': 'LGPL-3',
     'author': 'BARANI DESIGN Technologies s.r.o.',
