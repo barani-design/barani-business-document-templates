@@ -1,0 +1,21 @@
+{
+    'name': 'BARANI Purchase Order Documents',
+    'summary': 'Purchase orders in the accepted BARANI invoice document style',
+    'version': '19.0.1.0.0',
+    'category': 'Inventory/Purchase',
+    'license': 'LGPL-3',
+    'author': 'BARANI DESIGN Technologies s.r.o.',
+    'website': 'https://www.baranidesign.com',
+    'depends': ['purchase_stock'],
+    'data': [
+        'report/paperformat.xml',
+        'report/external_layout_purchase.xml',
+        'report/report_purchaseorder.xml',
+        'report/report_action.xml',
+    ],
+    'pre_init_hook': 'pre_init_hook',
+    'uninstall_hook': 'uninstall_hook',
+    'installable': True,
+    'application': False,
+    'auto_install': False,
+}
