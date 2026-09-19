@@ -165,6 +165,8 @@ class TestBaraniPurchaseReports(AccountTestInvoicingCommon):
                                     (3, 'line_note', 'PUBLIC LINE NOTE')]:
             self.env['purchase.order.line'].create({
                 'order_id': order.id, 'sequence': sequence, 'display_type': kind, 'name': name,
+                # Odoo 19 requires a quantity even for sections and notes.
+                'product_qty': 0.0,
             })
         order.write({'note': '<p>PUBLIC SUPPLIER TERMS</p>',
                      'incoterm_id': self.env.ref('account.incoterm_EXW').id,
