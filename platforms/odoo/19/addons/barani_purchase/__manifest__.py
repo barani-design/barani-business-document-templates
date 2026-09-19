@@ -1,7 +1,7 @@
 {
     'name': 'BARANI Purchase Order Documents',
-    'summary': 'Purchase orders in the accepted BARANI invoice document style',
-    'version': '19.0.1.0.0',
+    'summary': 'Purchase orders and unpriced RFQs in the BARANI document style',
+    'version': '19.0.1.0.1',
     'category': 'Inventory/Purchase',
     'license': 'LGPL-3',
     'author': 'BARANI DESIGN Technologies s.r.o.',
@@ -11,6 +11,7 @@
         'report/paperformat.xml',
         'report/external_layout_purchase.xml',
         'report/report_purchaseorder.xml',
+        'report/report_purchasequotation.xml',
         'report/report_action.xml',
     ],
     'pre_init_hook': 'pre_init_hook',

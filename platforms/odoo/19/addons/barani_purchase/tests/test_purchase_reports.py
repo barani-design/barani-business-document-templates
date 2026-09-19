@@ -9,11 +9,15 @@ from lxml import html
 from odoo import Command
 from odoo.addons.account.tests.common import AccountTestInvoicingCommon
 from odoo.exceptions import UserError
+from odoo.modules.module import load_script
 from odoo.tests import tagged
 from odoo.tools.pdf import PdfFileReader
 from odoo.tools.safe_eval import safe_eval
 
-from ..hooks import ACTION, BACKUP_XMLID, ROUTE, pre_init_hook, uninstall_hook
+from ..hooks import (
+    ACTION, BACKUP_XMLID, ROUTE, RFQ_ACTION, RFQ_BACKUP_XMLID, RFQ_ROUTE,
+    backup_rfq_action, pre_init_hook, uninstall_hook,
+)
 
 
 @tagged('post_install', '-at_install', 'barani_purchase_reports')
@@ -60,21 +64,21 @@ class TestBaraniPurchaseReports(AccountTestInvoicingCommon):
             })],
         })
 
-    def _html(self, orders):
+    def _html(self, orders, report_action=ACTION):
         self.assertFalse(self.env.su, 'Render with ordinary test-user access rights')
         body, kind = self.env['ir.actions.report'].with_context(
             allowed_company_ids=orders.company_id.ids,
-        )._render_qweb_html(ACTION, orders.ids)
+        )._render_qweb_html(report_action, orders.ids)
         self.assertEqual(kind, 'html')
         return html.fromstring(body)
 
-    def _pdf(self, orders, label, minimum_pages):
+    def _pdf(self, orders, label, minimum_pages, report_action=ACTION):
         # Let wkhtmltopdf's asset requests use the test cursor and release the
         # test HTTP lock while the real renderer runs (Odoo 19 test helper).
         with self.allow_pdf_render():
             body, kind = self.env['ir.actions.report'].with_context(
                 force_report_rendering=True, report_pdf_no_attachment=True,
-            )._render_qweb_pdf(ACTION, orders.ids)
+            )._render_qweb_pdf(report_action, orders.ids)
         self.assertEqual(kind, 'pdf')
         self.assertTrue(body.startswith(b'%PDF-'))
         pdf = PdfFileReader(io.BytesIO(body))
@@ -93,7 +97,7 @@ class TestBaraniPurchaseReports(AccountTestInvoicingCommon):
         self.assertEqual(report.paperformat_id, self.env.ref('barani_purchase.paperformat_purchase'))
         self.assertFalse(report.attachment_use)
         self.assertEqual(self.env.ref('purchase.report_purchase_quotation').report_name,
-                         'purchase.report_purchasequotation')
+                         RFQ_ROUTE)
         order = self._order()
         for state, title in [('draft', 'Request for Quotation'), ('sent', 'Request for Quotation'),
                              ('to approve', 'Request for Quotation'), ('purchase', 'Purchase Order'),
@@ -207,6 +211,7 @@ class TestBaraniPurchaseReports(AccountTestInvoicingCommon):
 
     def test_real_pdf_short_and_multipage(self):
         order = self._order()
+        self._pdf(order, 'rfq_short', 1, RFQ_ACTION)
         order.write({'state': 'purchase', 'date_approve': '2026-09-15 12:00:00'})
         self._pdf(order, 'purchase_short', 1)
         order.write({'order_line': [Command.create({
@@ -217,6 +222,88 @@ class TestBaraniPurchaseReports(AccountTestInvoicingCommon):
             'tax_ids': [Command.set(self.tax_23.ids)],
         }) for index in range(65)]})
         self._pdf(order, 'purchase_multipage', 2)
+        self._pdf(order, 'rfq_multipage', 2, RFQ_ACTION)
+
+    def test_rfq_button_routing_and_unpriced_content(self):
+        order = self._order()
+        report = self.env.ref(RFQ_ACTION)
+        self.assertEqual(order.print_quotation()['report_name'], RFQ_ROUTE)
+        self.assertEqual(order.state, 'sent')  # Keep Odoo's native Print RFQ behavior.
+        self.assertEqual(report.report_file, RFQ_ROUTE)
+        self.assertEqual(report.paperformat_id, self.env.ref('barani_purchase.paperformat_purchase'))
+        self.assertFalse(report.attachment_use)
+        self.assertEqual(safe_eval(report.print_report_name, {'object': order}),
+                         'PO-QA-001 - Request for Quotation')
+        for state in ('draft', 'sent', 'to approve', 'purchase', 'cancel'):
+            order.state = state
+            document = self._html(order, RFQ_ACTION)
+            self.assertEqual(order.state, state, 'Rendering must not change the document state')
+            self.assertEqual(document.xpath('//*[@name="barani_purchase_title"]')[0].text_content(),
+                             'Request for Quotation')
+            self.assertEqual([h.text_content().strip() for h in document.xpath(
+                '//table[@name="barani_rfq_lines"]/thead/tr/th')],
+                ['Description', 'Expected Date', 'Qty', 'Unit'])
+            self.assertFalse(document.xpath('//*[@name="barani_po_tax_totals"]'))
+            self.assertFalse(document.xpath('//*[@name="td_priceunit" or @name="td_vatbase"]'))
+            self.assertIn('17 Sep 2026', document.text_content())
+            self.assertIn('PO QA Supplier', document.text_content())
+            self.assertIn('17 Receiving Road', document.text_content())
+            self.assertNotIn('0.0119', document.text_content())
+            self.assertNotIn('14.64', document.text_content())
+
+    def test_rfq_sections_notes_and_internal_note(self):
+        order = self._order()
+        order.order_line.sequence = 10
+        for sequence, kind, name in [(1, 'line_section', 'RFQ SECTION'),
+                                    (2, 'line_subsection', 'RFQ SUBSECTION'),
+                                    (3, 'line_note', 'RFQ PUBLIC NOTE')]:
+            self.env['purchase.order.line'].create({
+                'order_id': order.id, 'sequence': sequence, 'display_type': kind,
+                'name': name, 'product_qty': 0.0,
+            })
+        order.note = '<p>RFQ SUPPLIER TERMS</p>'
+        if 'x_studio_internal_note' in order._fields:
+            order.x_studio_internal_note = 'RFQ PRIVATE NOTE'
+        document = self._html(order, RFQ_ACTION)
+        for marker in ('RFQ SECTION', 'RFQ SUBSECTION', 'RFQ PUBLIC NOTE', 'RFQ SUPPLIER TERMS'):
+            self.assertIn(marker, document.text_content())
+        self.assertNotIn('RFQ PRIVATE NOTE', document.text_content())
+        self.assertEqual(len(document.xpath('//td[@colspan="4"]')), 3)
+        self.assertEqual(len(document.xpath('//tr[@name="barani_rfq_product_line"]')), 1)
+
+    def test_rfq_upgrade_backup_restore_and_foreign_route(self):
+        admin_env = self.env['ir.actions.report'].sudo().env
+        report = admin_env.ref(RFQ_ACTION).with_context(lang=None)
+        po_backup = admin_env.ref(BACKUP_XMLID).value
+        rfq_snapshot = json.loads(admin_env.ref(RFQ_BACKUP_XMLID).value)
+        self.assertEqual(rfq_snapshot['values']['report_name'], 'purchase.report_purchasequotation')
+        current = {field: report[field] for field in ('report_name', 'report_file', 'print_report_name')}
+        current['paperformat_id'] = report.paperformat_id.id
+        # Simulate the installed 19.0.1.0.0 database, where RFQ was untouched.
+        report.write(rfq_snapshot['values'])
+        report.print_report_name = "'Existing RFQ - ' + object.name"
+        expected = dict(rfq_snapshot['values'], print_report_name=report.print_report_name)
+        backup = admin_env.ref(RFQ_BACKUP_XMLID)
+        admin_env['ir.model.data'].search([
+            ('module', '=', 'barani_purchase'), ('name', '=', 'original_rfq_report_action'),
+        ]).unlink()
+        backup.unlink()
+        migration = load_script(str(Path(__file__).resolve().parents[1] /
+            'migrations' / '19.0.1.0.1' / 'pre-10-backup-rfq-action.py'),
+            'barani_purchase_test_rfq_upgrade')
+        migration.migrate(self.env.cr, '19.0.1.0.0')
+        self.assertEqual(admin_env.ref(BACKUP_XMLID).value, po_backup)
+        self.assertEqual(json.loads(admin_env.ref(RFQ_BACKUP_XMLID).value)['values'], expected)
+        report.write(current)  # The upgrade's report-action XML applies this route.
+        uninstall_hook(admin_env)
+        for field, value in expected.items():
+            actual = report[field].id or False if field == 'paperformat_id' else report[field]
+            self.assertEqual(actual, value)
+        report.report_name = 'other_module.custom_rfq_report'
+        uninstall_hook(admin_env)
+        self.assertEqual(report.report_name, 'other_module.custom_rfq_report')
+        with self.assertRaises(UserError):
+            backup_rfq_action(admin_env)
 
     def test_uninstall_restores_saved_action_and_foreign_route_is_protected(self):
         admin_env = self.env['ir.actions.report'].sudo().env

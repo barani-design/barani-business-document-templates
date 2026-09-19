@@ -1,11 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-  <!-- Reuse the native PO action used by Print and the PO email attachment.
-       The separate, unpriced Request for Quotation action is unchanged. -->
+  <!-- Keep Odoo's separate PO and unpriced RFQ actions and email bindings. -->
   <record id="purchase.action_report_purchase_order" model="ir.actions.report">
     <field name="report_name">barani_purchase.report_purchaseorder</field>
     <field name="report_file">barani_purchase.report_purchaseorder</field>
     <field name="paperformat_id" ref="barani_purchase.paperformat_purchase"/>
     <field name="print_report_name">(object.name or 'PO').replace('/', '_') + ' - ' + ('Cancelled Purchase Order' if object.state == 'cancel' else 'Purchase Order' if object.state == 'purchase' else 'Request for Quotation')</field>
+  </record>
+  <record id="purchase.report_purchase_quotation" model="ir.actions.report">
+    <field name="report_name">barani_purchase.report_purchasequotation</field>
+    <field name="report_file">barani_purchase.report_purchasequotation</field>
+    <field name="paperformat_id" ref="barani_purchase.paperformat_purchase"/>
+    <field name="print_report_name">(object.name or 'PO').replace('/', '_') + ' - Request for Quotation'</field>
   </record>
 </odoo>

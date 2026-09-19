@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <template id="report_purchasequotation">
+    <t t-call="web.html_container">
+      <t t-foreach="docs" t-as="doc">
+        <t t-call="barani_purchase.report_purchasequotation_document" t-lang="'en_US'">
+          <t t-set="o" t-value="doc.with_company(doc.company_id).with_context(lang='en_US')"/>
+        </t>
+      </t>
+    </t>
+  </template>
+
+  <!-- A separate primary template reuses the PO branding and addresses without
+       changing the priced PO document. RFQs remain unpriced at every state. -->
+  <template id="report_purchasequotation_document"
+            inherit_id="barani_purchase.report_purchaseorder_document" primary="True">
+    <xpath expr="//t[@t-set='barani_purchase_title']" position="attributes">
+      <attribute name="t-value">'Request for Quotation'</attribute>
+    </xpath>
+    <xpath expr="//table[@name='barani_po_lines']" position="replace">
+      <table class="table table-sm o_main_table barani_po_table" name="barani_rfq_lines">
+        <colgroup>
+          <col style="width:65%"/><col style="width:17%"/>
+          <col style="width:10%"/><col style="width:8%"/>
+        </colgroup>
+        <thead>
+          <tr>
+            <th class="text-start">Description</th><th class="text-center">Expected Date</th>
+            <th class="text-end">Qty</th><th class="text-start">Unit</th>
+          </tr>
+        </thead>
+        <tbody>
+          <t t-foreach="o.order_line.filtered(lambda line: line.display_type or line.product_qty != 0)" t-as="line">
+            <tr t-if="not line.display_type" name="barani_rfq_product_line">
+              <td class="po_description"><span t-field="line.name" t-options="{'widget': 'text'}"/></td>
+              <td class="text-center"><span t-field="line.date_planned" t-options="{'format': 'dd MMM yyyy'}"/></td>
+              <td class="text-end po_qty"><span t-field="line.product_qty"/></td>
+              <td class="po_unit">
+                <span t-field="line.product_uom_id.name"/>
+                <div t-if="line.product_uom_id != line.product_id.uom_id" class="text-muted" style="font-size:8pt;">
+                  <span t-field="line.product_uom_qty" t-options="{'widget': 'float', 'decimal_precision': 'Product Unit'}"/>
+                  <span t-field="line.product_id.uom_id.name"/>
+                </div>
+              </td>
+            </tr>
+            <tr t-elif="line.display_type in ('line_section', 'line_subsection')" class="bg-200 fw-bold o_line_section">
+              <td colspan="4"><span t-field="line.name" t-options="{'widget': 'text'}"/></td>
+            </tr>
+            <tr t-elif="line.display_type == 'line_note'" class="fst-italic o_line_note">
+              <td colspan="4"><span t-field="line.name" t-options="{'widget': 'text'}"/></td>
+            </tr>
+          </t>
+        </tbody>
+      </table>
+    </xpath>
+    <xpath expr="//div[@class='barani_po_closing']" position="replace">
+      <div class="barani_po_closing">
+        <div t-if="o.payment_term_id"><strong>Payment Terms: </strong><span t-field="o.payment_term_id.name"/></div>
+        <div t-if="o.incoterm_id"><strong>INCOTERMS: </strong><span t-field="o.incoterm_id.code"/> - <span t-field="o.incoterm_id.name"/><t t-if="o.incoterm_location"> - <span t-field="o.incoterm_location"/></t></div>
+        <div class="barani_po_prepared"><strong>Prepared by: </strong><span t-field="o.user_id.name"/></div>
+      </div>
+    </xpath>
+    <xpath expr="//div[@name='barani_po_notes']" position="after">
+      <!-- Preserve the native RFQ portal/EDI link when the supplier uses it. -->
+      <div t-if="any(u._is_portal() for u in o.partner_id.user_ids) and o._get_edi_builders()" class="text-center">
+        <t t-set="base_address" t-value="o.env['ir.config_parameter'].sudo().get_param('web.base.url')"/>
+        <a t-att-href="base_address + '/my/purchase/' + str(o.id) + '#portal_connect_software_modal'">Connect your software</a>
+        with <t t-out="o.company_id.name"/> to create quotes automatically.
+      </div>
+    </xpath>
+  </template>
+</odoo>

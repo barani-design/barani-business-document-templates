@@ -1,6 +1,6 @@
 # BARANI Business Document Templates
 
-Reusable business-document templates for ERP systems, with a production-verified Odoo 16 baseline, an Odoo 19 Purchase Order candidate, and a planned Odoo 20 port.
+Reusable business-document templates for ERP systems, with a production-verified Odoo 16 baseline, an Odoo 19 Purchase Order and RFQ candidate, and a planned Odoo 20 port.
 
 This repository is **not tied to a single Odoo version**. Version-specific code lives under `platforms/odoo/<version>/`. Shared business-process documentation lives under `docs/`.
 
@@ -9,7 +9,7 @@ This repository is **not tied to a single Odoo version**. Version-specific code 
 | Platform | Status | Location |
 |---|---:|---|
 | Odoo 16 | Production-verified baseline | `platforms/odoo/16/` |
-| Odoo 19 | Purchase Order candidate; runtime validation pending | `platforms/odoo/19/` |
+| Odoo 19 | PO baseline tested; matching unpriced RFQ candidate pending runtime validation | `platforms/odoo/19/` |
 | Odoo 20 | Planned migration target; no deployable implementation yet | `platforms/odoo/20/` |
 
 The locked migration baseline is the [26 August 2026 production template closeout](platforms/odoo/16/accepted-current/2026-08-26-production-template-closeout/). It records accepted Odoo 16 behavior and is not an Odoo 20 installer.
