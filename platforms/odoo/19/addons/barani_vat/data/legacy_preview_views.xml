@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <function model="ir.ui.view" name="_barani_vat_retire_legacy_preview_views"/>
+</odoo>

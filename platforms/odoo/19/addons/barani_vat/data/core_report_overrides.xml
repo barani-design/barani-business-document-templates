@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <record id="account.account_invoices" model="ir.actions.report">
+    <field name="name">Invoices</field>
+    <field name="model">account.move</field>
+    <field name="report_type">qweb-pdf</field>
+    <field name="report_name">barani_vat.report_invoice_document_vat</field>
+    <field name="report_file">barani_vat.report_invoice_document_vat</field>
+    <field name="binding_type">report</field>
+    <field name="binding_view_types">list,form</field>
+    <field name="print_report_name">((object.name or '').replace('/', '_') + ' - ' if object.name and object.name != '/' else '') + ('Credit Note' if object.move_type == 'out_refund' else 'Vendor Credit Note' if object.move_type == 'in_refund' else 'Vendor Bill' if object.move_type == 'in_invoice' else 'Draft Invoice' if object.state == 'draft' else 'Cancelled Invoice' if object.state == 'cancel' else 'Invoice')</field>
+    <field name="paperformat_id" ref="barani_vat.paperformat_vat"/>
+    <field name="binding_model_id" ref="account.model_account_move"/>
+    <field name="group_ids" eval="[(6, 0, [ref('account.group_account_readonly'), ref('account.group_account_invoice')])]"/>
+    <field name="attachment">object._barani_report_attachment_filename()</field>
+    <field name="attachment_use" eval="False"/>
+  </record>
+  <record id="account.account_invoices_without_payment" model="ir.actions.report">
+    <field name="name">Invoices without Payment</field>
+    <field name="model">account.move</field>
+    <field name="report_type">qweb-pdf</field>
+    <field name="report_name">barani_vat.report_invoice_document_vat</field>
+    <field name="report_file">barani_vat.report_invoice_document_vat</field>
+    <field name="binding_type">report</field>
+    <field name="binding_view_types">list,form</field>
+    <field name="print_report_name">((object.name or '').replace('/', '_') + ' - ' if object.name and object.name != '/' else '') + ('Credit Note' if object.move_type == 'out_refund' else 'Vendor Credit Note' if object.move_type == 'in_refund' else 'Vendor Bill' if object.move_type == 'in_invoice' else 'Draft Invoice' if object.state == 'draft' else 'Cancelled Invoice' if object.state == 'cancel' else 'Invoice')</field>
+    <field name="paperformat_id" ref="barani_vat.paperformat_vat"/>
+    <field name="binding_model_id" eval="False"/>
+    <field name="group_ids" eval="[(6, 0, [])]"/>
+    <field name="attachment">object._barani_report_attachment_filename()</field>
+    <field name="attachment_use" eval="False"/>
+  </record>
+</odoo>

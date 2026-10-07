@@ -5,7 +5,7 @@ This repository is organized by platform and application version.
 Current implementations:
 
 - `odoo/16/` — production-verified Odoo 16 Server Action and QWeb baseline.
-- `odoo/19/` — reserved placeholder; no validated implementation.
+- `odoo/19/` — snapshot of the deployed Commercial, Delivery, and VAT report addons; see its README for versions and verification scope.
 - `odoo/20/` — planned migration target; no deployable implementation yet.
 
 The locked Odoo 16 migration baseline is:

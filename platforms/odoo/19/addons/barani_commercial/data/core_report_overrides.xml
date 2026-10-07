@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <record id="sale.action_report_saleorder" model="ir.actions.report">
+    <field name="name">Quotation / Order</field>
+    <field name="model">sale.order</field>
+    <field name="report_type">qweb-pdf</field>
+    <field name="report_name">barani_commercial.report_saleorder</field>
+    <field name="report_file">barani_commercial.report_saleorder</field>
+    <field name="binding_type">report</field>
+    <field name="binding_view_types">list,form</field>
+    <field name="print_report_name">(((object.name or '')[3:] if (object.name or '')[:3] in ('SO/','PF/') else (object.name or '')[2:] if (object.name or '')[:2] == 'Q/' else (object.name or ''))).replace('/', '_') + (' - Quotation' if object.state in ('draft','sent','cancel') else ' - Sales Order')</field>
+    <field name="paperformat_id" ref="barani_commercial.paperformat_commercial"/>
+    <field name="binding_model_id" ref="sale.model_sale_order"/>
+    <field name="group_ids" eval="[(6, 0, [])]"/>
+    <field name="attachment" eval="False"/>
+    <field name="attachment_use" eval="False"/>
+  </record>
+  <record id="sale.action_report_pro_forma_invoice" model="ir.actions.report">
+    <field name="name">PRO-FORMA Invoice</field>
+    <field name="model">sale.order</field>
+    <field name="report_type">qweb-pdf</field>
+    <field name="report_name">barani_commercial.report_saleorder_proforma</field>
+    <field name="report_file">barani_commercial.report_saleorder_proforma</field>
+    <field name="binding_type">report</field>
+    <field name="binding_view_types">list,form</field>
+    <field name="print_report_name">(((object.name or '')[3:] if (object.name or '')[:3] in ('SO/','PF/') else (object.name or '')[2:] if (object.name or '')[:2] == 'Q/' else (object.name or ''))).replace('/', '_') + ' - Pro-Forma Invoice'</field>
+    <field name="paperformat_id" ref="barani_commercial.paperformat_commercial"/>
+    <field name="binding_model_id" ref="sale.model_sale_order"/>
+    <field name="group_ids" eval="[(6, 0, [ref('sale.group_proforma_sales')])]"/>
+    <field name="attachment" eval="False"/>
+    <field name="attachment_use" eval="False"/>
+  </record>
+</odoo>

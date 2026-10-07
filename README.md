@@ -1,6 +1,6 @@
 # BARANI Business Document Templates
 
-Reusable business-document templates for ERP systems, with a production-verified Odoo 16 baseline and a planned, separately validated Odoo 20 port.
+Reusable business-document templates for ERP systems, with an accepted Odoo 16 baseline, a published snapshot of the deployed Odoo 19 report addons, and a separate Odoo 20 migration.
 
 This repository is **not tied to a single Odoo version**. Version-specific code lives under `platforms/odoo/<version>/`. Shared business-process documentation lives under `docs/`.
 
@@ -9,7 +9,7 @@ This repository is **not tied to a single Odoo version**. Version-specific code 
 | Platform | Status | Location |
 |---|---:|---|
 | Odoo 16 | Production-verified baseline | `platforms/odoo/16/` |
-| Odoo 19 | Reserved placeholder; not validated | `platforms/odoo/19/` |
+| Odoo 19 | Production source snapshot; Prepared Date verified on 7 October 2026 | `platforms/odoo/19/` |
 | Odoo 20 | Planned migration target; no deployable implementation yet | `platforms/odoo/20/` |
 
 The locked migration baseline is the [26 August 2026 production template closeout](platforms/odoo/16/accepted-current/2026-08-26-production-template-closeout/). It records accepted Odoo 16 behavior and is not an Odoo 20 installer.
@@ -31,13 +31,15 @@ Split into separate repositories only if a later-version implementation becomes 
 
 ## Safety model
 
-The Odoo installers are Server Actions written to be dry-run first. Write-capable scripts must be run with `APPLY = False` first, reviewed, then run with the expected confirmation token.
+The Odoo 16 installers are Server Actions written to be dry-run first. Write-capable scripts must be run with `APPLY = False` first, reviewed, then run with the expected confirmation token.
 
 The maintained reusable templates are sanitized. Replace placeholder bank values, company identity, fiscal-position names, tax names, and report labels before using them in a real database. A reviewed immutable accepted-current snapshot may retain public BARANI payment/delivery instructions when its publication notice says so; it must never contain login credentials or customer data.
 
 Do not publish customer PDFs, live database exports, invoices, bank statements, private backup parameters, API keys, or production credentials.
 
 Never copy or run an Odoo 16 Server Action on Odoo 19 or Odoo 20. Revalidate QWeb inheritance, report APIs, model fields, report actions, bindings, filename expressions, and rendering on the target version.
+
+The Odoo 19 implementation consists of standard addons. Its [README](platforms/odoo/19/README.md) records the source commits, module versions, verification scope, and publication notice.
 
 ## Main Odoo 16 setup order
 
