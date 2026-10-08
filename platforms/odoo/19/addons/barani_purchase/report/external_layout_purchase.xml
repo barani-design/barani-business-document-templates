@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <!-- Based on the accepted BARANI VAT external layout (19.0.1.0.3).
+       Legacy background: Odoo S.A., LGPL-3; upstream 21758578e0c0a91b3f7b4ccc07e7374a20fdc2b0,
+       blob be776b47c8f9cb5a64873afd39f73efee40dc88a. -->
+  <template id="external_layout_purchase">
+    <t t-set="company" t-value="o.company_id"/>
+    <div t-attf-class="header o_company_#{company.id}_layout" t-att-style="report_header_style">
+      <div style="position:relative; min-height:41px; border-bottom:1px solid black;">
+        <div style="float:left; width:35%; height:41px; line-height:41px;">
+          <img t-if="company.logo" t-att-src="image_data_uri(company.logo)" style="max-height:41px; max-width:100%; vertical-align:middle;" alt="Logo"/>
+        </div>
+        <div style="float:right; width:65%; min-height:41px; padding-top:8px; text-align:right; font-size:13pt; font-weight:bold; line-height:1.15; word-wrap:break-word;">
+          <span name="barani_purchase_title" t-out="barani_purchase_title"/>: <span t-field="o.name"/>
+        </div>
+        <div style="clear:both;"/>
+      </div>
+      <div style="display:table; width:100%; table-layout:fixed; margin-top:2px; font-size:10pt; line-height:1.25;">
+        <div name="barani_purchase_company_address" style="display:table-cell; width:50%; vertical-align:top;">
+          <!-- Structured address excludes VAT; render VAT exactly once at right.
+               Free-form company_details may already contain a VAT line. -->
+          <div t-field="company.partner_id" t-options="{'widget': 'contact', 'fields': ['address', 'name'], 'no_marker': True}"/>
+        </div>
+        <div name="barani_purchase_company_registration" style="display:table-cell; width:50%; vertical-align:top; padding-left:10mm;">
+          <div t-if="company.company_registry">ID: <span t-field="company.company_registry"/></div>
+          <div t-if="company.vat">VAT: <span t-field="company.vat"/></div>
+          <div t-if="company.phone">Tel: <span t-field="company.phone"/></div>
+          <div t-if="company.email">Email: <span t-field="company.email"/></div>
+        </div>
+      </div>
+      <div style="border-bottom:1px solid black; margin-top:1px;"/>
+    </div>
+    <div t-attf-class="article o_report_layout_standard o_company_#{company.id}_layout {{ 'o_report_layout_background' if company.layout_background in ['Geometric', 'Demo logo', 'Custom'] else '' }}"
+         t-attf-style="background-image: url({{ 'data:image/png;base64,%s' % company.layout_background_image.decode('utf-8') if company.layout_background_image and company.layout_background == 'Custom' else '/barani_purchase/static/img/bg_background_template.jpg' if company.layout_background == 'Geometric' else '/base/static/img/demo_logo_report.png' if company.layout_background == 'Demo logo' else '' }});"
+         t-att-data-oe-model="o._name" t-att-data-oe-id="o.id" t-att-data-oe-lang="o.env.context.get('lang')">
+      <t t-out="0"/>
+    </div>
+    <div t-attf-class="footer o_standard_footer o_company_#{company.id}_layout">
+      <div class="text-center" style="border-top:1px solid black; font-size:8pt; line-height:1.1; padding-top:2px;">
+        <div t-field="company.report_footer"/>
+        <div t-if="report_type == 'pdf'" class="text-muted"><span class="page"/> of <span class="topage"/></div>
+      </div>
+    </div>
+  </template>
+</odoo>

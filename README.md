@@ -9,7 +9,7 @@ This repository is **not tied to a single Odoo version**. Version-specific code 
 | Platform | Status | Location |
 |---|---:|---|
 | Odoo 16 | Production-verified baseline | `platforms/odoo/16/` |
-| Odoo 19 | Production source snapshot; Prepared Date verified on 7 October 2026 | `platforms/odoo/19/` |
+| Odoo 19 | Four report addons; per-module source and acceptance scope documented | `platforms/odoo/19/` |
 | Odoo 20 | Planned migration target; no deployable implementation yet | `platforms/odoo/20/` |
 
 The locked migration baseline is the [26 August 2026 production template closeout](platforms/odoo/16/accepted-current/2026-08-26-production-template-closeout/). It records accepted Odoo 16 behavior and is not an Odoo 20 installer.
@@ -23,6 +23,11 @@ The current Odoo 16 implementation includes baseline installers and support tool
 - Delivery notes with product QR codes
 - Picking Operations / pick lists
 
+Odoo 19 publishes Commercial, Delivery, VAT and Purchase (PO/RFQ) addons. See the
+[Odoo 19 catalog](platforms/odoo/19/README.md) and
+[eight-app version and feature index](platforms/odoo/19/APP_INDEX.md). The index
+also links to private app documentation; it does not publish those apps.
+
 ## Why one repository?
 
 Use one repository because the document families, process flows, and accounting decisions are shared across versions. Keeping the accepted Odoo 16 baseline beside later version-specific implementations makes behavior comparison and controlled porting easier.
@@ -33,7 +38,7 @@ Split into separate repositories only if a later-version implementation becomes 
 
 The Odoo 16 installers are Server Actions written to be dry-run first. Write-capable scripts must be run with `APPLY = False` first, reviewed, then run with the expected confirmation token.
 
-The maintained reusable templates are sanitized. Replace placeholder bank values, company identity, fiscal-position names, tax names, and report labels before using them in a real database. A reviewed immutable accepted-current snapshot may retain public BARANI payment/delivery instructions when its publication notice says so; it must never contain login credentials or customer data.
+Sanitized templates and immutable BARANI source snapshots have different reuse requirements. Replace placeholders in sanitized templates. The Odoo 19 addons retain company-specific branding, bank matching and delivery instructions; review their [reuse notice](platforms/odoo/19/README.md#publication-notice-and-reuse) before adapting them. Published files must never contain login credentials or customer data.
 
 Do not publish customer PDFs, live database exports, invoices, bank statements, private backup parameters, API keys, or production credentials.
 
@@ -55,4 +60,8 @@ The Odoo 19 implementation consists of standard addons. Its [README](platforms/o
 
 ## License
 
-A draft MIT license file is included. Review and approve before publishing publicly.
+The root [LICENSE](LICENSE) contains MIT terms. The Odoo 19 addon manifests declare
+`LGPL-3`, and source files retain their own attribution notices, including the
+Odoo S.A. background-image attribution. Preserve those declarations and notices;
+this publication does not relicense code or assets. See the
+[Odoo 19 license scope](platforms/odoo/19/README.md#license-scope).
