@@ -1,0 +1,113 @@
+{
+  "artifacts": [
+    {
+      "bytes": 10512693,
+      "id": "original_handover",
+      "raw_evidence_in_git": false,
+      "retained_filename_alias": "BARANI_PURCHASE_COMPLETE_HANDOVER_20261015(1).zip",
+      "reviewed_result": "Historical handover; its missing-R2 statement is superseded",
+      "sha256": "c5068f5b441a34bcfd37770107aa02e25926436aae30dcd28a1c2658e6c7c486"
+    },
+    {
+      "bytes": 14924,
+      "id": "hosted_renderer_r2",
+      "raw_evidence_in_git": false,
+      "retained_filename_alias": "EVIDENCE.zip",
+      "reviewed_result": "PASS synthetic renderer smoke only",
+      "sha256": "fe1f52a3c1136518fdfa50491c23e173d6e80f991cd775414acc8f4b83dbe351"
+    },
+    {
+      "bytes": 11940,
+      "id": "hosted_dependencies_r1",
+      "raw_evidence_in_git": false,
+      "retained_filename_alias": "EVIDENCE (1).zip",
+      "reviewed_result": "PASS metadata collection; compatibility not established",
+      "sha256": "77a23d4b8b5a6e884243dbb659bffe216748d6e2b503fde8e4d4120ab58133a8"
+    },
+    {
+      "bytes": 32227,
+      "id": "hosted_native_r1",
+      "raw_evidence_in_git": false,
+      "retained_filename_alias": "EVIDENCE (2).zip",
+      "reviewed_result": "Partial checks; DB catalog query denied; end preservation not captured",
+      "sha256": "030847a72def07fd9ddb30d466d62f04efa241df01cebb1b9074d2809d4fd665"
+    },
+    {
+      "bytes": 13899,
+      "id": "hosted_native_r2",
+      "raw_evidence_in_git": false,
+      "retained_filename_alias": "EVIDENCE (3).zip",
+      "reviewed_result": "HOLD controller libmagic call guard; DB phase not reached",
+      "sha256": "07aa9ce7f6571ea29a12d8a72ac1a8bb3226e6bdfcc7d1c137506423cea07e39"
+    },
+    {
+      "bytes": 55109,
+      "id": "hosted_library_diagnostic",
+      "raw_evidence_in_git": false,
+      "retained_filename_alias": "EVIDENCE (4).zip",
+      "reviewed_result": "PASS bounded library collection; native libmagic present",
+      "sha256": "9e95c5516cd7f289a3e4481b59e8483bf1ecdfed4e1f5d31c7600a03cb96d950"
+    },
+    {
+      "bytes": 21824,
+      "id": "hosted_native_r3",
+      "raw_evidence_in_git": false,
+      "retained_filename_alias": "EVIDENCE (5).zip",
+      "reviewed_result": "PASS scoped libmagic and read-only DB checks; runtime still HOLD",
+      "sha256": "1da3153d5a1917fe0e27fc9b2722dc7ae20b677fa1b4506fb92a2080ed0ed102"
+    },
+    {
+      "bytes": 21651,
+      "id": "hosted_target_metadata_r1",
+      "raw_evidence_in_git": false,
+      "retained_filename_alias": "EVIDENCE (6).zip",
+      "reviewed_result": "PASS read-only technical metadata; 22 installed modules, no barani modules",
+      "sha256": "24a51282336725c93ea9b57f5ffa76acbd883854ec2f8024123e224619b9e7c5"
+    },
+    {
+      "bytes": 14647,
+      "id": "hosted_addon_plan_r1",
+      "raw_evidence_in_git": false,
+      "retained_filename_alias": "EVIDENCE (7).zip",
+      "reviewed_result": "HOLD controller apt metadata schema defect; consumed",
+      "sha256": "60a0b2acdcfeff5cfd1241dfeb073209e966be028a6cbcac3b27fecc33752a97"
+    },
+    {
+      "bytes": 15397,
+      "id": "hosted_addon_plan_r2",
+      "raw_evidence_in_git": false,
+      "retained_filename_alias": "EVIDENCE (8).zip",
+      "reviewed_result": "PASS evidence integrity; HOLD candidate closure limit; consumed",
+      "sha256": "2bbf254d17c711a75e310f30790ea1fb1120e5a41fd9bcc5b601ac15e84da4bf"
+    },
+    {
+      "bytes": 74350,
+      "id": "accepted_offline_review",
+      "raw_evidence_in_git": false,
+      "retained_filename_alias": "BARANI_P20_PURCHASE_200103_OFFLINE_ACCEPTANCE_20261015.zip",
+      "reviewed_result": "Accepted previously; not replayed for checkpoint",
+      "sha256": "2ffcc77ebd372cdaf15f6a653da39e63f46490368060e2a55a6da63f6d5b2a74"
+    },
+    {
+      "bytes": 34735,
+      "id": "accepted_mac_offline_return",
+      "raw_evidence_in_git": false,
+      "retained_filename_alias": "BARANI_P20_PURCHASE_R2_VERIFY_yl4o4r6a_EVIDENCE.zip",
+      "reviewed_result": "Accepted previously; not replayed for checkpoint",
+      "sha256": "197511afa6b85250500052150281432bdeb3a5ad5d4738304eadf4909eaaddf1"
+    },
+    {
+      "id": "docker_probe_fix_r2",
+      "raw_evidence_in_git": false,
+      "reviewed_result": "PASS evidence; HOLD ENVIRONMENT_PRECONDITION, unpatched Qt",
+      "sha256": "8773fda2db218d498f6accb57d6ac2cc76768f20d59c186c6e5143f58abf0cff"
+    },
+    {
+      "id": "mac_stopped_probe_diag_r3",
+      "raw_evidence_in_git": false,
+      "reviewed_result": "PASS bounded collection; no suitable alternate renderer in collected set",
+      "sha256": "c9d80aa451ea408067635b7a1df8811a8388ebb54d3a3d4413e1722724eb7d41"
+    }
+  ],
+  "basis": "Previously reviewed returns; index assembled for checkpoint, no audit or runtime replay"
+}

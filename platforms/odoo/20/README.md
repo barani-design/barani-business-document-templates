@@ -1,30 +1,7 @@
-# Odoo 20 migration target (planned)
+# Odoo 20 migration work
 
-This folder is reserved for a tested Odoo 20 implementation of the BARANI business-document families. It does not yet contain deployable Odoo 20 code.
+The unchanged Purchase candidate `barani_purchase` 20.0.1.0.3 is preserved under `addons/barani_purchase/`. Its source is independently accepted offline. Full native readiness, the 22 application runtime tests, four actual Purchase PDFs and real-data migration remain incomplete. **Runtime-01 remains HOLD.**
 
-## Source baseline
+Read [the Purchase checkpoint](checkpoints/purchase-20261016/README.md) before resuming. Odoo's reply supplied on 16 October 2026 gives Q1 2027 as the expected v20 upgrade-script window; availability must be confirmed later. This branch is not a production release and does not update the Odoo.sh parent repository.
 
-Use both Odoo 16 sources as migration inputs:
-
-- `../16/templates/` — maintained, portable Odoo 16 QWeb sources.
-- `../16/accepted-current/2026-08-26-production-template-closeout/` — locked evidence of production-verified behavior, hashes, routes, labels, filenames, bindings, and paper formats.
-
-Preserve the accepted-current snapshot unchanged.
-
-## Compatibility boundary
-
-The Odoo 16 QWeb templates and Server Actions are not drop-in compatible with Odoo 20. Do not copy or run them on Odoo 20 without revalidating template inheritance, report APIs, model fields, filename expressions, report-action bindings, Preview routing, and rendering behavior. Do not carry database record IDs or private restore data into the port.
-
-## Port acceptance
-
-An Odoo 20 port is not working until:
-
-- every view installs, compiles, and renders in a disposable Odoo 20 database;
-- invoices and credit notes, quotations and sales orders, pro-formas, Delivery Notes, and Picking Operations pass;
-- billing-versus-shipping behavior passes for same-partner, same-location/different-contact, and different-company/address scenarios;
-- Delivery Note unique-source, multiple-source, Incoterms, sale-less, kit, lot, and serial branches pass;
-- report labels, numeric-first filenames, Print bindings, Preview routing, translations, and paper formats match the accepted contract;
-- tests use synthetic records and no production or customer data is committed;
-- a dry run, rollback strategy, fresh backup, confirmed apply, and independent read-only verifier exist for the target environment.
-
-Keep Odoo 20 implementation code and migration evidence in this folder.
+Other business-document families remain separate work. The Odoo 16 maintained sources and accepted-current snapshots, and the Odoo 19 implementations, are historical inputs to preserve. They are not automatically compatible with v20. A complete migration still requires installed views, real rendering, business workflows, upgraded-data acceptance and an approved rollback/cutover plan.

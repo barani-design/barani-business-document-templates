@@ -1,0 +1,84 @@
+{
+  "application_changed_paths": 0,
+  "application_runtime_tests": {
+    "executed": 0,
+    "names": [
+      "test_batch_company_identifiers_and_supplier_language_isolation",
+      "test_discount_included_tax_and_global_rounding",
+      "test_document_tax_mode_discount_and_global_rounding",
+      "test_document_tax_mode_global_rounding_differs_from_per_line",
+      "test_document_tax_mode_unit_price_precision_0119",
+      "test_english_labels_with_slovak_supplier_language",
+      "test_legacy_backup_report_file_is_dropped_and_other_keys_fail",
+      "test_native_action_titles_and_filename",
+      "test_native_product_labels_new_vendor_edited_and_historical",
+      "test_order_company_is_used_in_batch",
+      "test_precision_column_order_and_rounded_totals",
+      "test_real_pdf_short_and_multipage",
+      "test_registration_identifiers_are_stored_en_only",
+      "test_rfq_button_routing_and_unpriced_content",
+      "test_rfq_portal_edi_link",
+      "test_rfq_sections_notes_and_internal_note",
+      "test_rfq_upgrade_backup_restore_and_foreign_route",
+      "test_sections_notes_incoterms_and_internal_note",
+      "test_structured_company_header_does_not_repeat_freeform_details",
+      "test_tax_override_takes_precedence_over_document_mode",
+      "test_uninstall_restores_saved_action_and_foreign_route_is_protected",
+      "test_warehouse_and_explicit_delivery_address"
+    ],
+    "required": 22
+  },
+  "application_status": "FROZEN_SOURCE_OFFLINE_ACCEPTED",
+  "as_of": "2026-10-16",
+  "authorized_application_edits": 0,
+  "checkpoint_branch": "p20-purchase-checkpoint-20261016-r1",
+  "dependency_open_items": [
+    "serial / usb import availability and actual relevance remain unresolved",
+    "native installed versions are not blanket accepted against all requirement pins"
+  ],
+  "deployment": "NOT_AUTHORIZED_BY_CHECKPOINT",
+  "full_native_readiness": "NOT_ESTABLISHED",
+  "historical_source_parent": "66d67448c94db3313365b2cc93d3336791d864e7",
+  "hosted_renderer": "PASS_SYNTHETIC_TWO_PAGE_SMOKE_ONLY",
+  "latest_attempt": {
+    "actual_required_module_count": "NOT_ESTABLISHED",
+    "application_failure_established": false,
+    "classification": "CONTROLLER_PLANNING_LIMIT",
+    "collection": "INCOMPLETE",
+    "consumed": true,
+    "evidence_integrity": "PASS",
+    "hold": "CANDIDATE_CLOSURE_LIMIT",
+    "name": "SH_ADDON_PLAN_R2"
+  },
+  "module": "barani_purchase",
+  "module_content_sha256": "bc81e637529172588f797addcfa6fdec92863ac3633d8af61bd13ae806567ca2",
+  "module_git_tree": "a1bd871def34dc3a6e0be55d549a8cc5f198d3ec",
+  "native_core_cli_pdf_and_selected_dependencies": "SCOPED_CHECKS_PASSED_NOT_FULL_COMPATIBILITY",
+  "native_pins": {
+    "docker": "9b1a92e38dbae2bb83ad80700ccec0535f8ac68f",
+    "equivalence_claim": false,
+    "hosted_community": "a7950cab13fcb9400d58d582f5583c0f1c0f5405",
+    "hosted_enterprise": "d68e2160cdb4bf4de3756314b7731a89974c2163"
+  },
+  "odoo19_purchase_tree_preserved": "0102b7ac172bc880225e2646d6b0691677b4b2a8",
+  "other_barani_modules": "NOT_ASSESSED_BY_THIS_CHECKPOINT",
+  "production_upgrade": {
+    "basis": "Odoo support email supplied by owner, 2026-10-16",
+    "expected_window_reported": "Q1 2027",
+    "independently_guaranteed_date": false,
+    "status": "WAITING_FOR_ODOO_AVAILABILITY"
+  },
+  "publication_scope": "STANDALONE_SOURCE_CHECKPOINT_BRANCH_ONLY",
+  "purchase_pdfs": {
+    "generated": 0,
+    "required": 4,
+    "visual_acceptance": "NOT_RUN"
+  },
+  "real_database_migration": "NOT_RUN",
+  "runtime01_status": "HOLD_RUNTIME01",
+  "runtime_retry": "NOT_AUTHORIZED_BY_CHECKPOINT",
+  "source_archive_sha256": "cf6ed932acb4bbf07109ac322bf40f53bea3e888e5212d7df11a68d6d6d1b988",
+  "upgraded_database_acceptance": "NOT_RUN",
+  "version": "20.0.1.0.3",
+  "whole_v20_migration_acceptance": "NOT_ESTABLISHED"
+}

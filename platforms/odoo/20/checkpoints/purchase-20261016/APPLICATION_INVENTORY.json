@@ -1,0 +1,62 @@
+{
+  "__init__.py": {
+    "bytes": 49,
+    "mode": "0644",
+    "sha256": "2cb78ec1efdf1786f29cfe1ea1e53f0a15237819b031cc8a57f88ab8256febd6"
+  },
+  "__manifest__.py": {
+    "bytes": 741,
+    "mode": "0644",
+    "sha256": "609a6dd41dbf85100de65a3c5fc9593dd372c3a1be987447527a3d4d069bb425"
+  },
+  "hooks.py": {
+    "bytes": 4039,
+    "mode": "0644",
+    "sha256": "f12319f04705bf6742fbb9251ed87bb1a20bfb6d25ca93520127c93c89142e7c"
+  },
+  "migrations/19.0.1.0.1/pre-10-backup-rfq-action.py": {
+    "bytes": 268,
+    "mode": "0644",
+    "sha256": "774a70bc47b1a369e333b52cb4a44f48d6d095f59ca89845cf3c8c92b60a57fe"
+  },
+  "report/external_layout_purchase.xml": {
+    "bytes": 3866,
+    "mode": "0644",
+    "sha256": "8d78baebd3ccd3d66f8e6d62876e1984882930e3f3682a0bae21ff125c4210e1"
+  },
+  "report/paperformat.xml": {
+    "bytes": 670,
+    "mode": "0644",
+    "sha256": "543631ca2617cef0acb85298f4c3a68b67d3e232c6a2eb32c60bf2310162f811"
+  },
+  "report/report_action.xml": {
+    "bytes": 970,
+    "mode": "0644",
+    "sha256": "a8be7ef78e6b1f2ca6e3eca187013119988cc0e12db08fc7445848ed02188573"
+  },
+  "report/report_purchaseorder.xml": {
+    "bytes": 11450,
+    "mode": "0644",
+    "sha256": "6cfdb76af4da5dce1efb3848881a6f43245e2fa290befeab85e8c2d492b442c8"
+  },
+  "report/report_purchasequotation.xml": {
+    "bytes": 4131,
+    "mode": "0644",
+    "sha256": "21a54fa74f19e2b6b3447ccb12dbc863d04410bfe3b808770fcef34face2b9cc"
+  },
+  "static/img/bg_background_template.jpg": {
+    "bytes": 192515,
+    "mode": "0644",
+    "sha256": "2426934b41b7bdc3b17929ed098c94c56d8a3e59b00367869735ec12fcfa7f86"
+  },
+  "tests/__init__.py": {
+    "bytes": 36,
+    "mode": "0644",
+    "sha256": "2eccbc36c2408cc010d457f928bbf253eee2925f9e4909ba9a970dfde2fe5198"
+  },
+  "tests/test_purchase_reports.py": {
+    "bytes": 41073,
+    "mode": "0644",
+    "sha256": "c8e3c994eb465caec8f8de6b1091bd652b693198a4b4815064342bac356a9020"
+  }
+}
