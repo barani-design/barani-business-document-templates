@@ -133,6 +133,62 @@ class TestBaraniVatRendering(AccountTestInvoicingCommon):
             invoice_line_ids=lines, invoice_origin='SO/260904', payment_reference='260904', post=post)
         return invoice, account
 
+    def _assert_payment_reference(self, document, expected):
+        for name in ('payment_reference', 'barani_payment_ref_cell'):
+            nodes = document.xpath('//*[@name="%s"]' % name)
+            self.assertEqual(len(nodes), 1 if expected else 0)
+            if expected:
+                self.assertIn(expected, nodes[0].text_content())
+
+    def test_reference_uses_stored_value_with_combined_origin(self):
+        invoice, unused = self._invoice(post=False)
+        invoice.write({'invoice_origin': 'Q/126/00001, Q/126/00002',
+                       'payment_reference': '0012600017'})
+        invoice.action_post()
+        before = invoice.read(['name', 'invoice_origin', 'payment_reference', 'write_date'])[0]
+        document = self._html('account.account_invoices', invoice, 'stored_reference_combined_origin')
+        self._assert_payment_reference(document, '0012600017')
+        self.assertNotIn('1260000112600002', document.text_content())
+        self.assertIn(invoice.name, document.text_content())
+        self.assertEqual(before, invoice.read(['name', 'invoice_origin', 'payment_reference', 'write_date'])[0])
+        self._pdf('account.account_invoices', invoice, 'stored_reference_combined_origin')
+
+    def test_native_text_reference_is_preserved_and_escaped(self):
+        invoice, unused = self._invoice(post=False)
+        invoice.payment_reference = 'RF18 5390 0754 7034 <PAY&A>'
+        document = self._html('barani_vat.action_invoice_preview', invoice, 'native_text_reference')
+        self._assert_payment_reference(document, invoice.payment_reference)
+        self.assertFalse(document.xpath('//pay'))
+
+    def test_blank_reference_does_not_use_origin_or_invoice_number(self):
+        invoice, unused = self._invoice(post=False)
+        invoice.write({'invoice_origin': 'Q/126/00001, Q/126/00002', 'payment_reference': False})
+        document = self._html('barani_vat.action_invoice_preview', invoice, 'blank_reference')
+        self._assert_payment_reference(document, '')
+        self.assertNotIn('1260000112600002', document.text_content())
+
+    def test_credit_reference_comes_from_actual_original_invoice(self):
+        original, unused = self._invoice()
+        original.payment_reference = '0012600017'
+        credit, unused = self._invoice(refund=True, post=False)
+        credit.write({'reversed_entry_id': original.id,
+                      'invoice_origin': 'Q/126/00001, Q/126/00002',
+                      'ref': 'UNRELATED-999999'})
+        document = self._html('barani_vat.action_invoice_preview', credit, 'linked_credit_reference')
+        nodes = document.xpath('//*[@name="barani_credit_original_payment_reference"]')
+        self.assertEqual(len(nodes), 1)
+        self.assertIn('0012600017', nodes[0].text_content())
+        self._assert_payment_reference(document, '')
+        self.assertEqual(original.payment_reference, '0012600017')
+
+    def test_unlinked_credit_does_not_invent_original_payment_reference(self):
+        credit, unused = self._invoice(refund=True, post=False)
+        credit.write({'invoice_origin': 'SO/126/00017', 'ref': 'RI/260800'})
+        document = self._html('barani_vat.action_invoice_preview', credit, 'unlinked_credit_reference')
+        self.assertFalse(document.xpath('//*[@name="barani_credit_original_payment_reference"]'))
+        self.assertIn('RI/260800', document.text_content())
+        self._assert_payment_reference(document, '')
+
     def test_regular_invoice_all_actions_and_preview_view(self):
         invoice, account = self._invoice()
         self.partner_a.write({'phone': False, 'email': False})
@@ -227,6 +283,8 @@ class TestBaraniVatRendering(AccountTestInvoicingCommon):
         self.env['res.partner.bank'].create({'partner_id': invoice.company_id.partner_id.id,
             'bank_id': bank.id, 'acc_number': 'SK1483300000002401465895'})
         doc = self._html('account.account_invoices', invoice, 'paid_advance_bank')
+        self._assert_payment_reference(doc, invoice.payment_reference)
+        self.assertEqual(invoice.payment_reference, '260904')
         for marker in ('SK1483300000002401465895', 'FIOZSKBAXXX', 'REPORT FIO BANK'):
             self.assertIn(marker, doc.text_content().replace(' ', '')) if marker.startswith('SK') else self.assertIn(marker, doc.text_content())
         self._pdf('account.account_invoices', invoice, 'paid_advance_bank')
