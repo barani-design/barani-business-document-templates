@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <!-- Stored native enterprise numbers only. No VAT parsing, enrichment or writes.
+       The explicit fallback retains the VAT report's direct-contact/parent rule. -->
+  <template id="registration_identifiers">
+    <t t-set="identifier_metadata" t-value="identifier_partner._get_all_identifiers_metadata() if identifier_partner else {}"/>
+    <t t-set="identifier_rows" t-value="sorted([(identifier_metadata[key].get('sequence', 100), key, value) for key, value in (identifier_partner.additional_identifiers or {}).items() if value and identifier_metadata.get(key, {}).get('category') == 'EN']) if identifier_partner else []"/>
+    <t t-if="not identifier_rows and identifier_fallback">
+      <t t-set="identifier_metadata" t-value="identifier_fallback._get_all_identifiers_metadata()"/>
+      <t t-set="identifier_rows" t-value="sorted([(identifier_metadata[key].get('sequence', 100), key, value) for key, value in (identifier_fallback.additional_identifiers or {}).items() if value and identifier_metadata.get(key, {}).get('category') == 'EN'])"/>
+    </t>
+    <div t-foreach="identifier_rows" t-as="identifier" t-att-name="identifier_name" class="mt-1"><t t-out="(identifier_partner or identifier_fallback)._lazy_translate_additional_identifiers_metadata(identifier_metadata[identifier[1]]).get('label') or identifier[1]"/>: <span t-out="identifier[2]"/></div>
+  </template>
+</odoo>

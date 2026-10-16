@@ -1,0 +1,170 @@
+[
+  {
+    "after_sha256": "b2f63d4c631ed730be6d35eb3836892867be9048988ea7fcac5f719814a04fd3",
+    "before_sha256": "8a1fe90103653e1f3f3d65253eb48aad0e17884ead3ed1ee1ce36f99cf6d368a",
+    "change": "modified",
+    "module": "barani_commercial",
+    "path": "__manifest__.py"
+  },
+  {
+    "after_sha256": "41b3ee739318a3e5ab95851d8c99152d423530a2c5bc09e0f299363eaac28045",
+    "before_sha256": "fc329e7d9a50c219f1fa0f0e65a0353f31c33e8c2374ee48ee492951bca33d9d",
+    "change": "modified",
+    "module": "barani_commercial",
+    "path": "report/external_layout_standard_titled.xml"
+  },
+  {
+    "after_sha256": "1d36e307f9aa5f660ea38bda3fa1bc51120874ec20b4b4dce97f03d635f28ca6",
+    "before_sha256": null,
+    "change": "added",
+    "module": "barani_commercial",
+    "path": "report/registration_identifiers.xml"
+  },
+  {
+    "after_sha256": "8df9406686adfbe08591479b715da0dda47d85649db6452f28ca72090719dba4",
+    "before_sha256": "ec9a7fe6a787408a7f8e2965ab2474f70f7f9ed46d16a5df9f72bb8f78e824d3",
+    "change": "modified",
+    "module": "barani_commercial",
+    "path": "report/report_saleorder_document.xml"
+  },
+  {
+    "after_sha256": "d3f0f092e480386e03c0dad196d10d544a152610395fe77bae30cd93b1e37ebc",
+    "before_sha256": "9786bb127db080cd24297684011f6170fb939101eb0121173484c72419bf03ab",
+    "change": "modified",
+    "module": "barani_commercial",
+    "path": "tests/__init__.py"
+  },
+  {
+    "after_sha256": "b5c134cea40d539d0fc270d4934c2c157d1548d6dc9ac6a5b181fa235e1e2210",
+    "before_sha256": null,
+    "change": "added",
+    "module": "barani_commercial",
+    "path": "tests/test_native20_identifiers.py"
+  },
+  {
+    "after_sha256": "72e1473a16003abe1ce9c4fd43bef1c8befdc0bd08580ffa5f6bf2bf563bd8eb",
+    "before_sha256": "27ac10448871331639eca9804193de30401348a31725101710a917740f71ddbf",
+    "change": "modified",
+    "module": "barani_commercial",
+    "path": "tests/test_report_rendering.py"
+  },
+  {
+    "after_sha256": "6aa8e1705e265f4de43564649ddb2a39fb58a3f63ec9137221958141d45e0112",
+    "before_sha256": "2c7e0b5275ff695f21be94cbc1d127027e6eb42362991d850e60594849e5d80d",
+    "change": "modified",
+    "module": "barani_delivery",
+    "path": "__manifest__.py"
+  },
+  {
+    "after_sha256": "816bac55dc6163b2a339b9e33f8971a89e1af279b67edaab93db318aab5cf079",
+    "before_sha256": "778b53bd90be5219908a75615c9bca3d9c2a9e8210b8f784e4a50bed2dfe4aff",
+    "change": "modified",
+    "module": "barani_delivery",
+    "path": "report/external_layout_delivery_2026.xml"
+  },
+  {
+    "after_sha256": "8d078374729ea7b5a2d2a1accf1c7f42d5c4303bc11eddd34f666a9d4a0d77ad",
+    "before_sha256": "fa344012683ce9e9b736d040057f4363cd36b95957c7e1a1653b17784d3025e7",
+    "change": "modified",
+    "module": "barani_delivery",
+    "path": "report/external_layout_picking_operations_2026.xml"
+  },
+  {
+    "after_sha256": "1d36e307f9aa5f660ea38bda3fa1bc51120874ec20b4b4dce97f03d635f28ca6",
+    "before_sha256": null,
+    "change": "added",
+    "module": "barani_delivery",
+    "path": "report/registration_identifiers.xml"
+  },
+  {
+    "after_sha256": "31ba65f9350b3e7c3710642f08657d1c49cb076f5ef45911fdb7b6f539b11ce1",
+    "before_sha256": "0cd5df33a94ff0d3fa97a9522d3ee84435b6ddaf98f3f3d19314ee486e79acf2",
+    "change": "modified",
+    "module": "barani_delivery",
+    "path": "report/report_delivery_note_2026.xml"
+  },
+  {
+    "after_sha256": "ead2d6aac6f9672745ce655c2eeaec8ac36b1413d85ebfcd58ac68daa37e5cb1",
+    "before_sha256": "a5b938a4fa505bc114dde24cb6329208c225dd0a4cbb11dd297f61c6b158fc3d",
+    "change": "modified",
+    "module": "barani_delivery",
+    "path": "report/report_picking_operations_2026.xml"
+  },
+  {
+    "after_sha256": "0c1e128c7d554c16581a80d8c31ff3baae4e70e72e8dfd47841f7e94e89671fd",
+    "before_sha256": "8cc77ba00fe4f0105fcd1c43c7cb7b770ba153c7eab9f6ddf1115f1e20773623",
+    "change": "modified",
+    "module": "barani_delivery",
+    "path": "report_compat.py"
+  },
+  {
+    "after_sha256": "d3f0f092e480386e03c0dad196d10d544a152610395fe77bae30cd93b1e37ebc",
+    "before_sha256": "9786bb127db080cd24297684011f6170fb939101eb0121173484c72419bf03ab",
+    "change": "modified",
+    "module": "barani_delivery",
+    "path": "tests/__init__.py"
+  },
+  {
+    "after_sha256": "5f82e79c370914cb070eea3885990ae3dd773c5dc4fbacc10fd82b3262dadfbc",
+    "before_sha256": null,
+    "change": "added",
+    "module": "barani_delivery",
+    "path": "tests/test_native20_identifiers.py"
+  },
+  {
+    "after_sha256": "04b22a92517453ddae5d1b1c15728d036eee9fc22e9e37b589547016d011685f",
+    "before_sha256": "f3c34a7535b7e9069684e22df6af72bdd57f7daaf3e72cfab3f1078f2871a3a9",
+    "change": "modified",
+    "module": "barani_delivery",
+    "path": "tests/test_report_rendering.py"
+  },
+  {
+    "after_sha256": "6b9f54e418fdb37cee567b0ca4d1eaffc034fca2e9f6d15f6b3845d1bf0cba47",
+    "before_sha256": "9e96859501afee7dc22ca6d6bdd50cba6af8b1623723db4cfe4adcdb3c40a51f",
+    "change": "modified",
+    "module": "barani_vat",
+    "path": "__manifest__.py"
+  },
+  {
+    "after_sha256": "4d7ceb04f006741938ccc0505efc73a796b6e2e40cb24e36da28ab71049e3988",
+    "before_sha256": "b002ab89d0bc591b9618ad3bc12f0b3b447c5af2bb8b3e02b20442de29ab4735",
+    "change": "modified",
+    "module": "barani_vat",
+    "path": "report/external_layout_standard_titled.xml"
+  },
+  {
+    "after_sha256": "1d36e307f9aa5f660ea38bda3fa1bc51120874ec20b4b4dce97f03d635f28ca6",
+    "before_sha256": null,
+    "change": "added",
+    "module": "barani_vat",
+    "path": "report/registration_identifiers.xml"
+  },
+  {
+    "after_sha256": "5bdf37b5a18605197fdb7e58f7a1d1004efbe453600601dd2437426f709e14ea",
+    "before_sha256": "41482f70ef1b575e5970b1f9ed038cccb3933701f32ef5237b835954ee43accf",
+    "change": "modified",
+    "module": "barani_vat",
+    "path": "report/report_invoice_document_vat.xml"
+  },
+  {
+    "after_sha256": "b4c362e5a737c36ae517fe9a4d19ba411aab9713a41aa40279e49825579e8326",
+    "before_sha256": "fdd41e36c3723f81bb0b7ebf54c2b1a8fa3fba4bcb25b3a8add02c52d6f5fe4b",
+    "change": "modified",
+    "module": "barani_vat",
+    "path": "tests/__init__.py"
+  },
+  {
+    "after_sha256": "93a9389c97363a848e3adaae5638b54847608cb1bf3c45598349c95055a22f15",
+    "before_sha256": null,
+    "change": "added",
+    "module": "barani_vat",
+    "path": "tests/test_native20_identifiers.py"
+  },
+  {
+    "after_sha256": "2cc12c3393b424da248a256e5079b557427c8576711298556ca8d361e20511fd",
+    "before_sha256": "d6ff3a55c6376520cab9deaed63bd0a46a01c69c0fa7a8808041cc1ff191be2e",
+    "change": "modified",
+    "module": "barani_vat",
+    "path": "tests/test_report_rendering.py"
+  }
+]

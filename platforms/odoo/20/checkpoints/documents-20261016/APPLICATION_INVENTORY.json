@@ -1,0 +1,247 @@
+{
+  "platforms/odoo/20/addons/barani_commercial/__init__.py": {
+    "bytes": 30,
+    "mode": "0644",
+    "sha256": "542a00f98e3f025da327ad6f35671088d9641a6f911d9b276ce12c3eb9aaa98a"
+  },
+  "platforms/odoo/20/addons/barani_commercial/__manifest__.py": {
+    "bytes": 798,
+    "mode": "0644",
+    "sha256": "b2f63d4c631ed730be6d35eb3836892867be9048988ea7fcac5f719814a04fd3"
+  },
+  "platforms/odoo/20/addons/barani_commercial/data/core_report_overrides.xml": {
+    "bytes": 2185,
+    "mode": "0644",
+    "sha256": "65ac62a1e121a63368aa5e3b578d73df129d6dd183c1ac632ee73f78a1cb14e8"
+  },
+  "platforms/odoo/20/addons/barani_commercial/data/report_metadata.xml": {
+    "bytes": 3326,
+    "mode": "0644",
+    "sha256": "8a1b5d422100fb9392c09a76a18b6be8a3156402ae6d5260c2fa3fb00e27d501"
+  },
+  "platforms/odoo/20/addons/barani_commercial/report/external_layout_standard_titled.xml": {
+    "bytes": 3433,
+    "mode": "0644",
+    "sha256": "41b3ee739318a3e5ab95851d8c99152d423530a2c5bc09e0f299363eaac28045"
+  },
+  "platforms/odoo/20/addons/barani_commercial/report/registration_identifiers.xml": {
+    "bytes": 1434,
+    "mode": "0644",
+    "sha256": "1d36e307f9aa5f660ea38bda3fa1bc51120874ec20b4b4dce97f03d635f28ca6"
+  },
+  "platforms/odoo/20/addons/barani_commercial/report/report_saleorder.xml": {
+    "bytes": 382,
+    "mode": "0644",
+    "sha256": "efd93e2d88cfc88319dfdf1f73105c72d1fcc66935082228b7e40ae93dce4fce"
+  },
+  "platforms/odoo/20/addons/barani_commercial/report/report_saleorder_document.xml": {
+    "bytes": 25069,
+    "mode": "0644",
+    "sha256": "8df9406686adfbe08591479b715da0dda47d85649db6452f28ca72090719dba4"
+  },
+  "platforms/odoo/20/addons/barani_commercial/report/report_saleorder_proforma.xml": {
+    "bytes": 389,
+    "mode": "0644",
+    "sha256": "63784814d14799c5ce3a7e851c40598431ab362de957bab8fdd4bc3123f36113"
+  },
+  "platforms/odoo/20/addons/barani_commercial/report_metadata.py": {
+    "bytes": 3326,
+    "mode": "0644",
+    "sha256": "13e1363e77bdfde3d27fc0af3303ecf66c890609f11fb091308b92a4d3ee9943"
+  },
+  "platforms/odoo/20/addons/barani_commercial/static/img/bg_background_template.jpg": {
+    "bytes": 192515,
+    "mode": "0644",
+    "sha256": "2426934b41b7bdc3b17929ed098c94c56d8a3e59b00367869735ec12fcfa7f86"
+  },
+  "platforms/odoo/20/addons/barani_commercial/tests/__init__.py": {
+    "bytes": 110,
+    "mode": "0644",
+    "sha256": "d3f0f092e480386e03c0dad196d10d544a152610395fe77bae30cd93b1e37ebc"
+  },
+  "platforms/odoo/20/addons/barani_commercial/tests/test_native20_identifiers.py": {
+    "bytes": 2383,
+    "mode": "0644",
+    "sha256": "b5c134cea40d539d0fc270d4934c2c157d1548d6dc9ac6a5b181fa235e1e2210"
+  },
+  "platforms/odoo/20/addons/barani_commercial/tests/test_report_rendering.py": {
+    "bytes": 15056,
+    "mode": "0644",
+    "sha256": "72e1473a16003abe1ce9c4fd43bef1c8befdc0bd08580ffa5f6bf2bf563bd8eb"
+  },
+  "platforms/odoo/20/addons/barani_commercial/tests/test_report_routing.py": {
+    "bytes": 1687,
+    "mode": "0644",
+    "sha256": "c77e3d03514d0a45872cc1865c0e53fe16d5638018a2ea9b38ccfbbbe4c4614d"
+  },
+  "platforms/odoo/20/addons/barani_delivery/__init__.py": {
+    "bytes": 58,
+    "mode": "0644",
+    "sha256": "4a2c153d43a87ca83efde4b0d93912eaece0c7c20a535efc9179c22fcffe71d8"
+  },
+  "platforms/odoo/20/addons/barani_delivery/__manifest__.py": {
+    "bytes": 885,
+    "mode": "0644",
+    "sha256": "6aa8e1705e265f4de43564649ddb2a39fb58a3f63ec9137221958141d45e0112"
+  },
+  "platforms/odoo/20/addons/barani_delivery/data/core_report_overrides.xml": {
+    "bytes": 1181,
+    "mode": "0644",
+    "sha256": "007ece44afbd61e628b7cdad798367be16046062a6d0c10a80c180aff539ddf6"
+  },
+  "platforms/odoo/20/addons/barani_delivery/data/report_metadata.xml": {
+    "bytes": 5819,
+    "mode": "0644",
+    "sha256": "52480d2ddaa6dbe787674edb6834fe03fa7d74e8c3268c444627e659a4887bae"
+  },
+  "platforms/odoo/20/addons/barani_delivery/report/external_layout_delivery_2026.xml": {
+    "bytes": 3740,
+    "mode": "0644",
+    "sha256": "816bac55dc6163b2a339b9e33f8971a89e1af279b67edaab93db318aab5cf079"
+  },
+  "platforms/odoo/20/addons/barani_delivery/report/external_layout_picking_operations_2026.xml": {
+    "bytes": 3751,
+    "mode": "0644",
+    "sha256": "8d078374729ea7b5a2d2a1accf1c7f42d5c4303bc11eddd34f666a9d4a0d77ad"
+  },
+  "platforms/odoo/20/addons/barani_delivery/report/registration_identifiers.xml": {
+    "bytes": 1434,
+    "mode": "0644",
+    "sha256": "1d36e307f9aa5f660ea38bda3fa1bc51120874ec20b4b4dce97f03d635f28ca6"
+  },
+  "platforms/odoo/20/addons/barani_delivery/report/report_delivery_note_2026.xml": {
+    "bytes": 25678,
+    "mode": "0644",
+    "sha256": "31ba65f9350b3e7c3710642f08657d1c49cb076f5ef45911fdb7b6f539b11ce1"
+  },
+  "platforms/odoo/20/addons/barani_delivery/report/report_picking_operations_2026.xml": {
+    "bytes": 14802,
+    "mode": "0644",
+    "sha256": "ead2d6aac6f9672745ce655c2eeaec8ac36b1413d85ebfcd58ac68daa37e5cb1"
+  },
+  "platforms/odoo/20/addons/barani_delivery/report/report_sale_order_delivery_note_2026.xml": {
+    "bytes": 920,
+    "mode": "0644",
+    "sha256": "f8d0fec3fb73af0e18eaa0461e1ad7955a9cb72cb6a3a8426c36ab8ac8b99613"
+  },
+  "platforms/odoo/20/addons/barani_delivery/report_compat.py": {
+    "bytes": 1638,
+    "mode": "0644",
+    "sha256": "0c1e128c7d554c16581a80d8c31ff3baae4e70e72e8dfd47841f7e94e89671fd"
+  },
+  "platforms/odoo/20/addons/barani_delivery/report_metadata.py": {
+    "bytes": 6951,
+    "mode": "0644",
+    "sha256": "9e1d3aa15ca6e2e5e01294649f40d6a7daefa60e257905d0ff3ff43259ba2ba7"
+  },
+  "platforms/odoo/20/addons/barani_delivery/static/img/bg_background_template.jpg": {
+    "bytes": 192515,
+    "mode": "0644",
+    "sha256": "2426934b41b7bdc3b17929ed098c94c56d8a3e59b00367869735ec12fcfa7f86"
+  },
+  "platforms/odoo/20/addons/barani_delivery/tests/__init__.py": {
+    "bytes": 110,
+    "mode": "0644",
+    "sha256": "d3f0f092e480386e03c0dad196d10d544a152610395fe77bae30cd93b1e37ebc"
+  },
+  "platforms/odoo/20/addons/barani_delivery/tests/test_native20_identifiers.py": {
+    "bytes": 2381,
+    "mode": "0644",
+    "sha256": "5f82e79c370914cb070eea3885990ae3dd773c5dc4fbacc10fd82b3262dadfbc"
+  },
+  "platforms/odoo/20/addons/barani_delivery/tests/test_report_rendering.py": {
+    "bytes": 32141,
+    "mode": "0644",
+    "sha256": "04b22a92517453ddae5d1b1c15728d036eee9fc22e9e37b589547016d011685f"
+  },
+  "platforms/odoo/20/addons/barani_delivery/tests/test_report_routing.py": {
+    "bytes": 933,
+    "mode": "0644",
+    "sha256": "4753f9798b703e38f769bde952e9504a58dbe95a3c4650e104535711e7885e7a"
+  },
+  "platforms/odoo/20/addons/barani_vat/__init__.py": {
+    "bytes": 57,
+    "mode": "0644",
+    "sha256": "3d780ac9309207b104d514162d0b04d9bb4e6426c7a26c1f2f4f07d8e3f6c01e"
+  },
+  "platforms/odoo/20/addons/barani_vat/__manifest__.py": {
+    "bytes": 778,
+    "mode": "0644",
+    "sha256": "6b9f54e418fdb37cee567b0ca4d1eaffc034fca2e9f6d15f6b3845d1bf0cba47"
+  },
+  "platforms/odoo/20/addons/barani_vat/data/core_report_overrides.xml": {
+    "bytes": 2555,
+    "mode": "0644",
+    "sha256": "844115116ad87baa7028f204d442ac35865ffbc3b958dc1e61e7373302be78cb"
+  },
+  "platforms/odoo/20/addons/barani_vat/data/legacy_preview_views.xml": {
+    "bytes": 134,
+    "mode": "0644",
+    "sha256": "bd2e400e0729b8f3a7c2ae3ae40db312f55a250d63fba1f94b4b495a0082371b"
+  },
+  "platforms/odoo/20/addons/barani_vat/data/report_metadata.xml": {
+    "bytes": 3280,
+    "mode": "0644",
+    "sha256": "6575eaf5f676c1df789225733f966173e7dafb4fabd6caa8f1056faf60dcd31c"
+  },
+  "platforms/odoo/20/addons/barani_vat/legacy_views.py": {
+    "bytes": 1620,
+    "mode": "0644",
+    "sha256": "1cefd4582740c57ecf487dabfe08c78a9ed98fe695fb9f84fb59bc6c93a1cb24"
+  },
+  "platforms/odoo/20/addons/barani_vat/report/external_layout_standard_titled.xml": {
+    "bytes": 6350,
+    "mode": "0644",
+    "sha256": "4d7ceb04f006741938ccc0505efc73a796b6e2e40cb24e36da28ab71049e3988"
+  },
+  "platforms/odoo/20/addons/barani_vat/report/registration_identifiers.xml": {
+    "bytes": 1434,
+    "mode": "0644",
+    "sha256": "1d36e307f9aa5f660ea38bda3fa1bc51120874ec20b4b4dce97f03d635f28ca6"
+  },
+  "platforms/odoo/20/addons/barani_vat/report/report_invoice_document_vat.xml": {
+    "bytes": 41797,
+    "mode": "0644",
+    "sha256": "5bdf37b5a18605197fdb7e58f7a1d1004efbe453600601dd2437426f709e14ea"
+  },
+  "platforms/odoo/20/addons/barani_vat/report_metadata.py": {
+    "bytes": 3941,
+    "mode": "0644",
+    "sha256": "7f4e17c7d69bed0b51c79c4b13e79827132f81301233f4424b1a33c43849565f"
+  },
+  "platforms/odoo/20/addons/barani_vat/static/img/bg_background_template.jpg": {
+    "bytes": 192515,
+    "mode": "0644",
+    "sha256": "2426934b41b7bdc3b17929ed098c94c56d8a3e59b00367869735ec12fcfa7f86"
+  },
+  "platforms/odoo/20/addons/barani_vat/tests/__init__.py": {
+    "bytes": 150,
+    "mode": "0644",
+    "sha256": "b4c362e5a737c36ae517fe9a4d19ba411aab9713a41aa40279e49825579e8326"
+  },
+  "platforms/odoo/20/addons/barani_vat/tests/test_legacy_preview_views.py": {
+    "bytes": 5121,
+    "mode": "0644",
+    "sha256": "09c9e9819708d4d23cbd9f80b5d16cc103af160bda7cafdcc4c75176e7b5d88d"
+  },
+  "platforms/odoo/20/addons/barani_vat/tests/test_native20_identifiers.py": {
+    "bytes": 2376,
+    "mode": "0644",
+    "sha256": "93a9389c97363a848e3adaae5638b54847608cb1bf3c45598349c95055a22f15"
+  },
+  "platforms/odoo/20/addons/barani_vat/tests/test_report_rendering.py": {
+    "bytes": 22406,
+    "mode": "0644",
+    "sha256": "2cc12c3393b424da248a256e5079b557427c8576711298556ca8d361e20511fd"
+  },
+  "platforms/odoo/20/addons/barani_vat/tests/test_report_routing.py": {
+    "bytes": 1588,
+    "mode": "0644",
+    "sha256": "b4a0b5f1ed1d552ec0fdd5654ecce3fe57b0807ca09bd1014153c49cbab3f6c4"
+  },
+  "platforms/odoo/20/addons/barani_vat/views/account_move_views.xml": {
+    "bytes": 640,
+    "mode": "0644",
+    "sha256": "6c598749847bce4cfdb4aaca06d198fae2ce5386f92a114cfee01ee60d908155"
+  }
+}

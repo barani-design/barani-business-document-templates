@@ -1,0 +1,241 @@
+{
+  "commit": "a7950cab13fcb9400d58d582f5583c0f1c0f5405",
+  "files": [
+    {
+      "bytes": 75918,
+      "git_blob": "28e65c1b9be1d06ed4cfdb437baa7ce12d5a4a3c",
+      "path": "addons/account/models/account_account.py",
+      "sha256": "a335b3e074ac6f2e40951a066c5e8e42d7f226f4bb094338bf165f01895b6aca"
+    },
+    {
+      "bytes": 408174,
+      "git_blob": "784cc1a7718057bc6e674b357ceda08a07a7bb38",
+      "path": "addons/account/models/account_move.py",
+      "sha256": "de9b09e8c20749d38a45bbdcc949b79ec21c339a2d9f18052f19978ee0d94899"
+    },
+    {
+      "bytes": 204980,
+      "git_blob": "90e4a3d15f7bd976fd0f25708421851049fc1b25",
+      "path": "addons/account/models/account_move_line.py",
+      "sha256": "c10b383e6d0b589dc162e08028bfd739aca1567ae758dd29e21a4e9c1b3a9b3b"
+    },
+    {
+      "bytes": 276555,
+      "git_blob": "15fc3a07f25721b46194ee5d6dc9ed67b1f4b15c",
+      "path": "addons/account/models/account_tax.py",
+      "sha256": "11440e0f12c32cfffa29ae5b9869ce80fb61609b910856640b5c35a2e6f2182c"
+    },
+    {
+      "bytes": 57532,
+      "git_blob": "aa7669c75cf81b612f170e53df1d9842f74c4cb2",
+      "path": "addons/account/models/partner.py",
+      "sha256": "bebef638a2112439798212f706487704b565bdfc03b99406401b1d953da658bb"
+    },
+    {
+      "bytes": 114244,
+      "git_blob": "89b85f52d22fa2df4f46e373d18e0d5ed41a5365",
+      "path": "addons/account/tests/common.py",
+      "sha256": "2474a96d70728ab2f87da22452e93e8f940a01f9e608d81886b2a5c11db04ac6"
+    },
+    {
+      "bytes": 170244,
+      "git_blob": "0fddacd31476b1d9722945f2d6376351e6266bd9",
+      "path": "addons/account/views/account_move_views.xml",
+      "sha256": "d308ac1292815ea1316d4853d2f993e1d7ed93529c1ebfa5d5313fdc26885b3f"
+    },
+    {
+      "bytes": 4497,
+      "git_blob": "d42a11a2503644485ec37c084e3e87efdde8ea85",
+      "path": "addons/account/views/account_report.xml",
+      "sha256": "b27de6c8da3a3717be1ad16b3d366eb030280157d7dce8b76c34676617333142"
+    },
+    {
+      "bytes": 49895,
+      "git_blob": "6537a0e7358f888b03a85b22870a47927daedb2c",
+      "path": "addons/account/views/report_invoice.xml",
+      "sha256": "d404fc8f3d7ca3d5632df3ccfb6cd9f089f456c2583c3b65ea9c2611ee536bb0"
+    },
+    {
+      "bytes": 515,
+      "git_blob": "51dafc9300533e4c7cf1c32216c51c7a82e9bc5b",
+      "path": "addons/base_report_wkhtmltox/__manifest__.py",
+      "sha256": "cfe183341cdf6993e5385ca41b4f2e510801651f0bc38921aef7c3e3a1fb543f"
+    },
+    {
+      "bytes": 22217,
+      "git_blob": "03f0db5d65f65501654d1007a57a5fa80431e85d",
+      "path": "addons/base_report_wkhtmltox/models/ir_actions_report.py",
+      "sha256": "0ae441716e02bebb9016e83e1508d5905e12b6c1a4216c3bec2927d023c6bf36"
+    },
+    {
+      "bytes": 88552,
+      "git_blob": "352d8f4c862849e09e3bcfc4191dd8c37e7084d4",
+      "path": "addons/product/models/product_template.py",
+      "sha256": "6935c93ee52967aef2cc5a01cccc0b95949d1da356a2dd94bf519354dc995016"
+    },
+    {
+      "bytes": 13374,
+      "git_blob": "abb24ee639168d2a0147ce977abe82061a35512c",
+      "path": "addons/sale/models/account_move.py",
+      "sha256": "d22d6806fd024778c3c74d3772ae25c7dd960d8937205ad71fac5fb781aeef13"
+    },
+    {
+      "bytes": 13873,
+      "git_blob": "7d9d9f001c376a1b86014b23525d1f22084abf6a",
+      "path": "addons/sale/models/account_move_line.py",
+      "sha256": "7111282bb408bf0a3a7480b62d6e1c8f64717852d2933b325ea562dc5d0c8853"
+    },
+    {
+      "bytes": 119206,
+      "git_blob": "448d383e97a748d5d33990c2b4a8791fa82183f3",
+      "path": "addons/sale/models/sale_order.py",
+      "sha256": "dfb51dfbd9b76c60f7ef80c1b5319384dd59455df9d6d9f834a8e2a527830645"
+    },
+    {
+      "bytes": 100429,
+      "git_blob": "26f194c1c675ab655475f66689c2a6bf48f6c5ad",
+      "path": "addons/sale/models/sale_order_line.py",
+      "sha256": "8a69c3f6b9e58227eb9d59734d02ecc62ae298cd391ffa13bf7feba80a00c3d3"
+    },
+    {
+      "bytes": 1212,
+      "git_blob": "6db59e383db30cb5cb5f2f8f3321f2512f68179f",
+      "path": "addons/sale/report/ir_actions_report.xml",
+      "sha256": "d1b342d819a1f6f0e5508642a6bc3c7a27c5d1944f1bf631bc09c0aa3966dceb"
+    },
+    {
+      "bytes": 28656,
+      "git_blob": "7cb80b8444f2394948341ca72af495e1dfaa5011",
+      "path": "addons/sale/report/ir_actions_report_templates.xml",
+      "sha256": "4a5bb4599cacef96541f2113fddd6beea2dd6a6ef9e1fcf9efeb542493a60dec"
+    },
+    {
+      "bytes": 17185,
+      "git_blob": "e1c7fa8f8d4171e8ed27978b1470cabe48d3f8a1",
+      "path": "addons/sale_stock/models/sale_order.py",
+      "sha256": "c0e32172e765817f5780591262abdaae3a09d49e99a8da4933fa98b89efd0427"
+    },
+    {
+      "bytes": 24827,
+      "git_blob": "05fde3ed889b2c41aa4b04a63ce8dca9295bcaca",
+      "path": "addons/sale_stock/models/sale_order_line.py",
+      "sha256": "99f0bea5014499b6ab243be6f9d7885bb271b745f9de962b4ba61c07b408d4dc"
+    },
+    {
+      "bytes": 19721,
+      "git_blob": "7c5cf957c221989a9fc59de87bac7ad91de45f5c",
+      "path": "addons/sale_stock/models/stock.py",
+      "sha256": "0f39ad15927ba1091ee0dec69a8ff052cfab2ee585d14446a1855604288773ea"
+    },
+    {
+      "bytes": 71841,
+      "git_blob": "7ed5f09ce89d6a6874dce75cda7d374cd37cd62c",
+      "path": "addons/stock/models/product.py",
+      "sha256": "b52edc6988c1b5cf331d7d906f4bff35a0381cb457b89847a657e806ece38d9b"
+    },
+    {
+      "bytes": 162390,
+      "git_blob": "f4f9f889f138985df5b084d3cb49ed22768512ce",
+      "path": "addons/stock/models/stock_move.py",
+      "sha256": "9960a71a8c477c7df67d0e364313e239dd4e15d9e94b17df05fad1c470b1f8f4"
+    },
+    {
+      "bytes": 96331,
+      "git_blob": "debd9cf1be2ef9049d4c757ea17f1d1e8d0db007",
+      "path": "addons/stock/models/stock_move_line.py",
+      "sha256": "2ccdd10011324593dc055eba679a3a2c237cc2fb168970ea5adf937a5dedf708"
+    },
+    {
+      "bytes": 31651,
+      "git_blob": "63752d6eb6eeca3fe946875adb086394838cdf7f",
+      "path": "addons/stock/models/stock_package.py",
+      "sha256": "eb03cc98885712364f59c48e2271c840ddf7cade9faeccf0b39381f90b30871a"
+    },
+    {
+      "bytes": 106032,
+      "git_blob": "65d56e80469b800c1123901b03fc9a54424e7655",
+      "path": "addons/stock/models/stock_picking.py",
+      "sha256": "13e2d1f7f21320618c134fc584f3beeba1577b566f37d76104f54b7497f40a1b"
+    },
+    {
+      "bytes": 82804,
+      "git_blob": "2e1c6985c2a369da3227c6d9d97214b7ff1d31ae",
+      "path": "addons/stock/models/stock_quant.py",
+      "sha256": "d9fd7b6b1c627e7080305ebfc74a080fcdc77c424d942e5478472ca1e73ca783"
+    },
+    {
+      "bytes": 21472,
+      "git_blob": "354df74173d64b2f8431a4d1ed754713b9fda129",
+      "path": "addons/stock/report/report_deliveryslip.xml",
+      "sha256": "1833bf7517f92942c6c1ad098d857c173e51953a58f31b762dcce22c9f0dfac6"
+    },
+    {
+      "bytes": 25748,
+      "git_blob": "929295f732c709d19397ea3380e1d1cf5e156347",
+      "path": "addons/stock/report/report_stockpicking_operations.xml",
+      "sha256": "a18f47bae2f5e2cf70d850a2aa1a304f79ee4a518691d1a22099d09c0001b8ad"
+    },
+    {
+      "bytes": 4148,
+      "git_blob": "54a0dc836d7909907629cd6d1f8b67e8922f2b86",
+      "path": "addons/stock/report/stock_report_views.xml",
+      "sha256": "bc82678fa0775813f267bcfc32a9ba9c31b7f1e10d68d7c4da39f9db37209986"
+    },
+    {
+      "bytes": 9417,
+      "git_blob": "09d601aa2cc02f11b8c3f850a46b566a88f2998d",
+      "path": "addons/uom/models/uom_uom.py",
+      "sha256": "581d6ced94bd76ec5051e6f85d9db197464a4b8028d747d0b0e7e796da174446"
+    },
+    {
+      "bytes": 57351,
+      "git_blob": "8aacc15fa4e27d8c6b49e285cda50cec93d7ed6a",
+      "path": "addons/web/views/report_templates.xml",
+      "sha256": "57f2731e0c427dff8b01bb9e8caad441e6b1b0d53a0631f71961ad795c69ad05"
+    },
+    {
+      "bytes": 43339,
+      "git_blob": "698216be45dc6ada3ba3195df176cb84c7de33dc",
+      "path": "odoo/addons/base/models/ir_actions_report.py",
+      "sha256": "7e8a124f8c27eb74faa9fb359281cf53552fcc2c0dcce0fdb31fbb3842e500c3"
+    },
+    {
+      "bytes": 169965,
+      "git_blob": "2180506115a8a823b3ce02923e2382fed9f07c6e",
+      "path": "odoo/addons/base/models/ir_ui_view.py",
+      "sha256": "f30e202c88a32c8c86f623ce175924ee144947218dd495ee6eb08ddf54569826"
+    },
+    {
+      "bytes": 6837,
+      "git_blob": "fc7dc8edd3c0fe144cc9c765f9d25caff437addd",
+      "path": "odoo/addons/base/models/report_paperformat.py",
+      "sha256": "00b800533d2d744ad7d2e738151b761987f76d00e6c3587d9a727fc4366db605"
+    },
+    {
+      "bytes": 27667,
+      "git_blob": "6f2e0b35f8228fc1036ecb616f499f2a8d2a704b",
+      "path": "odoo/addons/base/models/res_company.py",
+      "sha256": "6d858d423695b2faedad4287aecf1efd59dcdc43f6013fb2503d9adab04f36d4"
+    },
+    {
+      "bytes": 116627,
+      "git_blob": "3d7d5a04a37d437f71b49bbff588c37765625c16",
+      "path": "odoo/addons/base/models/res_partner.py",
+      "sha256": "3174d426b7eeec682f064dc84be4f5a443673d42a18b40fb39c1a4fb8c24a7c6"
+    },
+    {
+      "bytes": 31052,
+      "git_blob": "04c93790d39020103946fa337f618071f04f147e",
+      "path": "odoo/tools/partner_identifiers.py",
+      "sha256": "9cce0025a6b8a965f6621aa3ea838d47b822ba5927ef2efee22e3874f81929e3"
+    },
+    {
+      "bytes": 29164,
+      "git_blob": "e94dde7d093445703d29a8ae582e5d66a19b1ec5",
+      "path": "odoo/tools/pdf/__init__.py",
+      "sha256": "17e3dbfd655bf33873459eb28c2131acb1a471f01e273adbcaf31eaab8c908fd"
+    }
+  ],
+  "repository": "odoo/odoo",
+  "scope": "Selected source references, not full native closure"
+}

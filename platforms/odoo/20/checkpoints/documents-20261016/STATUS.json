@@ -1,0 +1,39 @@
+{
+  "actual_report_pdfs": "NOT_GENERATED",
+  "addons_baseline": "3d0b241d0b35d7619b87bdf4b0a57238150a0df8",
+  "as_of": "2026-10-16",
+  "modules": {
+    "barani_commercial": "20.0.1.0.0",
+    "barani_delivery": "20.0.1.0.0",
+    "barani_vat": "20.0.1.0.0"
+  },
+  "native_basis_scope": "Selected source contracts only, not full dependency closure or runtime readiness",
+  "native_community_basis": "a7950cab13fcb9400d58d582f5583c0f1c0f5405",
+  "odoo_runtime_tests": "NOT_RUN",
+  "offline": {
+    "critical_ruff": "PENDING_MAC_GATE",
+    "source_fixture_test_methods": 4,
+    "syntax_and_scoped_native_contracts": "PASS"
+  },
+  "production_parent": "eb69634c7e7d42586a01c48b8dc57072044b0c84",
+  "protected": "Existing environments, Tax Rules .10, accepted Purchase, prior evidence/guards unchanged",
+  "publication_parent": "9c80f35ff6a5d7ade9a7e8cd3b0a66e0db9063a8",
+  "purchase": {
+    "changed_paths": 0,
+    "content_sha256": "bc81e637529172588f797addcfa6fdec92863ac3633d8af61bd13ae806567ca2",
+    "git_tree": "a1bd871def34dc3a6e0be55d549a8cc5f198d3ec",
+    "runtime01": "HOLD_RUNTIME01",
+    "version": "20.0.1.0.3"
+  },
+  "qweb_execution": "NOT_RUN",
+  "real_data_migration": "DEFERRED_BY_OWNER",
+  "release_revalidation": "REQUIRED_AGAINST_ACTUAL_SUPPORTED_PRODUCTION_TARGET",
+  "status": "SOURCE_CANDIDATES_PREPARED_RUNTIME_NOT_RUN",
+  "visible_candidate_changes": [
+    "Plain background because native company background selectors were removed",
+    "Stored EN registration identifiers replace removed company_registry",
+    "No derived Tax ID or EORI from VAT; explicit data/design review remains"
+  ],
+  "visual_business_acceptance": "PENDING",
+  "whole_migration_readiness": "NOT_ESTABLISHED"
+}
