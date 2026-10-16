@@ -1,0 +1,146 @@
+{
+  "schema": "BARANI_ODOO20_RESUME_STATUS_1",
+  "as_of": "2026-10-16",
+  "status": "SOURCE_PREPARATION_PARTIAL_RUNTIME_HOLD",
+  "scope": "Cross-repository migration checkpoint from this controller; not a complete tenant inventory",
+  "this_change": {
+    "documentation_only": true,
+    "application_changed_paths": 0,
+    "base_commit": "c5de4242a3bfd5fb25f451d3a085d6c253a12672",
+    "documentation_branch": "p20-upgrade-handoff-20261016-r1",
+    "publication": "Verify actual remote branch; source document cannot self-attest its own publication"
+  },
+  "runtime01_status": "HOLD_RUNTIME01",
+  "full_native_readiness": "NOT_ESTABLISHED",
+  "combined_installable_release": "NOT_PREPARED_OR_ACCEPTED",
+  "real_data_migration": "NOT_RUN_DEFERRED",
+  "production_deployment": "NOT_AUTHORIZED_BY_SOURCE_PUBLICATION",
+  "published_sources": [
+    {
+      "repository": "barani-design/barani-business-document-templates",
+      "branch": "p20-reference-documents-20261016-r1",
+      "commit": "c5de4242a3bfd5fb25f451d3a085d6c253a12672",
+      "tree": "6ddddb380aeab7f484447859aba66c785748c5d8",
+      "parent": "5e13c2b592a3d47a37f432a94b7cb89001ac363e",
+      "publication": "VERIFIED"
+    },
+    {
+      "repository": "barani-design/barani-odoo-addons",
+      "branch": "p20-pohoda-gates-20261016-r1",
+      "commit": "04dea5f6d991b7fd7f43b38da99e802cbc59b6ea",
+      "tree": "231f8864f6291885515fb8abf99f295a2ecb3df4",
+      "parent": "507054c5d9618a561defcd17917b66ef75423e6c",
+      "publication": "VERIFIED",
+      "whole_checkout_v20_installable": false
+    },
+    {
+      "repository": "barani-design/barani-odoo-production",
+      "branch": "p20-purchase-readiness-20261015-r1",
+      "commit": "620dbdf50801ac9ee4310c47eaa14868ed58068f",
+      "role": "Hosted dev bootstrap; no application included",
+      "publication": "OWNER_PUBLISHED_AND_HOST_IDENTITY_COLLECTED"
+    }
+  ],
+  "versions": {
+    "barani_purchase": "20.0.1.0.3",
+    "barani_commercial": "20.0.1.0.0",
+    "barani_delivery": "20.0.1.0.0",
+    "barani_vat": "20.0.1.0.1",
+    "barani_order_payment_reference": "20.0.1.0.0",
+    "barani_tax_rules": "20.0.1.1.10",
+    "barani_pohoda_export": "20.0.3.3.46"
+  },
+  "protected": {
+    "purchase": {
+      "offline_acceptance": "ACCEPTED_AND_FROZEN",
+      "content_sha256": "bc81e637529172588f797addcfa6fdec92863ac3633d8af61bd13ae806567ca2",
+      "git_tree": "a1bd871def34dc3a6e0be55d549a8cc5f198d3ec",
+      "source_edits_authorized": false
+    },
+    "tax_rules_10": {
+      "content_sha256": "c1c6879245341117592b9509ba320d2735cca2b306794fda33b8e409b02fdfd5",
+      "source_edits_authorized": false,
+      "acceptance_scope": "Recorded static and focused browser evidence only; not full application acceptance"
+    }
+  },
+  "business_decisions": {
+    "payment_reference": "OWNER_CONFIRMED_CONSTANT_SO_DERIVED_REFERENCE_ACROSS_ORDER_DOCUMENTS",
+    "legal_invoice_number": "SEPARATE_UNCHANGED",
+    "example": {
+      "proforma": "PF/126/00017",
+      "invoice": "INV/926/00042",
+      "payment_reference_on_both": "12600017"
+    },
+    "older_separate_reference_policy": "SUPERSEDED_ON_REFERENCE_FAMILY_ONLY",
+    "optional_companion_setting": "RETAIN_DEFAULT_OFF_AND_EXISTING_LIVE_CONFIGURATION; NO_SILENT_ENABLE_OR_ADOPTION",
+    "registration_selection": "ONE_NATIVE_NONBLANK_EN_AUTO; MULTIPLE_EXPLICIT_CHOICE; STALE_INVALID_BLOCK; NO_VAT_INFERENCE"
+  },
+  "verified_offline": {
+    "reference_tests": 25,
+    "reference_mac_ruff_files": 15,
+    "reference_preparer_fixtures": 9,
+    "pohoda_source_gates": 49,
+    "pohoda_offline_negative_cases": 173,
+    "pohoda_new_offline_regressions": 20,
+    "pohoda_mac_ruff_files": 197,
+    "original_three_document_full_mac_archive_review": "NOT_AVAILABLE; RESULT_ONLY"
+  },
+  "native_pending": {
+    "purchase_tests": 22,
+    "purchase_actual_pdfs": 4,
+    "vat_existing_test_definitions": 23,
+    "vat_added_test_definitions": 5,
+    "pohoda_test_identities": 891,
+    "all_counts_execution": "NOT_RUN"
+  },
+  "historical_hosted_target": {
+    "community_commit": "a7950cab13fcb9400d58d582f5583c0f1c0f5405",
+    "enterprise_commit": "d68e2160cdb4bf4de3756314b7731a89974c2163",
+    "build_id": "39948538",
+    "stage": "dev",
+    "declared_version": "20.0",
+    "equivalence_to_docker_pin": "NOT_CLAIMED",
+    "renderer": "SYNTHETIC_TWO_PAGE_PATCHED_QT_HEADER_FOOTER_SMOKE_PASS_ONLY",
+    "running_server_renderer_selection": "NOT_ESTABLISHED",
+    "latest_addon_plan": "R2_HOLD_CANDIDATE_CLOSURE_LIMIT_250; INCOMPLETE_COLLECTION_NOT_ACCEPTED",
+    "planner_preservation": "PRIOR_IDENTITIES_ONLY"
+  },
+  "remaining_source_inventory": [
+    "Intrastat v20 native Enterprise contract port",
+    "Warranty current DB-native source reconciliation and port",
+    "DDS unreserve intent and DB-only automation/Studio inventory",
+    "Third-party autosave status and compatibility",
+    "Reconcile subsequent Odoo19 production changes"
+  ],
+  "resume_order": [
+    "Verify source/evidence identities and reuse accepted results",
+    "Confirm supported target, actual production upgrade availability and intervening production changes",
+    "Complete remaining source work and correct planner/establish runtime readiness",
+    "Prepare NEW reviewed one-shot successor from actual retained state and approve only genuinely new write scope",
+    "Execute native and combined acceptance including real PDFs and applicable saved/PDF/POHODA reference checks",
+    "Rehearse real-data upgrade, reconcile, review rollback and approve cutover"
+  ],
+  "do_not": [
+    "Rebuild or bump frozen Purchase by default",
+    "Edit or replace protected Tax .10",
+    "Rerun consumed launchers or erase guards",
+    "Treat metadata/import/source-gate success as runtime acceptance",
+    "Silently install packages, replace renderer or build/substitute images",
+    "Change parent gitlinks, existing staging/production or deploy from this documentation checkpoint"
+  ],
+  "future_continuation_reuse": [
+    "RUN_RUNTIME01.py:continue_after_runner_probe",
+    "ODOO_JOB.py"
+  ],
+  "production_availability_note": "Owner-supplied 2026-10-16 support reply expected Q1 2027; historical estimate only, reconfirm availability on resume",
+  "tax_open_followups": [
+    "B1 managed-order change decision",
+    "O1 reload recovery",
+    "O2 deferred accessibility disposition",
+    "B3/R8 migrated-copy and combined qualification"
+  ],
+  "native_selection_requirements": [
+    "Explicit VAT legacy Preview and fullset discovery",
+    "Missing sale_mrp/HS/origin/Enterprise prerequisites HOLD, not silent skips"
+  ]
+}

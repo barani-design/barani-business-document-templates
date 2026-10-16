@@ -1,0 +1,83 @@
+{
+  "schema": "BARANI_ODOO20_RESUME_EVIDENCE_INDEX_1",
+  "as_of": "2026-10-16",
+  "purpose": "Locate retained original evidence; summarized records are not replacement archives or runtime acceptance.",
+  "original_evidence_location": "Owner-retained Downloads/evidence storage and controller handover. Do not publish raw private evidence here.",
+  "entries": [
+    {
+      "label": "Reference-document Mac return",
+      "archive": "BARANI_V20_REFERENCE_DOCUMENTS_R1_uhyk4tal_EVIDENCE.zip",
+      "sha256": "4eddb0b41f1d055abea43c47b66173f6814dcfafcd5a2cff2516355b62826630",
+      "bytes": 9766,
+      "result": "PASS_SCOPED_RETURN_REVIEW",
+      "commit": "c5de4242a3bfd5fb25f451d3a085d6c253a12672",
+      "scope": "Sidecar/internal manifest/attempt/78 Git commands/checked source preservation/25 focused tests/Ruff15",
+      "limits": "Synthetic tests only; recorded metadata scope, not every historical working-tree byte"
+    },
+    {
+      "label": "Reference-document consumed attempt",
+      "filename": "BARANI_V20_REFERENCE_DOCUMENTS_R1_20261016_ATTEMPT.json",
+      "sha256": "8a51253bb98584aa8810fa633d8b2ba678f80e4574e6ffcff7bba82de8fb4f50",
+      "no_retry": true
+    },
+    {
+      "label": "Reference-document issued kit",
+      "archive": "BARANI_V20_REFERENCE_DOCUMENTS_R1_20261016.zip",
+      "sha256": "fb2b956688e8ea4cda43c49cc873e89858c16618e85bdc286cb29c95baff5de2",
+      "plan_sha256": "3cdf17b02acf3ed62b85f8effaeda0c28702608bc129270a0f3a0acb179f82cb",
+      "instruction": "Historical consumed kit; do not run again"
+    },
+    {
+      "label": "POHODA-gate Mac return",
+      "archive": "BARANI_V20_POHODA_GATES_R1__vtsm0ul_EVIDENCE.zip",
+      "sha256": "4cdd18a27fb392d285e229c19d87da486496a9b56fc42b8eef7794f3e397224f",
+      "result": "PASS_SCOPED_RETURN_REVIEW",
+      "commit": "04dea5f6d991b7fd7f43b38da99e802cbc59b6ea",
+      "scope": "Sidecar/internal manifest/attempt/92 Git commands/checked source preservation/Ruff197; native tests NOT_RUN"
+    },
+    {
+      "label": "Coupled-addon Mac return",
+      "sha256": "391d9a26ce7d84ff056e6a774c3ee4bb12752fc33802cca0cefd38fdd6b85d1d",
+      "result": "PASS_SCOPED_RETURN_REVIEW",
+      "commit": "507054c5d9618a561defcd17917b66ef75423e6c",
+      "scope": "Checked Git preservation and scoped Mac lint; old gate failures remain historical and successor evidence is separate"
+    },
+    {
+      "label": "Original document preparation",
+      "commit": "5e13c2b592a3d47a37f432a94b7cb89001ac363e",
+      "result": "LOCAL_RESULT_REPORTED; SOURCE_PUBLISHED; FULL_MAC_RETURN_ARCHIVE_NOT_AUDITED",
+      "record": "../documents-20261016/README.md"
+    },
+    {
+      "label": "Purchase evidence and environment history",
+      "record": "../purchase-20261016/EVIDENCE_INDEX.json",
+      "resume_constraints": "../purchase-20261016/RESUME.md",
+      "result": "FROZEN_OFFLINE_ACCEPTED; RUNTIME_HOLD",
+      "instruction": "Retain original/R2/diagnostic attempts, owned stopped probe, native TAR and Mac workspace; never retry consumed guards"
+    },
+    {
+      "label": "Latest hosted readiness blocker",
+      "packet": "BARANI_PURCHASE_SH_ADDON_PLAN_R2_20261016",
+      "result": "HOLD_CANDIDATE_CLOSURE_LIMIT; INCOMPLETE_COLLECTION_NOT_ACCEPTED",
+      "instruction": "Use exact retained packet/return; save catalog before planning in a new successor; do not merely raise cap"
+    }
+  ],
+  "publication": {
+    "reference_documents": {
+      "verified_commit": "c5de4242a3bfd5fb25f451d3a085d6c253a12672",
+      "verified_tree": "6ddddb380aeab7f484447859aba66c785748c5d8",
+      "verified_parent": "5e13c2b592a3d47a37f432a94b7cb89001ac363e"
+    },
+    "pohoda_gates": {
+      "verified_commit": "04dea5f6d991b7fd7f43b38da99e802cbc59b6ea",
+      "verified_tree": "231f8864f6291885515fb8abf99f295a2ecb3df4",
+      "verified_parent": "507054c5d9618a561defcd17917b66ef75423e6c"
+    }
+  },
+  "stale_notes_superseded": [
+    "Earlier documents remaining-work table precedes coupled/reference/gate preparation",
+    "POHODA kit Ruff pending precedes returned scoped PASS",
+    "Earlier POHODA review publication404 and reference-policy HOLD resolved by publication and owner decision",
+    "Historical NOT_PUBLISHED_BY_SCRIPT does not contradict later GitHub Desktop publication"
+  ]
+}
